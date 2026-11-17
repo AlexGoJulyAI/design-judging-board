@@ -1,35 +1,38 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Design Judging Board</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: sticky bar (product, judge seat), a dark band for the original, one card per blind option with its live prototype and score row, scorecard last */
+/* Layout: sign-in gate first; then a sticky bar (product, who is signed in), a dark band for the original, one card per blind option, scorecard */
 :root{
   --bg:#F2F3F1;--surface:#FFFFFF;--sunk:#E7E9E5;--ink:#16181A;--ink2:#4C5157;--muted:#7A8087;--line:#DADDD8;
   --accent:#2F5D50;--accentInk:#FFFFFF;--warn:#8A5A12;
   --origBg:#1B1F23;--origInk:#F2F3F1;--origMuted:#A9B0B6;--origTag:#E8C26A;--origTagInk:#1B1F23;
-  --j1:#2F5D50;--j2:#7A4FA3;--j3:#B4562E;
+  --j1:#2F5D50;--j2:#7A4FA3;--j3:#B4562E;--j4:#2E6FA8;--j5:#8C7020;--j6:#9C3F66;
   --display:"Space Grotesk",Inter,system-ui,sans-serif;--body:Inter,system-ui,-apple-system,sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45}
+img{max-width:100%}
 .wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
 header .wrap{display:flex;align-items:center;gap:12px 16px;padding-block:10px;flex-wrap:wrap}
 h1{font-family:var(--display);font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em}
 .seg{display:flex;background:var(--sunk);border-radius:999px;padding:3px;gap:2px}
-.seg a,.seg button{padding:6px 14px;border-radius:999px;color:var(--ink2);text-decoration:none;font-weight:600;border:0;background:none}
-.seg [aria-current="page"],.seg [aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
-.seat{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}
-.seat .lab{margin-right:2px}
-.seat .seg button{display:flex;align-items:center;gap:6px}
-.seat .seg i{width:8px;height:8px;border-radius:50%;display:block}
-.jname{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font:inherit;color:var(--ink);width:150px}
+.seg a{padding:6px 14px;border-radius:999px;color:var(--ink2);text-decoration:none;font-weight:600}
+.seg [aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.seat{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
+.me{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
+.me i{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.me span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.unlock{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.unlock .in{width:180px;padding:5px 12px;border-radius:999px;font-size:13px}
+.role{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--sunk);color:var(--ink2);border-radius:6px;padding:3px 8px}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tb{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:13px;color:var(--ink2)}
@@ -37,6 +40,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tb[aria-pressed="true"]{background:var(--accent);color:var(--accentInk);border-color:var(--accent)}
 main .wrap{padding-block:24px 64px;display:flex;flex-direction:column;gap:24px}
 .lab{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+/* sign-in gate */
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px 24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px}
+.card h2{font-family:var(--display);font-size:26px;margin:0;letter-spacing:-.01em}
+.card p{margin:0;color:var(--ink2)}
+.card form{display:flex;flex-direction:column;gap:10px}
+.card label{font-size:13px;font-weight:600;color:var(--ink2)}
+.in{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font:inherit;color:var(--ink);width:100%}
+.btn{background:var(--accent);color:var(--accentInk);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-weight:600}
+.btn.sec{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.6;cursor:progress}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+.or::before,.or::after{content:"";flex:1;border-top:1px solid var(--line)}
+.msg{font-size:13px;color:var(--warn);margin:0}
+.msg.ok{color:var(--accent)}
+code{font-size:12.5px;background:var(--sunk);border-radius:4px;padding:1px 5px}
 /* original: its own dark band so it never reads as an option */
 .orig{background:var(--origBg);color:var(--origInk);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:72px}
 .orig .oh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -50,34 +69,38 @@ main .wrap{padding-block:24px 64px;display:flex;flex-direction:column;gap:24px}
 .opt{background:var(--surface);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;scroll-margin-top:72px}
 .ohead{display:flex;align-items:center;gap:12px;padding:14px 16px 0}
 .letter{font-family:var(--display);font-size:30px;font-weight:700;line-height:1;letter-spacing:-.02em}
-.who{font-weight:600;color:var(--accent)}
 .tools{margin-left:auto;display:flex;gap:6px}
 .live{display:flex;flex-direction:column;gap:12px;padding:14px 16px}
 .vp{max-height:780px;overflow:auto;border-radius:10px;background:var(--sunk);overscroll-behavior:contain}
 .sizer{position:relative;width:100%;height:600px}
 .sizer iframe{position:absolute;left:0;top:0;width:1440px;height:600px;border:0;transform-origin:0 0;background:#fff}
 .score{border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px 22px;flex-wrap:wrap;align-items:center;background:var(--bg)}
-.score .as{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink2);min-width:120px}
-.score .as i{width:10px;height:10px;border-radius:50%}
 .crit{display:flex;align-items:center;gap:8px}
 .crit span{font-size:13px;font-weight:600;color:var(--ink2);min-width:52px}
 .dots{display:flex;gap:3px}
 .dots button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink2)}
-.dots button:hover{border-color:var(--jc,var(--accent))}
-.dots button[aria-pressed="true"]{background:var(--jc,var(--accent));border-color:var(--jc,var(--accent));color:#fff}
-.dots button:disabled{cursor:not-allowed;opacity:.5}
+.dots button:hover{border-color:var(--accent)}
+.dots button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accentInk)}
 .note{flex:1 1 220px;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;font:inherit;color:var(--ink)}
-.saved{font-size:12px;color:var(--muted);min-width:44px}
+.saved{font-size:12px;color:var(--muted);min-width:56px}
+/* admin: every judge's scores under each option */
+.jlist{border-top:1px solid var(--line);padding:12px 16px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.jrow{display:flex;gap:4px 12px;flex-wrap:wrap;align-items:center;font-size:13px}
+.jrow i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.jrow b{font-weight:600;min-width:110px}
+.jrow .sc{color:var(--ink2);font-variant-numeric:tabular-nums}
+.jrow .nt{color:var(--muted);flex-basis:100%;padding-left:20px}
 .board{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:72px}
+.board .bh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .board h2{font-family:var(--display);font-size:20px;margin:0}
 .tbl{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:760px;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;min-width:640px;font-variant-numeric:tabular-nums}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+td.wrapnote{white-space:normal;min-width:200px;color:var(--ink2)}
 th{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
 th.jh{color:var(--ink2);text-transform:none;letter-spacing:0;font-size:13px}
 th.jh i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
-td.l small{display:block;font-family:var(--body);font-size:12px;color:var(--accent);font-weight:600}
 .bar{display:flex;align-items:center;gap:8px}
 .bar i{display:block;height:8px;border-radius:4px;background:var(--accent);min-width:2px}
 .bar b{font-weight:600}
@@ -94,20 +117,35 @@ td.l small{display:block;font-family:var(--body);font-size:12px;color:var(--acce
 .full .fbar b{font-family:var(--display);font-size:20px}
 .full .fbar #fclose{margin-left:auto}
 .full iframe{flex:1;width:100%;border:0;background:#fff}
-@media (max-width:700px){.seat{margin-left:0;width:100%}.jname{flex:1}.crit span{min-width:0}}
+@media (max-width:700px){.seat{margin-left:0;width:100%}.crit span{min-width:0}.card{padding:22px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
+</head><body>
 
+<div class="gate" id="gate">
+  <div class="card">
+    <h2>Design Judging</h2>
+    <form id="f-login">
+      <p>Sign in with your email to score. Use the same email later to come back and edit. Other judges can’t see your scores.</p>
+      <label for="g-email">Email</label>
+      <input class="in" id="g-email" type="email" autocomplete="email" maxlength="254" required>
+      <label for="g-name">Name <span class="dim">(optional, shown to organizers)</span></label>
+      <input class="in" id="g-name" autocomplete="name" maxlength="60">
+      <button class="btn" type="submit">Start judging</button>
+    </form>
+    <p class="msg" id="g-msg" role="status"></p>
+  </div>
+</div>
+
+<div id="app" hidden>
 <header><div class="wrap">
   <h1>Design Judging</h1>
   <nav class="seg" aria-label="Product"><a href="#alta" data-p="alta">Alta</a><a href="#canopy" data-p="canopy">Canopy</a></nav>
-  <div class="seat">
-    <span class="lab">Scoring as</span>
-    <div class="seg" role="group" aria-label="Judge seat" id="seats"></div>
-    <input class="jname" id="jname" placeholder="Your name" aria-label="Judge name" maxlength="40">
-  </div>
+  <div class="seat" id="seat"></div>
 </div></header>
 <main><div class="wrap" id="root"></div></main>
+</div>
+
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Original screen">
   <img id="lbimg" alt="">
   <button class="x" id="lbx" aria-label="Close">✕</button>
@@ -116,93 +154,180 @@ td.l small{display:block;font-family:var(--body);font-size:12px;color:var(--acce
 <script>
 const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}], "kind": "desktop"}};
 const CRIT=[["fit","Brief","Fits the brief: does the job the PRD asks for"],["clarity","Clarity","Clear at a glance: you know what to do next"],["craft","Craft","Visual craft: type, spacing, hierarchy, polish"],["overall","Overall","Overall: would you ship this"]];
-const JUDGES=["j1","j2","j3"];
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
-let judge=JUDGES.includes(store.get("judge"))?store.get("judge"):"j1";
-let db=null,canWrite=true,all={},key=null,showKey=false,local={};
-let saveTimer=null,saving=Promise.resolve();
-const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const jcol=j=>`var(--${j})`;
-const jlabel=j=>(local[j]&&local[j].name)||(all[j]&&all[j].name)||("Judge "+j.slice(1));
-const sheet=j=>local[j]||(local[j]=JSON.parse(JSON.stringify(all[j]||{})));
+const NAMES={alta:"Alta",canopy:"Canopy"};
+const ADMIN_DOMAIN="gojuly.ai";
 
-function renderSeats(){
-  $("#seats").innerHTML=JUDGES.map(j=>`<button data-seat="${j}" aria-pressed="${j===judge}"><i style="background:${jcol(j)}"></i>${esc(jlabel(j))}</button>`).join("");
-  const n=$("#jname");if(document.activeElement!==n)n.value=(sheet(judge).name)||"";
+let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
+let me=null;                            // {email,name,admin,canAdmin}
+let viewAll=false;                      // organizer toggle: show every judge's scores
+let unlocking=false;                    // showing the passcode prompt for that toggle
+let mine={};                            // {product:{option:{fit,clarity,craft,overall,note}}}
+let adm={judges:[],scores:[]};          // organizer view: every judge and score
+let pollTimer=null,chain=Promise.resolve();
+const timers={};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const jcol=i=>`var(--j${i%6+1})`;
+const who=j=>j.name||j.email;
+
+async function api(path,opts={}){
+  const r=await fetch(path,{method:opts.method||"GET",headers:opts.body?{"Content-Type":"application/json"}:{},body:opts.body?JSON.stringify(opts.body):undefined,credentials:"same-origin"});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw Object.assign(new Error(j.error||`Request failed (${r.status})`),{status:r.status});
+  return j;
+}
+
+/* ---------- sign-in gate ---------- */
+function showGate(msg){
+  me=null;viewAll=false;unlocking=false;clearInterval(pollTimer);
+  $("#app").hidden=true;$("#gate").hidden=false;$("#root").innerHTML="";
+  $("#g-msg").textContent=msg||"";
+}
+$("#f-login").addEventListener("submit",async e=>{
+  e.preventDefault();const btn=e.currentTarget.querySelector("button");btn.disabled=true;$("#g-msg").textContent="";
+  try{
+    me=await api("/api/login",{method:"POST",body:{email:$("#g-email").value.trim(),name:$("#g-name").value.trim()}});
+    await enter();
+  }catch(err){me=null;$("#g-msg").textContent=err.message}
+  btn.disabled=false;
+});
+
+/* ---------- session ---------- */
+async function enter(){mine=await api("/api/scores");$("#gate").hidden=true;$("#app").hidden=false;render()}
+async function loadAll(){adm=await api("/api/all")}
+async function setViewAll(on){
+  if(on){try{await loadAll()}catch(err){setStatus(err.message);return}}
+  viewAll=on;clearInterval(pollTimer);
+  if(on)pollTimer=setInterval(()=>{if(!document.hidden)refreshAll()},20000);
+  render();
+}
+function flush(){Object.keys(timers).forEach(k=>{clearTimeout(timers[k]);const [p,o]=k.split(":");save(p,o)})}
+async function signOut(){flush();await chain;await api("/api/logout",{method:"POST"}).catch(()=>{});mine={};adm={judges:[],scores:[]};showGate()}
+
+/* ---------- rendering ---------- */
+function renderSeat(){
+  $("#seat").innerHTML=`<span class="lab">Scoring as</span><span class="me"><i></i><span title="${esc(me.email)}">${esc(who(me))}</span></span>`
+    +(me.canAdmin?(unlocking
+      ?`<form class="unlock" id="unlock"><input class="in" id="passcode" type="password" placeholder="Organizer passcode" aria-label="Organizer passcode" autocomplete="current-password"><button class="tb" type="submit">Unlock</button><button class="tb" type="button" data-act="cancel">Cancel</button><span class="msg" id="unlock-msg" role="status"></span></form>`
+      :`<button class="tb" data-act="all" aria-pressed="${viewAll}">View all judges</button>${viewAll?`<button class="tb" data-act="refresh">Refresh</button><button class="tb" data-act="csv">Export CSV</button>`:""}`):"")
+    +`<button class="tb" data-act="out">Sign out</button>`;
 }
 function render(){
   document.querySelectorAll(".seg a").forEach(a=>a.setAttribute("aria-current",a.dataset.p===prod?"page":"false"));
-  renderSeats();
-  const P=DATA[prod];const k=showKey&&key?key[prod]||{}:{};const my=(sheet(judge)[prod]||{});
-  let h=`<section class="orig" id="orig"><div class="oh"><span class="tag">Original</span><h2>${prod==="alta"?"Alta":"Canopy"} today</h2><span class="sub">The screen being redesigned</span></div>${P.original.map(o=>`<figure><img src="${o.src}" width="${o.wh[0]}" height="${o.wh[1]}" alt="Original ${prod==="alta"?"Alta":"Canopy"} screens" data-lb="${o.src}"></figure>`).join("")}</section>`;
+  renderSeat();
+  const P=DATA[prod],my=mine[prod]||{};
+  let h=`<section class="orig" id="orig"><div class="oh"><span class="tag">Original</span><h2>${NAMES[prod]} today</h2><span class="sub">The screen being redesigned</span></div>${P.original.map(o=>`<figure><img src="${o.src}" width="${o.wh[0]}" height="${o.wh[1]}" alt="Original ${NAMES[prod]} screens" data-lb="${o.src}"></figure>`).join("")}</section>`;
+  if(viewAll)h+=allBoard();
   h+=`<div class="opts-h" id="opts"><h2>Redesigns</h2><span class="lab">${P.options.length} options, blind</span></div>`;
-  P.options.forEach(o=>{
-    const s=my[o.id]||{};
-    h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span>${k[o.id]?`<span class="who">${esc(k[o.id])}</span>`:""}<span class="tools"><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
+  P.options.forEach(o=>{const s=my[o.id]||{};
+    h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span><span class="tools"><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
     <div class="live">${o.live.map((src,i)=>`<div class="vp"><div class="sizer"><iframe src="${src}" loading="lazy" title="Option ${o.id} prototype${o.live.length>1?" "+(i+1):""}"></iframe></div></div>`).join("")}</div>
-    <div class="score" data-o="${o.id}" style="--jc:${jcol(judge)}"><span class="as"><i style="background:${jcol(judge)}"></i>${esc(jlabel(judge))}</span>${CRIT.map(([c,lab,tip])=>`<div class="crit" title="${tip}"><span>${lab}</span><div class="dots" role="group" aria-label="${lab} score for option ${o.id}">${[1,2,3,4,5].map(n=>`<button data-c="${c}" data-n="${n}" aria-pressed="${s[c]===n}" ${canWrite?"":"disabled"}>${n}</button>`).join("")}</div></div>`).join("")}
-    <input class="note" id="note-${o.id}" data-o="${o.id}" placeholder="Note (optional)" value="${esc(s.note||"")}" ${canWrite?"":"disabled"}><span class="saved" id="sv-${o.id}"></span></div></section>`;
+    <div class="score" data-o="${o.id}">${CRIT.map(([c,lab,tip])=>`<div class="crit" title="${tip}"><span>${lab}</span><div class="dots" role="group" aria-label="${lab} score for option ${o.id}">${[1,2,3,4,5].map(n=>`<button data-c="${c}" data-n="${n}" aria-pressed="${s[c]===n}">${n}</button>`).join("")}</div></div>`).join("")}
+    <input class="note" data-o="${o.id}" placeholder="Note (optional)" maxlength="500" aria-label="Note for option ${o.id}" value="${esc(s.note||"")}"><span class="saved" id="sv-${o.id}"></span></div>
+    ${viewAll?`<div class="jlist" id="jl-${o.id}">${judgeList(o.id)}</div>`:""}</section>`;
   });
-  h+=board();
+  h+=myBoard();
   $("#root").innerHTML=h;
 }
-function updateRows(){
-  const my=sheet(judge)[prod]||{};
-  document.querySelectorAll(".score").forEach(row=>{const o=row.dataset.o,s=my[o]||{};row.style.setProperty("--jc",jcol(judge));
-    const as=row.querySelector(".as");as.firstElementChild.style.background=jcol(judge);as.lastChild.textContent=jlabel(judge);
-    row.querySelectorAll(".dots button").forEach(b=>{b.setAttribute("aria-pressed",String(s[b.dataset.c]===+b.dataset.n));b.disabled=!canWrite});
-    const n=row.querySelector(".note");if(document.activeElement!==n)n.value=s.note||"";n.disabled=!canWrite;
-    row.querySelector(".saved").textContent=""});
+const fmt=s=>CRIT.map(([c,l])=>`${l} ${s[c]??"·"}`).join(" · ");
+
+/* the signed-in judge's own scores */
+function myBoard(){
+  const P=DATA[prod],my=mine[prod]||{};
+  const done=P.options.filter(o=>CRIT.every(([c])=>typeof (my[o.id]||{})[c]==="number")).length;
+  return `<section class="board" id="board"><div class="bh"><h2>Your scores</h2><span class="lab">${done} of ${P.options.length} options fully scored</span></div><div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l}</th>`).join("")}<th>Note</th></tr></thead><tbody>
+  ${P.options.map(o=>{const s=my[o.id]||{};return `<tr><td class="l"><a href="#" data-goto="${o.id}">${o.id}</a></td>${CRIT.map(([c])=>`<td>${s[c]??'<span class="dim">–</span>'}</td>`).join("")}<td class="wrapnote">${esc(s.note||"")}</td></tr>`}).join("")}
+  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Scores save as you go. Sign in with the same email to edit them later. Other judges can’t see them.</div><div class="status"></div></section>`;
 }
-function scoresOf(j){return ((local[j]||all[j])||{})[prod]||{}}
-function board(){
-  const P=DATA[prod];const k=showKey&&key?key[prod]||{}:{};
-  const rows=P.options.map(o=>{
-    const avg={};CRIT.forEach(([c])=>{const v=JUDGES.map(j=>(scoresOf(j)[o.id]||{})[c]).filter(x=>typeof x==="number");avg[c]=v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
-    const per=JUDGES.map(j=>scoresOf(j)[o.id]||{});
-    return {o,avg,per};
+function refreshMyBoard(){const b=$("#board");if(b)b.outerHTML=myBoard()}
+
+/* organizer view: every judge, averages, notes */
+function prodRows(){return adm.scores.filter(s=>s.product===prod)}
+function allBoard(){
+  const P=DATA[prod],rows=prodRows(),ids=new Set(rows.map(r=>r.email));
+  const J=adm.judges.map((j,i)=>({...j,i})).filter(j=>ids.has(j.email));
+  const get=(e,oid)=>rows.find(r=>r.email===e&&r.option===oid)||{};
+  const list=P.options.map(o=>{
+    const rs=rows.filter(r=>r.option===o.id),avg={};
+    CRIT.forEach(([c])=>{const v=rs.map(r=>r[c]).filter(x=>typeof x==="number");avg[c]=v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
+    return {o,avg};
   }).sort((a,b)=>(b.avg.overall??-1)-(a.avg.overall??-1)||a.o.id.localeCompare(b.o.id));
   const cell=v=>v==null?`<td class="dim">–</td>`:`<td><div class="bar"><i style="width:${(v/5*56).toFixed(0)}px"></i><b>${v.toFixed(1)}</b></div></td>`;
-  const jcell=(s,i)=>{const any=CRIT.some(([c])=>typeof s[c]==="number");return `<td class="js ${i===0?"sep":""}" title="${esc(s.note||"")}">${any?CRIT.map(([c])=>c==="overall"?`<b>${s[c]??"·"}</b>`:(s[c]??"·")).join(" "):`<span class="dim">–</span>`}</td>`};
-  return `<section class="board" id="board"><h2>Scorecard</h2><div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l} avg</th>`).join("")}${JUDGES.map((j,i)=>`<th class="jh ${i===0?"sep":""}"><i style="background:${jcol(j)}"></i>${esc(jlabel(j))}</th>`).join("")}</tr></thead><tbody>
-  ${rows.map(r=>`<tr><td class="l"><a href="#" data-goto="${r.o.id}">${r.o.id}</a>${k[r.o.id]?`<small>${esc(k[r.o.id])}</small>`:""}</td>${CRIT.map(([c])=>cell(r.avg[c])).join("")}${r.per.map(jcell).join("")}</tr>`).join("")}
-  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Judge columns read Brief · Clarity · Craft · <b>Overall</b>. Hover a judge's cell for their note.</div><div class="status" id="status"></div></section>`;
+  const jcell=(s,k)=>{const any=CRIT.some(([c])=>typeof s[c]==="number");return `<td class="js ${k===0?"sep":""}" title="${esc(s.note||"")}">${any?CRIT.map(([c])=>c==="overall"?`<b>${s[c]??"·"}</b>`:(s[c]??"·")).join(" "):`<span class="dim">–</span>`}</td>`};
+  return `<section class="board" id="allboard"><div class="bh"><h2>All judges</h2><span class="lab">${J.length} of ${adm.judges.length} judge${adm.judges.length===1?"":"s"} scored ${NAMES[prod]}</span></div>${J.length?`<div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l} avg</th>`).join("")}${J.map((j,k)=>`<th class="jh ${k===0?"sep":""}" title="${esc(j.email)}"><i style="background:${jcol(j.i)}"></i>${esc(who(j))}</th>`).join("")}</tr></thead><tbody>
+  ${list.map(r=>`<tr><td class="l"><a href="#" data-goto="${r.o.id}">${r.o.id}</a></td>${CRIT.map(([c])=>cell(r.avg[c])).join("")}${J.map((j,k)=>jcell(get(j.email,r.o.id),k)).join("")}</tr>`).join("")}
+  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Judge columns read Brief · Clarity · Craft · <b>Overall</b>. Hover a cell for the note. Updates every 20 seconds.</div>`:`<p class="dim" style="margin:0">No scores for ${NAMES[prod]} yet.</p>`}<div class="status"></div></section>`;
 }
-function refreshBoard(){const b=$("#board");if(b){const n=document.createElement("div");n.innerHTML=board();b.replaceWith(n.firstElementChild)}}
-function setStatus(t){const s=$("#status");if(s)s.textContent=t||""}
+function judgeList(oid){
+  const rows=prodRows().filter(r=>r.option===oid);
+  if(!rows.length)return `<span class="dim">No judge has scored option ${oid} yet.</span>`;
+  const idx=Object.fromEntries(adm.judges.map((j,i)=>[j.email,i])),by=Object.fromEntries(adm.judges.map(j=>[j.email,j]));
+  return `<span class="lab">All judges</span>`+rows.sort((a,b)=>(idx[a.email]??0)-(idx[b.email]??0)).map(r=>`<div class="jrow"><i style="background:${jcol(idx[r.email]??0)}"></i><b title="${esc(r.email)}">${esc(by[r.email]?who(by[r.email]):r.email)}</b><span class="sc">${fmt(r)}</span>${r.note?`<span class="nt">${esc(r.note)}</span>`:""}</div>`).join("");
+}
+async function refreshAll(){
+  try{await loadAll()}catch(err){setStatus(err.status===403?"Organizer access ended. Sign in again with the passcode.":"Couldn’t refresh scores. Retrying shortly.");return}
+  if(!viewAll)return;
+  const b=$("#allboard");if(b)b.outerHTML=allBoard();
+  DATA[prod].options.forEach(o=>{const el=document.getElementById("jl-"+o.id);if(el)el.innerHTML=judgeList(o.id)});
+}
+function exportCsv(){
+  const by=Object.fromEntries(adm.judges.map(j=>[j.email,j]));
+  const safe=v=>{v=v==null?"":String(v);if(/^[=+\-@]/.test(v))v="'"+v;return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  const lines=[["judge","email","product","option","brief","clarity","craft","overall","note","updated_at"],
+    ...adm.scores.map(s=>[(by[s.email]||{}).name||"",s.email,s.product,s.option,s.fit,s.clarity,s.craft,s.overall,s.note,s.updated_at])].map(r=>r.map(safe).join(","));
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/csv"}));
+  a.download=`judging-scores-${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function setStatus(t){document.querySelectorAll(".status").forEach(s=>s.textContent=t||"")}
 
-/* scoring */
+/* ---------- saving ---------- */
+function queueSave(o,ms=400){
+  const p=prod,k=p+":"+o,sv=document.getElementById("sv-"+o);if(sv)sv.textContent="Saving…";
+  clearTimeout(timers[k]);timers[k]=setTimeout(()=>save(p,o),ms);
+}
+function save(p,o){
+  delete timers[p+":"+o];
+  chain=chain.then(async()=>{
+    const s=(mine[p]||{})[o]||{};let error=null;
+    try{await api("/api/scores",{method:"PUT",body:{product:p,option:o,fit:s.fit??null,clarity:s.clarity??null,craft:s.craft??null,overall:s.overall??null,note:s.note||""}})}catch(err){error=err}
+    if(prod===p){const sv=document.getElementById("sv-"+o);if(sv&&!timers[p+":"+o])sv.textContent=error?"Not saved":"Saved"}
+    if(error&&error.status===401)return showGate("Your session ended. Sign in again with the same email; your saved scores are still there.");
+    setStatus(error?"Couldn’t save your last change. Check your connection, then change the score again.":"");
+    if(!error&&viewAll)refreshAll();
+  });
+  return chain;
+}
+
+/* ---------- events ---------- */
 document.addEventListener("click",e=>{
-  const st=e.target.closest("[data-seat]");if(st){judge=st.dataset.seat;store.set("judge",judge);renderSeats();updateRows();refreshBoard();return}
+  const act=e.target.closest("[data-act]");
+  if(act){const a=act.dataset.act;if(a==="out")signOut();
+    else if(a==="all"){if(me.admin)setViewAll(!viewAll);else{unlocking=true;renderSeat();$("#passcode").focus()}}
+    else if(a==="cancel"){unlocking=false;renderSeat()}
+    else if(a==="csv")exportCsv();else if(a==="refresh")refreshAll();return}
   const b=e.target.closest(".dots button");
-  if(b){const o=b.closest(".score").dataset.o,c=b.dataset.c,n=+b.dataset.n;
-    const sh=sheet(judge);sh[prod]=sh[prod]||{};const s=sh[prod][o]=Object.assign({},sh[prod][o]);
-    if(s[c]===n)delete s[c];else s[c]=n;
+  if(b&&me){const o=b.closest(".score").dataset.o,c=b.dataset.c,n=+b.dataset.n;
+    const p=mine[prod]||(mine[prod]={});const s=p[o]=Object.assign({},p[o]);
+    s[c]=s[c]===n?null:n;
     b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(+x.dataset.n===s[c])));
-    refreshBoard();queueSave(o);return}
+    refreshMyBoard();queueSave(o);return}
   const lb=e.target.closest("[data-lb]");if(lb){$("#lbimg").src=lb.dataset.lb;$("#lb").hidden=false;$("#lbx").focus();return}
   const g=e.target.closest("[data-goto]");if(g){e.preventDefault();document.getElementById("opt-"+g.dataset.goto).scrollIntoView({behavior:"smooth"});return}
   const r=e.target.closest("[data-reload]");if(r){document.querySelectorAll(`#opt-${r.dataset.reload} iframe`).forEach(fr=>{fr.src=fr.src});return}
   const f=e.target.closest("[data-full]");if(f){openFull(f.dataset.full,0)}
 });
 document.addEventListener("input",e=>{
-  if(e.target.classList.contains("note")){const o=e.target.dataset.o;const sh=sheet(judge);sh[prod]=sh[prod]||{};sh[prod][o]=Object.assign({},sh[prod][o],{note:e.target.value.slice(0,500)});queueSave(o,900)}
-  if(e.target.id==="jname"){sheet(judge).name=e.target.value.slice(0,40);document.querySelectorAll(`[data-seat="${judge}"]`).forEach(b=>b.lastChild.textContent=jlabel(judge));document.querySelectorAll(".score .as").forEach(a=>a.lastChild.textContent=jlabel(judge));queueSave(null,900)}
+  if(me&&e.target.classList.contains("note")){const o=e.target.dataset.o;const p=mine[prod]||(mine[prod]={});p[o]=Object.assign({},p[o],{note:e.target.value.slice(0,500)});queueSave(o,900)}
 });
-document.addEventListener("change",e=>{if(e.target.id==="jname")refreshBoard()});
-function queueSave(o,ms=500){
-  if(!db){setStatus("Open this page signed in to claude.ai to save scores.");return}
-  const sv=o&&document.getElementById("sv-"+o);if(sv)sv.textContent="Saving…";
-  const j=judge;clearTimeout(saveTimer);saveTimer=setTimeout(()=>{saving=saving.then(async()=>{
-    const sh=sheet(j);
-    try{await db.doc("scores/"+j).set({name:sh.name||"",alta:sh.alta||{},canopy:sh.canopy||{},at:new Date().toISOString()});
-      document.querySelectorAll(".saved").forEach(x=>{if(x.textContent==="Saving…")x.textContent="Saved"});setStatus("");
-    }catch(err){if(err&&err.code==="invalid_argument"){canWrite=false;setStatus("You can view scores but not add them. Ask the owner for Contributor access.")}else setStatus("Couldn’t save. Try again in a moment.")}
-  })},ms);
-}
-
+document.addEventListener("submit",async e=>{
+  if(e.target.id!=="unlock")return;e.preventDefault();
+  const f=e.target,msg=$("#unlock-msg");f.querySelectorAll("button,input").forEach(x=>x.disabled=true);
+  try{await api("/api/unlock",{method:"POST",body:{passcode:$("#passcode").value}});me.admin=true;unlocking=false;await setViewAll(true)}
+  catch(err){f.querySelectorAll("button,input").forEach(x=>x.disabled=false);msg.textContent=err.message;$("#passcode").select()}
+});
+document.addEventListener("change",e=>{if(me&&e.target.classList.contains("note"))refreshMyBoard()});
+addEventListener("beforeunload",e=>{if(Object.keys(timers).length){flush();e.preventDefault()}});
 /* original lightbox */
 $("#lbx").onclick=()=>$("#lb").hidden=true;
 $("#lb").addEventListener("click",e=>{if(e.target.id==="lb")$("#lb").hidden=true});
@@ -224,22 +349,12 @@ function openFull(id,i){const o=DATA[prod].options.find(x=>x.id===id);closeFull(
 function closeFull(){const el=$("#full");if(el){el.remove();document.body.style.overflow=""}}
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;closeFull();$("#lb").hidden=true});
 
-addEventListener("hashchange",()=>{const p=location.hash.slice(1);if(p==="alta"||p==="canopy"){prod=p;render();scrollTo(0,0)}});
+addEventListener("hashchange",()=>{const p=location.hash.slice(1);if((p==="alta"||p==="canopy")&&me){prod=p;render();scrollTo(0,0)}});
 
-render();
+/* ---------- boot ---------- */
 (async()=>{
-  if(!window.claude)return;
-  db=await claude.use("db");
-  if(!db){canWrite=false;updateRows();setStatus("Open this page signed in to claude.ai to score.");return}
-  const t=setTimeout(()=>setStatus("Scores can’t be reached yet."),10000);
-  db.collection("scores").onSnapshot(snap=>{
-    if(!snap.metadata.fromCache){clearTimeout(t);setStatus("")}
-    const next={};snap.docs.forEach(x=>{if(x.exists)next[x.id]=x.data()});all=next;
-    JUDGES.forEach(j=>{if(j!==judge)delete local[j]});
-    if(!local[judge]||!Object.keys(local[judge]).length)delete local[judge];
-    renderSeats();updateRows();refreshBoard();
-  },()=>{clearTimeout(t);setStatus("Scores couldn’t load.")});
+  try{me=await api("/api/me");await enter()}
+  catch(err){showGate(err.status===401?"":err.status===404||err.status===405||err.status===501?"Saving needs the board’s server. Start it with npm start and open http://localhost:8000.":err.message)}
 })();
 </script>
-
 </body></html>
