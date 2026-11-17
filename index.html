@@ -42,11 +42,15 @@ main .wrap{padding-block:24px 64px;display:flex;flex-direction:column;gap:24px}
 .lab{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 /* sign-in gate */
 .gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px 24px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px}
-.card h2{font-family:var(--display);font-size:26px;margin:0;letter-spacing:-.01em}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:28px}
+.card .ch{display:flex;flex-direction:column;gap:8px}
+.card h2{font-family:var(--display);font-size:26px;line-height:1.15;margin:0;letter-spacing:-.01em}
 .card p{margin:0;color:var(--ink2)}
-.card form{display:flex;flex-direction:column;gap:10px}
+.card form{display:flex;flex-direction:column;gap:16px}
+.card .field{display:flex;flex-direction:column;gap:6px}
+.card form .btn{margin-top:8px}
 .card label{font-size:13px;font-weight:600;color:var(--ink2)}
+.msg:empty{display:none}
 .in{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font:inherit;color:var(--ink);width:100%}
 .btn{background:var(--accent);color:var(--accentInk);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-weight:600}
 .btn.navy{background:var(--navy);color:var(--navyInk);border-color:var(--navy)}
@@ -125,16 +129,22 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 
 <div class="gate" id="gate">
   <div class="card">
-    <h2>Design Judgment Panel</h2>
-    <form id="f-login">
+    <div class="ch">
+      <h2>Design Judgment Panel</h2>
       <p>Sign in with your email to score. Use the same email later to come back and edit.</p>
-      <label for="g-email">Email</label>
-      <input class="in" id="g-email" type="email" autocomplete="email" maxlength="254" required>
-      <label for="g-name">Name</label>
-      <input class="in" id="g-name" autocomplete="name" maxlength="60" required>
+    </div>
+    <form id="f-login">
+      <div class="field">
+        <label for="g-email">Email</label>
+        <input class="in" id="g-email" type="email" autocomplete="email" maxlength="254" required>
+      </div>
+      <div class="field">
+        <label for="g-name">Name</label>
+        <input class="in" id="g-name" autocomplete="name" maxlength="60" required>
+      </div>
       <button class="btn navy" type="submit">Start judging</button>
+      <p class="msg" id="g-msg" role="status"></p>
     </form>
-    <p class="msg" id="g-msg" role="status"></p>
   </div>
 </div>
 
