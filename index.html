@@ -243,6 +243,16 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}], "kind": "desktop"}};
 const CRIT=[["fit","Brief","Fits the brief","Does the job the PRD asks for."],["clarity","Clarity","Clarity","Clear at a glance: you know what to do next."],["craft","Craft","Visual craft","Type, spacing, hierarchy and polish."],["overall","Overall","Overall","Would you ship this?"]];
 const NAMES={alta:"Alta",canopy:"Canopy"};
+/* Each judge sees the options in their own shuffled order, fixed by their email and the product,
+   so it's random across judges but the same every time one judge comes back, on any device.
+   Don't change this function once judging starts: it would reshuffle everyone. */
+function orderedOptions(product){
+  const opts=DATA[product].options.slice();if(!me||!me.email)return opts;
+  let h=2166136261;for(const ch of me.email.toLowerCase()+"|"+product){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
+  let t=h>>>0;const rnd=()=>{t=(t+0x6D2B79F5)>>>0;let r=Math.imul(t^(t>>>15),1|t);r=(r+Math.imul(r^(r>>>7),61|r))^r;return((r^(r>>>14))>>>0)/4294967296};
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]]}
+  return opts;
+}
 const ADMIN_DOMAIN="gojuly.ai";
 
 let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
@@ -310,7 +320,7 @@ function render(){
   let h=`<section class="orig" id="orig"><div class="oh"><span class="tag">Original</span><h2>${NAMES[prod]} today</h2><span class="sub">The screen being redesigned</span></div>${P.original.map(o=>`<figure><img src="${o.src}" width="${o.wh[0]}" height="${o.wh[1]}" alt="Original ${NAMES[prod]} screens" data-lb="${o.src}"></figure>`).join("")}</section>`;
   if(viewAll)h+=allBoard();
   h+=`<div class="opts-h" id="opts"><h2>Redesigns</h2><span class="lab">${P.options.length} options, blind</span></div>`;
-  P.options.forEach(o=>{const s=my[o.id]||{},nt=notesOf(s),d=s.done===true,all=allRated(s);
+  orderedOptions(prod).forEach(o=>{const s=my[o.id]||{},nt=notesOf(s),d=s.done===true,all=allRated(s);
     h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span><span class="tools"><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
     <div class="obody"><div class="live">${o.live.map((src,i)=>`<div class="vp"><div class="sizer"><iframe src="${src}" loading="lazy" title="Option ${o.id} prototype${o.live.length>1?" "+(i+1):""}"></iframe></div></div>`).join("")}</div>
     ${viewAll?`<div class="rcol" id="ap-${o.id}">${adminPanel(o.id)}</div></div>`:`<div class="rcol"><aside class="rate${d?" done":""}" data-o="${o.id}" aria-label="Rate option ${o.id}"><div class="rh"><span class="rt">Rate option ${o.id}</span><span class="saved" id="sv-${o.id}" role="status"></span></div>
@@ -339,7 +349,7 @@ function myBoard(){
   const P=DATA[prod],my=mine[prod]||{};
   const done=P.options.filter(o=>CRIT.every(([c])=>typeof (my[o.id]||{})[c]==="number")).length;
   return `<section class="board" id="board"><div class="bh"><h2>Your scores</h2><span class="lab">${done} of ${P.options.length} options fully scored</span></div><div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l}</th>`).join("")}<th>Notes</th></tr></thead><tbody>
-  ${P.options.map(o=>{const s=my[o.id]||{};return `<tr><td class="l"><a href="#" data-goto="${o.id}">${o.id}</a></td>${CRIT.map(([c])=>`<td>${s[c]??'<span class="dim">–</span>'}</td>`).join("")}<td class="wrapnote">${notesHtml(s)}</td></tr>`}).join("")}
+  ${orderedOptions(prod).map(o=>{const s=my[o.id]||{};return `<tr><td class="l"><a href="#" data-goto="${o.id}">${o.id}</a></td>${CRIT.map(([c])=>`<td>${s[c]??'<span class="dim">–</span>'}</td>`).join("")}<td class="wrapnote">${notesHtml(s)}</td></tr>`}).join("")}
   </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Scores save as you go. Sign in with the same email to edit them later. Other judges can’t see them.</div><div class="status"></div></section>`;
 }
 function refreshMyBoard(){const b=$("#board");if(b)b.outerHTML=myBoard()}
