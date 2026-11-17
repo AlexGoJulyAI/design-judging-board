@@ -1,4 +1,6 @@
-/* Shows only a design's prototype: hides every sibling along the path to the kept elements, then reports the kept area's size to the gallery. */
+/* Shows only a design's prototype: hides every sibling along the path to the kept elements, then reports the kept area's box to the gallery.
+   Message: {type:"focus-size", x, y, w, h}: the box's exact left, top, right and bottom edges in page pixels, with no padding.
+   The gallery adds its own margin; reporting the exact edges keeps designs that fill the viewport from growing their frame in a loop. */
 (function(){
   var s=document.currentScript,KEEP=s.getAttribute('data-keep')||'',HIDE=s.getAttribute('data-hide')||'';
   var SKIP=/^(SCRIPT|STYLE|LINK|META|TITLE|TEMPLATE|svg)$/i,busy=false,last='';
@@ -17,11 +19,12 @@
     busy=false;post();
   }
   function post(){
-    var w,h,t=targets();
-    if(t.length){var r=0,b=0;t.forEach(function(e){var q=e.getBoundingClientRect();r=Math.max(r,q.right+scrollX);b=Math.max(b,q.bottom+scrollY)});w=Math.ceil(r+24);h=Math.ceil(b+24)}
+    var x=0,y=0,w,h,t=targets().filter(function(e){var q=e.getBoundingClientRect();return q.width||q.height});
+    if(t.length){var l=1/0,tp=1/0,r=0,b=0;t.forEach(function(e){var q=e.getBoundingClientRect();l=Math.min(l,q.left+scrollX);tp=Math.min(tp,q.top+scrollY);r=Math.max(r,q.right+scrollX);b=Math.max(b,q.bottom+scrollY)});
+      x=Math.max(0,Math.floor(l));y=Math.max(0,Math.floor(tp));w=Math.ceil(r);h=Math.ceil(b)}
     else{w=document.documentElement.scrollWidth;h=document.documentElement.scrollHeight}
-    var k=w+'x'+h;if(k===last)return;last=k;
-    parent.postMessage({type:'focus-size',w:w,h:h},'*');
+    var k=[x,y,w,h].join();if(k===last)return;last=k;
+    parent.postMessage({type:'focus-size',x:x,y:y,w:w,h:h},'*');
   }
   var timer;function later(){if(busy)return;clearTimeout(timer);timer=setTimeout(apply,60)}
   function start(){apply();new MutationObserver(later).observe(document.body,{childList:true,subtree:true});

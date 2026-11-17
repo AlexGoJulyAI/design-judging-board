@@ -44,7 +44,7 @@ In the Upstash console → Data Browser. Every key starts with `djb:`:
 |---|---|---|
 | `djb:judges` | Set | Every judge's email |
 | `djb:judge:<email>` | Hash | `email`, `name`, `created_at`, `last_seen` |
-| `djb:scores:<email>` | Hash | One field per option, such as `alta:B`, holding `{fit, clarity, craft, overall, note, updated_at}` |
+| `djb:scores:<email>` | Hash | One field per option, such as `alta:B`, holding `{fit, clarity, craft, overall, notes, done, updated_at}`, with one note per criterion and a done flag for the option |
 
 Averages and the cross-judge view are calculated from these keys when an organizer opens them, so there's no separate summary to keep in sync.
 
