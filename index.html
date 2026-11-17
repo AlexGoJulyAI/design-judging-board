@@ -124,24 +124,29 @@ code{font-size:12.5px;background:var(--sunk);border-radius:4px;padding:1px 5px}
 .rate.done h3,.rate.done .cv,.rate.done .cv small{color:var(--muted)}
 .rate.done .scale,.rate.done .cnote{filter:grayscale(1);opacity:.5}
 .rate.done .cnote{background:var(--bg)}
-/* organizer judge filter: second header row while viewing all judges */
-.jfilter{border-top:1px solid var(--line)}
-.jfilter .wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-block:8px}
-.jfilter .lab{margin-right:4px}
-.jfl{display:flex;flex-wrap:wrap;gap:6px}
-.jf{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;user-select:none;transition:background-color .15s,color .15s,border-color .15s}
-.jf:hover{border-color:var(--muted)}
-.jf input{-webkit-appearance:none;appearance:none;flex:none;width:16px;height:16px;margin:0;border:1.5px solid var(--muted);border-radius:4px;background:var(--surface);display:grid;place-content:center;cursor:pointer;transition:background-color .15s,border-color .15s}
-.jf input:checked{background:var(--navy);border-color:var(--navy)}
-.jf input:checked::after{content:"";width:8px;height:4px;margin-top:-2px;border:2px solid var(--navyInk);border-top:0;border-right:0;transform:rotate(-45deg)}
-.jf input:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
-.jf i{width:8px;height:8px;border-radius:50%}
-.jf.off{background:var(--bg);color:var(--muted)}
-.jf.off i{opacity:.4}
-.jfa{display:flex;gap:2px;margin-left:4px}
+/* organizer judge filter: dropdown next to "View all judges" */
+.dd{position:relative}
+.ddbtn{display:inline-flex;align-items:center;gap:6px}
+.ddbtn svg{width:12px;height:12px;transition:transform .15s}
+.ddbtn[aria-expanded="true"]{border-color:var(--navy);color:var(--ink)}
+.ddbtn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.ddmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;width:280px;max-width:calc(100vw - 32px);max-height:min(60vh,440px);overflow:auto;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 6px rgba(16,24,40,.06),0 16px 40px -12px rgba(16,24,40,.22)}
+.ddh{padding:8px 10px 6px}
+.jck{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;user-select:none}
+.jck:hover{background:var(--bg)}
+.jck i{width:8px;height:8px;border-radius:50%;flex:none}
+.jck span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jck.off{color:var(--muted)}
+.jck.off i{opacity:.4}
+.ck{-webkit-appearance:none;appearance:none;flex:none;width:16px;height:16px;margin:0;border:1.5px solid var(--muted);border-radius:4px;background:var(--surface);display:grid;place-content:center;cursor:pointer;transition:background-color .15s,border-color .15s}
+.ck:checked{background:var(--navy);border-color:var(--navy)}
+.ck:checked::after{content:"";width:8px;height:4px;margin-top:-2px;border:2px solid var(--navyInk);border-top:0;border-right:0;transform:rotate(-45deg)}
+.ck:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.ddf{display:flex;justify-content:space-between;gap:8px;margin-top:4px;padding:6px 2px 2px;border-top:1px solid var(--line)}
 .lnk{-webkit-appearance:none;appearance:none;border:0;background:none;padding:4px 8px;border-radius:6px;color:var(--navy);font-size:13px;font-weight:600}
 .lnk:hover{background:var(--navyTint)}
 .lnk:disabled{color:var(--muted);background:none;cursor:default}
+.ddempty{padding:10px;font-size:13px;color:var(--muted)}
 /* organizer panel */
 .jpick{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0 6px}
 .jp{-webkit-appearance:none;appearance:none;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink2);font-size:13px;font-weight:600}
@@ -225,7 +230,7 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
   <h1>Design Judgment Panel</h1>
   <nav class="seg" aria-label="Product"><a href="#alta" data-p="alta">Alta</a><a href="#canopy" data-p="canopy">Canopy</a></nav>
   <div class="seat" id="seat"></div>
-</div><div class="jfilter" id="jfilter" hidden></div></header>
+</div></header>
 <main><div class="wrap" id="root"></div></main>
 </div>
 
@@ -293,7 +298,7 @@ function renderSeat(){
   $("#seat").innerHTML=`<span class="lab">Scoring as</span><span class="me"><i></i><span title="${esc(me.email)}">${esc(who(me))}</span></span>`
     +(me.canAdmin?(unlocking
       ?`<form class="unlock" id="unlock"><input class="in" id="passcode" type="password" placeholder="Organizer passcode" aria-label="Organizer passcode" autocomplete="current-password"><button class="tb" type="submit">Unlock</button><button class="tb" type="button" data-act="cancel">Cancel</button><span class="msg" id="unlock-msg" role="status"></span></form>`
-      :`<button class="tb" data-act="all" aria-pressed="${viewAll}">View all judges</button>${viewAll?`<button class="tb" data-act="refresh">Refresh</button><button class="tb" data-act="csv">Export CSV</button>`:""}`):"")
+      :`<button class="tb" data-act="all" aria-pressed="${viewAll}">View all judges</button>${viewAll?`<div class="dd" id="jdd"></div><button class="tb" data-act="refresh">Refresh</button><button class="tb" data-act="csv">Export CSV</button>`:""}`):"")
     +`<button class="tb" data-act="out">Sign out</button>`;
 }
 function render(){
@@ -342,12 +347,17 @@ const excluded=new Set();                       // judges unchecked in the organ
 function prodRows(){return adm.scores.filter(s=>s.product===prod&&!excluded.has(s.email))}
 /* everyone who has rated anything, in sign-up order */
 function raters(){const has=new Set(adm.scores.filter(r=>CRIT.some(([c])=>typeof r[c]==="number")).map(r=>r.email));return adm.judges.map((j,i)=>({...j,i})).filter(j=>has.has(j.email))}
+let ddOpen=false;
+const CHEV='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function renderFilter(){
-  const f=$("#jfilter");if(!f)return;
-  if(!viewAll){f.hidden=true;f.innerHTML="";setHeaderVar();return}
+  const d=$("#jdd");if(!d){ddOpen=false;return}
   const R=raters(),on=R.filter(j=>!excluded.has(j.email)).length;
-  f.innerHTML=`<div class="wrap"><span class="lab">Showing ratings from</span>${R.length?`<div class="jfl" role="group" aria-label="Judges to include">${R.map(j=>`<label class="jf${excluded.has(j.email)?" off":""}" title="${esc(j.email)}"><input type="checkbox" data-jf="${esc(j.email)}"${excluded.has(j.email)?"":" checked"}><i style="background:${jcol(j.i)}"></i>${esc(who(j))}</label>`).join("")}</div><div class="jfa"><button class="lnk" data-jfall="1"${on===R.length?" disabled":""}>Select all</button><button class="lnk" data-jfall="0"${on===0?" disabled":""}>Clear</button></div>`:`<span class="dim">No ratings yet.</span>`}</div>`;
-  f.hidden=false;setHeaderVar();
+  const label=!R.length?"Judges":on===R.length?`All judges (${R.length})`:`${on} of ${R.length} judges`;
+  d.innerHTML=`<button class="tb ddbtn" data-dd aria-haspopup="true" aria-expanded="${ddOpen}" aria-controls="jddmenu">${label}${CHEV}</button>`
+    +(ddOpen?`<div class="ddmenu" id="jddmenu" role="group" aria-label="Judges to include"><div class="ddh lab">Showing ratings from</div>${R.length
+      ?R.map(j=>`<label class="jck${excluded.has(j.email)?" off":""}" title="${esc(j.email)}"><input class="ck" type="checkbox" data-jf="${esc(j.email)}"${excluded.has(j.email)?"":" checked"}><i style="background:${jcol(j.i)}"></i><span>${esc(who(j))}</span></label>`).join("")
+        +`<div class="ddf"><button class="lnk" data-jfall="1"${on===R.length?" disabled":""}>Select all</button><button class="lnk" data-jfall="0"${on===0?" disabled":""}>Clear</button></div>`
+      :`<p class="ddempty">No ratings yet.</p>`}</div>`:"");
 }
 function applyFilter(){
   renderFilter();
@@ -423,6 +433,8 @@ function save(p,o){
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
+  if(e.target.closest("[data-dd]")){ddOpen=!ddOpen;renderFilter();if(ddOpen)$("#jddmenu .ck")?.focus();return}
+  if(ddOpen&&!e.target.closest("#jdd")){ddOpen=false;renderFilter()}
   const act=e.target.closest("[data-act]");
   if(act){const a=act.dataset.act;if(a==="out")signOut();
     else if(a==="all"){if(me.admin)setViewAll(!viewAll);else{unlocking=true;renderSeat();$("#passcode").focus()}}
@@ -492,7 +504,9 @@ function openFull(id,i){const o=DATA[prod].options.find(x=>x.id===id);closeFull(
   document.body.append(el);document.body.style.overflow="hidden";
   el.querySelector("#fclose").onclick=closeFull;el.querySelectorAll("[data-fp]").forEach(b=>b.onclick=()=>openFull(id,+b.dataset.fp));el.querySelector("#fclose").focus()}
 function closeFull(){const el=$("#full");if(el){el.remove();document.body.style.overflow=""}}
-document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;closeFull();$("#lb").hidden=true});
+/* clicks inside a design frame never reach this page; the window losing focus means one happened */
+addEventListener("blur",()=>{if(ddOpen){ddOpen=false;renderFilter()}});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(ddOpen){ddOpen=false;renderFilter();$("[data-dd]")?.focus();return}closeFull();$("#lb").hidden=true});
 
 addEventListener("hashchange",()=>{const p=location.hash.slice(1);if((p==="alta"||p==="canopy")&&me){prod=p;render();scrollTo(0,0)}});
 
