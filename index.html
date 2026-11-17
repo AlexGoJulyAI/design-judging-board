@@ -1,19 +1,19 @@
 <!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Design Judging Board</title>
+<title>Design Judgment Panel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: sign-in gate first; then a sticky bar (product, who is signed in), a dark band for the original, one card per blind option, scorecard */
 :root{
   --bg:#F2F3F1;--surface:#FFFFFF;--sunk:#E7E9E5;--ink:#16181A;--ink2:#4C5157;--muted:#7A8087;--line:#DADDD8;
-  --accent:#2F5D50;--accentInk:#FFFFFF;--warn:#8A5A12;
+  --accent:#2F5D50;--accentInk:#FFFFFF;--warn:#8A5A12;--navy:#1E2A5A;--navyInk:#FFFFFF;
   --origBg:#1B1F23;--origInk:#F2F3F1;--origMuted:#A9B0B6;--origTag:#E8C26A;--origTagInk:#1B1F23;
   --j1:#2F5D50;--j2:#7A4FA3;--j3:#B4562E;--j4:#2E6FA8;--j5:#8C7020;--j6:#9C3F66;
   --display:"Space Grotesk",Inter,system-ui,sans-serif;--body:Inter,system-ui,-apple-system,sans-serif;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--navy:#3A4E8C;--navyInk:#FFFFFF;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--navy:#3A4E8C;--navyInk:#FFFFFF;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;--j4:#8BB8E3;--j5:#D9BC6A;--j6:#DE8CB0;color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -49,6 +49,7 @@ main .wrap{padding-block:24px 64px;display:flex;flex-direction:column;gap:24px}
 .card label{font-size:13px;font-weight:600;color:var(--ink2)}
 .in{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font:inherit;color:var(--ink);width:100%}
 .btn{background:var(--accent);color:var(--accentInk);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-weight:600}
+.btn.navy{background:var(--navy);color:var(--navyInk);border-color:var(--navy)}
 .btn.sec{background:var(--surface);color:var(--ink);border-color:var(--line)}
 .btn:disabled{opacity:.6;cursor:progress}
 .or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
@@ -124,14 +125,14 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 
 <div class="gate" id="gate">
   <div class="card">
-    <h2>Design Judging</h2>
+    <h2>Design Judgment Panel</h2>
     <form id="f-login">
-      <p>Sign in with your email to score. Use the same email later to come back and edit. Other judges can’t see your scores.</p>
+      <p>Sign in with your email to score. Use the same email later to come back and edit.</p>
       <label for="g-email">Email</label>
       <input class="in" id="g-email" type="email" autocomplete="email" maxlength="254" required>
-      <label for="g-name">Name <span class="dim">(optional, shown to organizers)</span></label>
-      <input class="in" id="g-name" autocomplete="name" maxlength="60">
-      <button class="btn" type="submit">Start judging</button>
+      <label for="g-name">Name</label>
+      <input class="in" id="g-name" autocomplete="name" maxlength="60" required>
+      <button class="btn navy" type="submit">Start judging</button>
     </form>
     <p class="msg" id="g-msg" role="status"></p>
   </div>
@@ -139,7 +140,7 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 
 <div id="app" hidden>
 <header><div class="wrap">
-  <h1>Design Judging</h1>
+  <h1>Design Judgment Panel</h1>
   <nav class="seg" aria-label="Product"><a href="#alta" data-p="alta">Alta</a><a href="#canopy" data-p="canopy">Canopy</a></nav>
   <div class="seat" id="seat"></div>
 </div></header>

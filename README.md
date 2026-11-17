@@ -1,4 +1,4 @@
-# Design Judging Board
+# Design Judgment Panel
 
 A scoring page for blind design reviews. Judges sign in with their email and score each option. Scores are saved in Upstash Redis. Signing in again with the same email brings a judge's scores back so they can edit them. Organizers can switch on a view of every judge's scores.
 
@@ -29,8 +29,8 @@ Import the repo with the **Other** preset, keep the root directory `./`, and lea
 
 | Person | Signs in with | Sees |
 |---|---|---|
-| Judge | Email (plus an optional name) | Only their own scores |
-| Organizer | An `@gojuly.ai` email | Their own scores, plus a **View all judges** toggle. The toggle asks once for the organizer passcode, then shows every judge's scores, the averages and notes, and a CSV export. |
+| Judge | Email and name | Only their own scores |
+| Organizer | An `@gojuly.ai` email and name | Their own scores, plus a **View all judges** toggle. The toggle asks once for the organizer passcode, then shows every judge's scores, the averages and notes, and a CSV export. |
 
 The server enforces these rules on every request. A judge's browser can't fetch another judge's scores.
 
