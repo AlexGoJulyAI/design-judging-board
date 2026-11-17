@@ -1,4 +1,4 @@
-# Design Judgment Panel
+# Design Evaluation Panel
 
 A scoring page for blind design reviews. Judges sign in with their email and score each option. Scores are saved in Upstash Redis. Signing in again with the same email brings a judge's scores back so they can edit them. Organizers can switch on a view of every judge's scores.
 
