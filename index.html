@@ -107,7 +107,7 @@ code{font-size:12.5px;background:var(--sunk);border-radius:4px;padding:1px 5px}
 .scale button:focus-visible{outline:2px solid var(--navy);outline-offset:-2px}
 .scale button[aria-pressed="true"]:focus-visible{outline-color:var(--navyInk)}
 .scale button:disabled{cursor:default}
-.cnote{display:block;width:100%;min-height:34px;margin-top:10px;resize:none;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:7px 10px;font:inherit;font-size:13px;line-height:1.45;color:var(--ink)}
+.cnote{display:block;width:100%;min-height:34px;max-height:calc(5.8em + 16px);margin-top:10px;resize:none;overflow:hidden;overscroll-behavior:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:7px 10px;font:inherit;font-size:13px;line-height:1.45;color:var(--ink)}
 .cnote::placeholder{color:var(--muted)}
 .cnote:not(:disabled):hover{border-color:var(--muted)}
 .cnote:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navyTint)}
@@ -331,7 +331,8 @@ function render(){
   $("#root").innerHTML=h;
   document.querySelectorAll(".cnote").forEach(grow);setHeaderVar();
 }
-function grow(t){t.style.height="auto";t.style.height=t.scrollHeight+2+"px"}
+/* note boxes grow with their text up to 4 lines, then scroll */
+function grow(t){t.style.height="auto";const h=t.scrollHeight+2,max=parseFloat(getComputedStyle(t).maxHeight)||Infinity;t.style.height=Math.min(h,max)+"px";t.style.overflowY=h>max?"auto":"hidden"}
 let lastHH=0;
 function setHeaderVar(){const hd=document.querySelector("header");if(!hd)return;const h=hd.offsetHeight;document.documentElement.style.setProperty("--hh",h+"px");if(lastHH&&h!==lastHH)document.querySelectorAll(".sizer iframe").forEach(fit);lastHH=h}
 addEventListener("resize",setHeaderVar);
