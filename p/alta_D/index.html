@@ -1,0 +1,788 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Alta Today Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: case-study column; each screen = before | live prototype | notes, stacking on phones */
+:root{
+  --bg:#F6F5F2; --surface:#FFFFFF; --ink:#141414; --muted:#6B6863; --line:#E3E0DA;
+  --fix:#2E4BFF; --fix-soft:#E8ECFF; --issue:#D93A2B; --issue-soft:#FCE9E6;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121212; --surface:#1B1B1A; --ink:#F2F0EC; --muted:#A19D96; --line:#2E2D2B;
+  --fix:#8C9DFF; --fix-soft:#1E2440; --issue:#FF7A6B; --issue-soft:#3A1D19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121212; --surface:#1B1B1A; --ink:#F2F0EC; --muted:#A19D96; --line:#2E2D2B;
+  --fix:#8C9DFF; --fix-soft:#1E2440; --issue:#FF7A6B; --issue-soft:#3A1D19; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 96px}
+h1,h2,h3{font-family:var(--display);font-stretch:72%;font-weight:800;letter-spacing:-.01em;line-height:1.02;text-wrap:balance;margin:0}
+h1{font-size:clamp(44px,7.4vw,92px);text-transform:uppercase}
+h2{font-size:clamp(32px,4.4vw,52px);text-transform:uppercase}
+h3{font-size:22px;font-stretch:85%;font-weight:700;letter-spacing:0}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.topbar nav{display:flex;gap:18px;flex-wrap:wrap}
+.topbar a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500}
+.topbar a:hover{text-decoration:underline}
+.wordmark{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:26px;letter-spacing:.01em}
+section{padding-top:88px}
+.hero{padding-top:56px;display:grid;gap:28px}
+.lede{font-size:clamp(18px,2vw,22px);max-width:62ch;line-height:1.45}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fact{background:var(--surface);padding:18px 20px;display:grid;gap:6px;min-width:0}
+.fact b{font-size:17px;font-weight:600;line-height:1.3}
+.sec-head{display:grid;gap:14px;max-width:760px;margin-bottom:36px}
+.sec-head p{color:var(--muted);font-size:17px;max-width:64ch}
+
+/* problem */
+.frictions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.friction{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--surface);display:grid;gap:10px;align-content:start}
+.friction .tag{justify-self:start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:var(--bg);color:var(--muted)}
+.friction.primary .tag{background:var(--ink);color:var(--bg)}
+.friction p{color:var(--muted);font-size:15px}
+.story{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.story div{padding:4px 0 0 16px;border-left:2px solid var(--line);display:grid;gap:4px}
+.story div:nth-child(2){border-color:var(--issue)}
+.story p{font-size:15px;color:var(--muted)}
+
+/* screen sections */
+.screen{display:grid;grid-template-columns:minmax(0,300px) minmax(0,391px) minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:1100px){.screen{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.screen .notes{grid-column:1/-1}}
+@media (max-width:720px){.screen{grid-template-columns:minmax(0,1fr)}}
+.col-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.pill.before{background:var(--issue-soft);color:var(--issue)}
+.pill.after{background:var(--fix-soft);color:var(--fix)}
+.hint{font-size:13px;color:var(--muted)}
+.before-shot{position:relative;border-radius:28px;overflow:hidden;border:1px solid var(--line);background:#fff;max-width:300px}
+.before-shot img{display:block;width:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:var(--issue);color:#fff;font:600 12px/24px var(--mono);text-align:center;box-shadow:0 0 0 3px rgba(255,255,255,.85)}
+.issues{margin-top:16px;display:grid;gap:10px;padding:0;list-style:none;max-width:300px}
+.issues li{display:grid;grid-template-columns:24px 1fr;gap:10px;font-size:14px;line-height:1.45;color:var(--muted)}
+.issues li span{width:22px;height:22px;border-radius:50%;background:var(--issue-soft);color:var(--issue);font:600 11px/22px var(--mono);text-align:center}
+.notes{display:grid;gap:22px;align-content:start}
+.note{display:grid;grid-template-columns:28px 1fr;gap:12px}
+.note .n{width:26px;height:26px;border-radius:50%;background:var(--fix);color:var(--bg);font:600 12px/26px var(--mono);text-align:center}
+.note h4{margin:0 0 4px;font-size:16px;font-weight:600}
+.note p{font-size:14.5px;color:var(--muted)}
+.note .solves{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--issue);letter-spacing:.03em}
+
+/* phone frame */
+.phone-col{display:grid;justify-items:center}
+.phone-col .col-label{width:100%}
+.device{--s:1;width:calc(391px * var(--s));height:calc(828px * var(--s));position:relative}
+.device-inner{width:391px;height:828px;transform:scale(var(--s));transform-origin:0 0;border-radius:54px;background:#0d0d0d;padding:8px;box-shadow:0 30px 60px -30px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.08)}
+.app{width:375px;height:812px;border-radius:46px;overflow:hidden;position:relative;background:#fff;color:#111;font-family:var(--text);font-size:15px;line-height:1.35;
+  --a-bg:#fff; --a-soft:#F4F3F0; --a-line:#ECEAE6; --a-ink:#111; --a-mute:#77746F; --a-warn:#B4610E; --a-warn-soft:#FFF3E2; --a-ok:#1D7A46;}
+:where(.app button){font-family:inherit;color:inherit;cursor:pointer}
+.app :focus-visible{outline:2px solid var(--fix);outline-offset:2px}
+.status{position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0 34px;font-weight:600;font-size:15px;z-index:30;background:#fff}
+.status .icons{display:flex;gap:6px;align-items:center}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:31}
+.scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding-top:50px;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:84px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--a-line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 8px 0;z-index:20}
+.tab{border:0;background:none;display:grid;justify-items:center;gap:3px;font-size:10.5px;font-weight:500;color:var(--a-mute);padding:4px 0}
+.tab.on{color:var(--a-ink)}
+.tab .add{width:46px;height:46px;border-radius:50%;background:#111;display:grid;place-items:center;margin-top:-4px}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:40}
+
+/* HOME app */
+.h-head{display:flex;justify-content:space-between;align-items:center;padding:6px 20px 2px}
+.h-word{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:28px;letter-spacing:.01em;line-height:1}
+.h-right{display:flex;align-items:center;gap:12px}
+.streak{display:flex;align-items:center;gap:3px;font-weight:600;font-size:14px;padding:6px 10px;border-radius:999px;background:var(--a-soft)}
+.avatar{width:32px;height:32px;border-radius:50%;background:#2b2b2b;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px}
+.h-day{padding:12px 20px 0;display:flex;align-items:baseline;justify-content:space-between}
+.h-day b{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.h-day span{font-size:13px;color:var(--a-mute)}
+.ctx{display:flex;gap:8px;overflow-x:auto;padding:12px 20px 4px;scrollbar-width:none}
+.ctx::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--a-line);background:#fff;border-radius:999px;padding:8px 13px;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.chip.on{background:#111;color:#fff;border-color:#111}
+.chip small{font-size:11.5px;opacity:.7;font-weight:500}
+.weather{flex:none;display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:500;padding:8px 4px 8px 0;color:var(--a-ink)}
+.pick{margin:12px 16px 0;border-radius:24px;background:var(--a-soft);position:relative;overflow:hidden}
+.pick-top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 0}
+.pick-top .lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--a-mute)}
+.dots{display:flex;gap:5px}
+.dots{gap:0}.dots button{border:0;padding:8px 3px;background:none;display:grid;place-items:center}
+.dots button::after{content:"";width:6px;height:6px;border-radius:3px;background:#cfccc6;transition:width .2s}
+.dots button.on::after{background:#111;width:16px}
+.collage{position:relative;height:268px;margin:0 6px;touch-action:pan-y}
+.collage .it{position:absolute;transform:translate(-50%,-50%);border:0;background:none;padding:0;transition:transform .2s}
+.collage .it img{display:block;height:100%;width:auto;filter:drop-shadow(0 6px 8px rgba(0,0,0,.12))}
+.collage .it:hover{transform:translate(-50%,-50%) scale(1.04)}
+.collage .it.swapping{animation:pop .35s ease}
+@keyframes pop{0%{opacity:.2;transform:translate(-50%,-50%) scale(.85)}100%{opacity:1}}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.85);display:grid;place-items:center;z-index:2}
+.arrow.l{left:6px}.arrow.r{right:6px}
+.why{padding:0 16px 4px;font-size:14px;line-height:1.4;color:#2a2a2a}
+.why b{font-weight:600}
+.owned{padding:6px 16px 0;font-size:12.5px;color:var(--a-ok);display:flex;align-items:center;gap:5px;font-weight:500}
+.pick-actions{display:grid;grid-template-columns:1fr 50px;gap:8px;padding:12px 12px 12px}
+.btn{border:0;border-radius:16px;height:50px;font-size:15.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.primary{background:#111;color:#fff}
+.btn.ghost{background:#fff;color:#111}
+.btn.done{background:#fff;color:var(--a-ok);border:1.5px solid #CFE6D8}
+.ask{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px auto 0;font-size:13.5px;color:var(--a-mute);border:0;background:none;padding:6px}
+.ask u{text-decoration:none;color:#111;font-weight:600}
+.nudge{margin:10px 16px 0;border-radius:18px;border:1px solid var(--a-line);padding:14px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+.nudge b{font-size:14.5px;display:block}
+.nudge span{font-size:12.5px;color:var(--a-mute)}
+.sbtn{border:0;border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:600;background:#111;color:#fff;white-space:nowrap}
+.sbtn.light{background:var(--a-soft);color:#111}
+.blk{padding:26px 20px 0}
+.blk-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.blk-h b{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.blk-h span,.blk-h button{font-size:13px;color:var(--a-mute);border:0;background:none;padding:0}
+.again{display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:0 20px 4px;scrollbar-width:none}
+.again::-webkit-scrollbar{display:none}
+.ag{flex:none;width:112px;border:0;background:none;padding:0;text-align:left}
+.ag .ph{height:150px;border-radius:16px;background:var(--a-soft);display:grid;place-items:center;overflow:hidden}
+.ag .ph img{height:138px;width:auto}
+.ag b{display:block;font-size:13px;font-weight:600;margin-top:7px}
+.ag span{font-size:11.5px;color:var(--a-mute)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{border:0;background:none;padding:0;display:grid;justify-items:center;gap:4px;font-size:11px;color:var(--a-mute)}
+.day .d{font-weight:600;color:#111;font-size:12.5px}
+.day .slot{width:100%;height:68px;border-radius:12px;background:var(--a-soft);display:grid;place-items:center;overflow:hidden;position:relative}
+.day .slot img{height:62px;width:auto}
+.day .slot.empty{background:#fff;border:1.5px dashed #D8D5CF;color:#aaa;font-size:18px}
+.day.today .d{background:#111;color:#fff;border-radius:999px;padding:0 7px}
+.day .slot.past{opacity:.55}
+.weekbar{margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--a-mute)}
+.gap{border-radius:20px;border:1px solid var(--a-line);overflow:hidden}
+.gap-top{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:14px;align-items:center}
+.gap-top .ph{height:76px;border-radius:14px;background:var(--a-soft);display:grid;place-items:center}
+.gap-top .ph img{width:56px;height:auto}
+.gap-top b{font-size:14.5px;display:block;line-height:1.3}
+.gap-top span{font-size:12.5px;color:var(--a-mute)}
+.gap-act{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--a-line)}
+.gap-act button{border:0;background:#fff;padding:13px 8px;font-size:13.5px;font-weight:600}
+.gap-act button+button{border-left:1px solid var(--a-line)}
+.shop{padding:0 14px 14px;display:grid;gap:10px;animation:rise .3s ease}
+.shop-note{font-size:11.5px;color:var(--a-mute);display:flex;justify-content:space-between}
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.prod{border:0;background:none;padding:0;text-align:left}
+.prod .ph{height:84px;border-radius:12px;background:var(--a-soft);display:grid;place-items:center}
+.prod .ph img{max-width:70%;max-height:64px}
+.prod b{display:block;font-size:12px;font-weight:600;margin-top:5px;line-height:1.25}
+.prod span{font-size:11.5px;color:var(--a-mute)}
+.toast{position:absolute;left:16px;right:16px;bottom:96px;background:#111;color:#fff;border-radius:14px;padding:12px 14px;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:25;animation:rise .25s ease}
+.toast button{border:0;background:none;color:#fff;font-weight:600;text-decoration:underline;font-size:13.5px}
+.spacer{height:110px}
+
+/* ADD app */
+.a-head{display:flex;justify-content:space-between;align-items:center;padding:6px 16px 0}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:0;background:var(--a-soft);display:grid;place-items:center}
+.a-title{padding:14px 20px 0}
+.a-title b{font-size:26px;font-weight:700;letter-spacing:-.02em;display:block}
+.a-title span{font-size:13.5px;color:var(--a-mute)}
+.check-sec{margin:18px 16px 0;border-radius:20px;background:var(--a-warn-soft);padding:14px}
+.check-sec>b{font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.check-sec>b small{font-weight:500;color:var(--a-mute);font-size:12px}
+.qc{margin-top:10px;background:#fff;border-radius:16px;padding:10px;display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}
+.qc .ph{height:64px;border-radius:12px;background:var(--a-soft);display:grid;place-items:center}
+.qc .ph img{max-height:52px;max-width:52px}
+.qc p{font-size:13.5px;line-height:1.3}
+.qc p small{display:block;color:var(--a-mute);font-size:12px;margin-top:2px}
+.qc .opts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.opt{border:1px solid var(--a-line);background:#fff;border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600}
+.opt.on{background:#111;color:#fff;border-color:#111}
+.qc.resolved{opacity:.92}
+.grid-h{padding:22px 20px 10px;display:flex;justify-content:space-between;align-items:baseline}
+.grid-h b{font-size:15px}
+.grid-h button{border:0;background:none;font-size:13px;color:var(--a-mute)}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.card{border:0;background:none;padding:0;text-align:left;position:relative}
+.card .ph{height:138px;border-radius:18px;background:var(--a-soft);display:grid;place-items:center;transition:opacity .2s}
+.card .ph img{max-height:100px;max-width:104px}
+.card.q .ph{background:var(--a-warn-soft);box-shadow:inset 0 0 0 1.5px #F2C98F}
+.qflag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:var(--a-warn);background:#fff;border-radius:999px;padding:3px 8px}
+.qask{font-size:12.5px;font-weight:600;color:#111;margin-top:6px;line-height:1.3}
+.qask small{display:block;font-weight:400;color:var(--a-mute);font-size:11.5px;margin-top:1px}
+.qopts{display:flex;gap:6px;margin-top:7px}
+.qopts .opt{flex:1;padding:7px 4px;text-align:center}
+.found{margin:16px 16px 0;border-radius:16px;background:var(--a-warn-soft);padding:11px 14px;font-size:13.5px;display:flex;gap:10px;align-items:center}
+.found.ok{background:#EAF5EE}
+.found i{width:22px;height:22px;border-radius:50%;background:var(--a-warn);color:#fff;font-style:normal;font-weight:700;font-size:12px;display:grid;place-items:center;flex:none}
+.found.ok i{background:var(--a-ok)}
+.scan{position:absolute;inset:0;background:#fff;z-index:25;padding:120px 24px 0;animation:fade .2s}
+.scan b{font-size:24px;letter-spacing:-.02em;display:block}
+.scan .sub2{font-size:13.5px;color:var(--a-mute);margin-top:4px}
+.scan .bar{height:6px;border-radius:3px;background:var(--a-soft);margin:20px 0 22px;overflow:hidden}
+.scan .bar i{display:block;height:100%;width:0;background:#111;border-radius:3px;animation:fill 1.3s ease forwards}
+@keyframes fill{to{width:100%}}
+.scan .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.scan .tiles div{height:96px;border-radius:14px;background:var(--a-soft);display:grid;place-items:center;opacity:0;animation:pin .3s ease forwards}
+.scan .tiles img{max-height:70px;max-width:70px}
+@keyframes pin{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.card.off .ph{opacity:.35}
+.card.off .meta{opacity:.45}
+.tick{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:#111;display:grid;place-items:center;border:0;padding:0}
+.card.off .tick{background:#fff;border:1.5px solid #cfccc6}
+.meta{padding:8px 2px 0}
+.meta b{font-size:13.5px;font-weight:600;display:block;line-height:1.25}
+.meta span{font-size:12px;color:var(--a-mute)}
+.morebtn{margin:12px 16px 0;border:1.5px dashed #D8D5CF;border-radius:18px;height:64px;width:calc(100% - 32px);background:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.a-foot{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 30px;background:linear-gradient(rgba(255,255,255,0),#fff 22%);z-index:20}
+.a-foot .btn{width:100%}
+.a-foot p{text-align:center;font-size:12px;color:var(--a-mute);margin-top:8px}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:50;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 0 0;z-index:51;padding:10px 20px 34px;animation:up .28s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow-y:auto}
+@keyframes up{from{transform:translateY(100%)}}
+.grab{width:38px;height:5px;border-radius:3px;background:#ddd;margin:0 auto 14px}
+.sheet h5{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+.sheet .sub{font-size:13px;color:var(--a-mute);margin-bottom:14px}
+.src{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:12px 0;border:0;background:none;width:100%;text-align:left;border-top:1px solid var(--a-line)}
+.src .ic{width:44px;height:44px;border-radius:12px;background:var(--a-soft);display:grid;place-items:center}
+.src b{font-size:15px;display:block;color:#111}
+.src span{font-size:12.5px;color:var(--a-mute)}
+.src .badge{font-size:11px;font-weight:600;background:#111;color:#fff;border-radius:6px;padding:3px 6px}
+.e-img{height:190px;border-radius:20px;background:var(--a-soft);display:grid;place-items:center;position:relative}
+.e-img img{max-height:150px;max-width:180px}
+.seg{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;background:rgba(255,255,255,.9);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--a-mute)}
+.seg button.on{background:#111;color:#fff}
+.field{margin-top:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--a-mute);margin-bottom:7px;letter-spacing:.02em}
+.field input{width:100%;height:46px;border-radius:12px;border:1px solid var(--a-line);padding:0 14px;font:inherit;font-size:15px;color:#111;background:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--a-line);padding:0}
+.sw.on{box-shadow:0 0 0 2px #111}
+.e-links{display:flex;justify-content:space-between;margin-top:18px}
+.e-links button{border:0;background:none;font-size:13.5px;font-weight:600;padding:6px 0}
+.e-links .rm{color:#C23A2B}
+.proc{position:absolute;inset:0;background:#fff;z-index:60;display:grid;place-items:center;text-align:center;animation:fade .2s}
+.proc .ring{width:54px;height:54px;border-radius:50%;border:4px solid var(--a-soft);border-top-color:#111;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.proc b{font-size:17px}.proc span{display:block;font-size:13px;color:var(--a-mute);margin-top:4px}
+.done-wrap{padding:44px 20px 0;text-align:center}
+.okc{width:64px;height:64px;border-radius:50%;background:#111;display:grid;place-items:center;margin:0 auto 18px}
+.done-wrap h5{font-size:26px;letter-spacing:-.02em;margin:0}
+.done-wrap .big{font-size:15px;color:var(--a-mute);margin-top:6px}
+.unlock{margin:26px 0 0;text-align:left}
+.unlock b{font-size:14px}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.mini{height:178px;border-radius:16px;background:var(--a-soft);position:relative;overflow:hidden}
+.mini img{position:absolute;transform:translate(-50%,-50%)}
+.mini .new{position:absolute;left:8px;top:8px;font-size:10.5px;font-weight:700;background:#fff;border-radius:6px;padding:2px 6px}
+.cover{margin-top:22px;text-align:left;border:1px solid var(--a-line);border-radius:18px;padding:14px}
+.cover-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cover-h b{font-size:13.5px}.cover-h span{font-size:12px;color:var(--a-mute)}
+.cbar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0 8px}
+.cbar i{height:8px;border-radius:4px;background:var(--a-soft)}
+.cbar i.was{background:#111}.cbar i.now{background:var(--a-ok)}
+.cover p{font-size:12.5px;color:var(--a-mute)}
+.done-acts{position:absolute;left:16px;right:16px;bottom:34px;display:grid;gap:8px}
+.reset{font-family:var(--text);font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+
+/* journey */
+.journey{display:grid;gap:18px}
+.jrow{display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+@media (max-width:720px){.jrow{grid-template-columns:1fr}}
+.jrow h3{font-size:19px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+.step{font-size:13.5px;padding:6px 10px;border-radius:8px;background:var(--bg);white-space:nowrap}
+.step.bad{background:var(--issue-soft);color:var(--issue)}
+.step.good{background:var(--fix-soft);color:var(--fix);font-weight:600}
+.steps .sep{color:var(--muted);font-size:12px}
+.count{font-family:var(--display);font-stretch:70%;font-weight:800;font-size:40px;line-height:1;text-align:right;font-variant-numeric:tabular-nums}
+.count small{display:block;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-top:4px}
+
+/* metric tree */
+.tree{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1.3fr);gap:16px;align-items:stretch}
+@media (max-width:900px){.tree{grid-template-columns:1fr}}
+.node{border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--surface);display:grid;gap:8px;align-content:start}
+.node.ns{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.node.ns .eyebrow{color:inherit;opacity:.7}
+.node h3{font-size:24px}
+.drv{display:grid;gap:12px}
+.drv div{display:grid;gap:2px;padding-left:12px;border-left:2px solid var(--fix)}
+.drv b{font-size:15px}
+.drv span{font-size:14px;color:var(--muted)}
+.ms{width:100%;border-collapse:collapse;font-size:14px}
+.ms td{padding:9px 0;border-top:1px solid var(--line);vertical-align:top}
+.ms td:last-child{text-align:right;font-family:var(--mono);font-size:12.5px;color:var(--muted);padding-left:12px;white-space:nowrap}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.rule{padding:18px 0 0;border-top:2px solid var(--ink);display:grid;gap:6px}
+.rule p{color:var(--muted);font-size:15px}
+.tests{display:grid;gap:12px}
+.test{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:18px;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+@media (max-width:820px){.test{grid-template-columns:1fr}}
+.test p{font-size:14.5px;color:var(--muted)}
+.test .eyebrow{margin-bottom:4px}
+.loops{display:grid;gap:0;border-top:1px solid var(--line)}
+.loop{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}
+@media (max-width:720px){.loop{grid-template-columns:1fr;gap:8px}}
+.loop .v{font-family:var(--display);font-stretch:70%;font-weight:800;font-size:28px}
+.loop p{font-size:14.5px;color:var(--muted)}
+.loop b{color:var(--ink);font-weight:600}
+footer{margin-top:80px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="topbar">
+    <span class="wordmark">ALTA</span>
+    <nav aria-label="Sections">
+      <a href="#problem">Problem</a><a href="#home">Home</a><a href="#add">Add items</a><a href="#metric">North star</a><a href="#tests">Tests</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <span class="eyebrow">Product design challenge · Home + Add items redesign</span>
+    <h1>Open Alta.<br>Tap once.<br>Get dressed.</h1>
+    <p class="lede">Alta loses people on the busy mornings it was built for. This redesign turns Home into a one-tap decision about today and turns adding clothes into a review you can finish in seconds. Both screens feed the same habit: come back next week and pick an outfit.</p>
+    <div class="facts">
+      <div class="fact"><span class="eyebrow">Screens</span><b>Home and Add items. Calendar's reuse job moves into Home.</b></div>
+      <div class="fact"><span class="eyebrow">Main friction</span><b>Too many steps between opening the app and choosing an outfit</b></div>
+      <div class="fact"><span class="eyebrow">North star</span><b>Weekly retained outfit planners</b></div>
+      <div class="fact"><span class="eyebrow">Constraint kept</span><b>Same AI quality. Only collection, layout and display change.</b></div>
+    </div>
+  </div>
+
+  <section id="problem">
+    <div class="sec-head">
+      <span class="eyebrow">The problem</span>
+      <h2>Slower than the closet</h2>
+      <p>Alta has to beat the ten seconds it takes to grab a usual outfit. Today it asks for more: scroll past friends' posts, find suggestions below the fold, dig a saved look out of a calendar. I ranked the three frictions by how directly they block the north-star action.</p>
+    </div>
+    <div class="frictions">
+      <div class="friction primary"><span class="tag">Primary · Home</span><h3>Too many steps to decide</h3><p>Today's suggestions sit below a social feed. Nothing on screen says "wear this" or connects weather and plans to an outfit.</p></div>
+      <div class="friction"><span class="tag">Secondary · Add items</span><h3>High input effort</h3><p>Every detected item asks for its own decision across five controls. Recommendation quality depends on a complete closet, so this caps everything downstream.</p></div>
+      <div class="friction"><span class="tag">Solved inside Home</span><h3>Difficult retrieval</h3><p>Saved looks live in a month grid. I bring the right ones to Home, filtered by today's plans, instead of redesigning the calendar.</p></div>
+    </div>
+    <div class="story">
+      <div><span class="eyebrow">Day 1</span><p>Alex uploads part of her wardrobe and saves a few looks. It feels promising.</p></div>
+      <div><span class="eyebrow" style="color:var(--issue)">Day 3 · where we lose her</span><p>Client meeting soon. The saved look is hard to find, shopping competes for attention, and she wears her usual outfit.</p></div>
+      <div><span class="eyebrow">Design target</span><p>On Day 3, the right look for a client meeting is the first thing she sees, and wearing it is one tap.</p></div>
+    </div>
+  </section>
+
+  <section id="home">
+    <div class="sec-head">
+      <span class="eyebrow">Screen 01 · Home</span>
+      <h2>Home becomes Today</h2>
+      <p>One recommended outfit from her own closet, explained by her day, with a single primary action. Everything else on the screen exists to make tomorrow's visit easier.</p>
+    </div>
+    <div class="screen">
+      <div>
+        <div class="col-label"><span class="pill before">Before</span></div>
+        <div class="before-shot">
+          <img src="img/before_home.jpg" alt="Original Alta home screen: header icons, week strip of grey silhouettes, Ask Alta button, greeting with weather, a feed of two people's logged outfits, and Today's suggestions label at the bottom edge">
+          <span class="pin" style="left:24%;top:9%">1</span>
+          <span class="pin" style="left:50%;top:21%">2</span>
+          <span class="pin" style="left:22%;top:30%">3</span>
+          <span class="pin" style="left:76%;top:37%">4</span>
+          <span class="pin" style="left:50%;top:58%">5</span>
+          <span class="pin" style="left:50%;top:86%">6</span>
+        </div>
+        <ol class="issues">
+          <li><span>1</span>Five header controls compete before any content.</li>
+          <li><span>2</span>Grey silhouettes for future days carry no information and make seven tiny targets.</li>
+          <li><span>3</span>"Ask Alta" opens a blank chat, so the user has to describe her day from scratch.</li>
+          <li><span>4</span>Weather is shown but never linked to what to wear.</li>
+          <li><span>5</span>A friend's outfit takes the hero space ahead of your own options.</li>
+          <li><span>6</span>Today's suggestions start below the fold. The core action is buried.</li>
+        </ol>
+      </div>
+      <div class="phone-col">
+        <div class="col-label"><span class="pill after">After · live prototype</span><button class="reset" data-reset="home">Reset</button></div>
+        <div class="device"><div class="device-inner"><div class="app" id="homeApp"></div></div></div>
+        <p class="hint" style="margin-top:12px;text-align:center">Try: switch the plan chip, tap a piece to swap it, then Wear this.</p>
+      </div>
+      <div class="notes">
+        <div class="note"><span class="n">1</span><div><h4>Today's pick fills the first screen</h4><p>One outfit built only from clothes she owns, with Wear this as the only primary button. Two alternates sit one swipe away. Three options is enough to feel chosen without becoming another browse.</p><span class="solves">Fixes 5, 6</span></div></div>
+        <div class="note"><span class="n">2</span><div><h4>Her day, collected in one tap</h4><p>Weather and calendar events become chips above the pick. The chip from her calendar is preselected. Tapping another plan re-ranks the outfits instantly, replacing a typed prompt with a choice.</p><span class="solves">Fixes 3, 4</span></div></div>
+        <div class="note"><span class="n">3</span><div><h4>A reason under every outfit</h4><p>"Sharp for your 10:00 client meeting, light enough for 33°" turns a guess into a decision she can trust in a rush. The model is unchanged; we only show the inputs it used.</p><span class="solves">Fixes 4</span></div></div>
+        <div class="note"><span class="n">4</span><div><h4>Swap a piece, not the whole look</h4><p>Tapping any item swaps it for a similar owned piece. Small corrections keep her in the flow instead of starting over.</p></div></div>
+        <div class="note"><span class="n">5</span><div><h4>Wear again replaces the calendar hunt</h4><p>Saved and past outfits that suit today's plan appear right under the pick, with how often and when she wore them. Day 3's lost client-meeting look is now one tap.</p><span class="solves">Retrieval friction</span></div></div>
+        <div class="note"><span class="n">6</span><div><h4>Every visit ends by planning the next</h4><p>After Wear this, Alta offers to plan tomorrow. The week row shows real outfits instead of silhouettes and fills the rest of the week in one tap. A planned day is a reason to open the app again.</p><span class="solves">Fixes 2</span></div></div>
+        <div class="note"><span class="n">7</span><div><h4>Shopping starts from a closet gap</h4><p>Below the planning content, one card names a gap. "I have one" adds it to her closet; "Shop picks" opens labeled partner products. Shopping helps the outfit instead of competing with it.</p><span class="solves">Business tension</span></div></div>
+        <div class="note"><span class="n">8</span><div><h4>Social moves off Home</h4><p>Friends' logs move to the profile area. They are fun, but they belong to browsing, not deciding.</p><span class="solves">Fixes 1, 5</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="add">
+    <div class="sec-head">
+      <span class="eyebrow">Screen 02 · Add items</span>
+      <h2>Review by exception</h2>
+      <p>Everything the AI detects is added by default. The user only looks at the few items the model is unsure about, and answers each with one tap. Adding twenty pieces should feel like checking two.</p>
+    </div>
+    <div class="screen">
+      <div>
+        <div class="col-label"><span class="pill before">Before</span></div>
+        <div class="before-shot">
+          <img src="img/before_add.jpg" alt="Original Alta add items screen on dark background: Add All button, three item cards each with name, edit pencil, delete, revert arrow, brand, category, Retry and Add buttons">
+          <span class="pin" style="left:80%;top:12%">1</span>
+          <span class="pin" style="left:90%;top:20.5%">2</span>
+          <span class="pin" style="left:59%;top:39%">3</span>
+          <span class="pin" style="left:79%;top:26%">4</span>
+          <span class="pin" style="left:50%;top:72%">5</span>
+          <span class="pin" style="left:14%;top:27%">6</span>
+        </div>
+        <ol class="issues">
+          <li><span>1</span>Add All and per-item Add compete, and nothing shows what is already added.</li>
+          <li><span>2</span>Five controls per item: rename, delete, revert, Retry and Add.</li>
+          <li><span>3</span>"Retry" never says what it retries.</li>
+          <li><span>4</span>A wrong brand ("Mobbin", read off a logo) looks as certain as the right fields.</li>
+          <li><span>5</span>Three items per screen in grey-on-grey cards. A 20-piece upload is a long scroll.</li>
+          <li><span>6</span>An unlabeled revert arrow sits on the photo. Nothing shows what adding unlocks.</li>
+        </ol>
+      </div>
+      <div class="phone-col">
+        <div class="col-label"><span class="pill after">After · live prototype</span><button class="reset" data-reset="add">Reset</button></div>
+        <div class="device"><div class="device-inner"><div class="app" id="addApp"></div></div></div>
+        <p class="hint" style="margin-top:12px;text-align:center">Try: pick a source, answer a quick check, tap an item to edit, then add.</p>
+      </div>
+      <div class="notes">
+        <div class="note"><span class="n">1</span><div><h4>More ways in, less typing</h4><p>A photo of a pile on the bed, a camera-roll batch, a store link or screenshot, or forwarded order emails. Receipts and links bring brand and category with them, so there is nothing to fill in.</p><span class="solves">Input effort</span></div></div>
+        <div class="note"><span class="n">2</span><div><h4>Added by default</h4><p>Every detected item starts selected. One button at the bottom adds them all, with a live count. Tapping the tick leaves an item out. There is no per-item Add and no separate delete.</p><span class="solves">Fixes 1, 2</span></div></div>
+        <div class="note"><span class="n">3</span><div><h4>Only uncertain items ask for attention</h4><p>Low-confidence items sort to the top and ask one question right on the card, with two answers: possible duplicates and ambiguous categories. Checks are optional; skipping keeps the best guess.</p><span class="solves">Fixes 4</span></div></div>
+        <div class="note"><span class="n">4</span><div><h4>Two columns, real photos</h4><p>Cutouts on a light tile, two per row. Twice as many items per screen as before, and the clothes are easy to recognize at a glance.</p><span class="solves">Fixes 5</span></div></div>
+        <div class="note"><span class="n">5</span><div><h4>Editing is one sheet, all taps</h4><p>Name, category chips and color swatches, with brand optional. Retry becomes "Detect again" and the revert arrow becomes a labeled Cutout / Original switch.</p><span class="solves">Fixes 3, 6</span></div></div>
+        <div class="note"><span class="n">6</span><div><h4>The payoff is outfits</h4><p>The confirmation counts new outfits, not items, shows three that use the new pieces, and how many days this week she can now dress from her closet. It links straight to today's pick.</p><span class="solves">Fixes 6</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <div class="sec-head">
+      <span class="eyebrow">Day 3, replayed</span>
+      <h2>The morning rush</h2>
+      <p>Alex has a client meeting at 10:00 and wants to reuse a look she saved on Day 1. Counts are taps from opening the app to a chosen outfit, walked through on the two versions.</p>
+    </div>
+    <div class="journey">
+      <div class="jrow"><h3>Before</h3>
+        <div class="steps"><span class="step">Open Alta</span><span class="sep">→</span><span class="step bad">Scroll past friends' feed</span><span class="sep">→</span><span class="step bad">Suggestions don't fit the meeting</span><span class="sep">→</span><span class="step">Back to top</span><span class="sep">→</span><span class="step">Open calendar</span><span class="sep">→</span><span class="step bad">Scan a month of thumbnails</span><span class="sep">→</span><span class="step">Open the day</span><span class="sep">→</span><span class="step">Log it</span></div>
+        <div class="count">6+<small>taps · plus scanning</small></div></div>
+      <div class="jrow"><h3>After</h3>
+        <div class="steps"><span class="step">Open Alta</span><span class="sep">→</span><span class="step">"Client meeting 10:00" already selected</span><span class="sep">→</span><span class="step good">Wear this</span><span class="sep">or</span><span class="step good">Tap the saved look in Wear again</span></div>
+        <div class="count">1<small>tap</small></div></div>
+    </div>
+  </section>
+
+  <section id="metric">
+    <div class="sec-head">
+      <span class="eyebrow">Business impact</span>
+      <h2>How this grows the north star</h2>
+      <p>A weekly retained outfit planner returns in a later week and selects or plans at least one outfit. Each design choice pulls one of three levers.</p>
+    </div>
+    <div class="tree">
+      <div class="node ns"><span class="eyebrow">North star</span><h3>Weekly retained outfit planners</h3><p style="opacity:.8;font-size:14.5px">Returned this week and selected or planned at least one outfit.</p></div>
+      <div class="node"><span class="eyebrow">Levers</span>
+        <div class="drv">
+          <div><b>Select more often</b><span>Wear this is one tap, and it counts as a selection, so intent becomes a logged outfit.</span></div>
+          <div><b>Return more reliably</b><span>Plan tomorrow and Plan the week give a reason to open next time. Planned days surface in notifications.</span></div>
+          <div><b>Better picks over time</b><span>Faster adding fills more of the closet, which gives the same AI more to combine and more of her days to cover.</span></div>
+        </div></div>
+      <div class="node"><span class="eyebrow">What I'd watch</span>
+        <table class="ms"><tbody>
+          <tr><td>Time from open to Wear this</td><td>leading</td></tr>
+          <tr><td>Share of sessions ending in a selection or plan</td><td>leading</td></tr>
+          <tr><td>Days planned ahead per user each week</td><td>leading</td></tr>
+          <tr><td>Items added per upload, upload completion rate</td><td>input</td></tr>
+          <tr><td>Shop taps from gap cards, hide rate on gap cards</td><td>guardrail</td></tr>
+          <tr><td>Reshuffles before choosing (rising = weak picks)</td><td>guardrail</td></tr>
+        </tbody></table></div>
+    </div>
+  </section>
+
+  <section id="shopping">
+    <div class="sec-head">
+      <span class="eyebrow">Commercial placement</span>
+      <h2>Shopping that earns its place</h2>
+      <p>Research flagged shopping suggestions competing with outfits. These rules keep products relevant and out of the way of the decision.</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><h3>Never in the decision</h3><p>No products in Today's pick, the alternates or Wear again. The first screen is only clothes she owns.</p></div>
+      <div class="rule"><h3>Start from a real gap</h3><p>A product appears only when the closet is missing something her plans need, and the card says how many owned pieces it pairs with.</p></div>
+      <div class="rule"><h3>Own it first</h3><p>"I have one" sits beside "Shop picks". Adding what she already owns is always the first option, which also improves the closet data.</p></div>
+      <div class="rule"><h3>Label and limit</h3><p>Partner products are marked, behind one tap, one gap card per day, and the card can be hidden.</p></div>
+    </div>
+  </section>
+
+  <section id="tests">
+    <div class="sec-head">
+      <span class="eyebrow">Validation</span>
+      <h2>What I'd test first</h2>
+      <p>These are hypotheses from a short brief and a single review thread. Each ships behind a flag with a holdout.</p>
+    </div>
+    <div class="tests">
+      <div class="test"><div><span class="eyebrow">Test 1 · Home</span><h3>Today's pick above the fold</h3></div><p><b style="color:var(--ink)">Hypothesis.</b> One explained pick with Wear this raises the share of sessions ending in a selection.</p><p><b style="color:var(--ink)">Success.</b> Week-2 retained planners up; median time to select down; reshuffles flat.</p></div>
+      <div class="test"><div><span class="eyebrow">Test 2 · Home</span><h3>Plan tomorrow prompt</h3></div><p><b style="color:var(--ink)">Hypothesis.</b> Asking right after a selection creates the next session.</p><p><b style="color:var(--ink)">Success.</b> Next-day return rate and planned days per week up, with no rise in notification opt-outs.</p></div>
+      <div class="test"><div><span class="eyebrow">Test 3 · Add items</span><h3>Added by default, checks only</h3></div><p><b style="color:var(--ink)">Hypothesis.</b> Opt-out review raises items added per upload without more wrong data.</p><p><b style="color:var(--ink)">Success.</b> Items per upload and completion up; later edit and delete rate stays flat.</p></div>
+    </div>
+  </section>
+
+  <section id="loops">
+    <div class="sec-head">
+      <span class="eyebrow">Process</span>
+      <h2>Critique loops</h2>
+      <p>Each version was reviewed against the brief, the north star and visual craft before the next.</p>
+    </div>
+    <div class="loops" id="loopLog"></div>
+  </section>
+
+  <footer>Redesign concept for the Alta product design challenge. Product images are taken from the reference screens. Outfit counts and copy in the prototypes are example data.</footer>
+</div>
+
+<script>
+(()=>{
+const I = n => `img/${n}.png`;
+const ic = {
+  flame:'<svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg>',
+  sun:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E0A100" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="#F5B800" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
+  cal:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  shuffle:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
+  check:(c='#fff',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`,
+  chevL:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  chevR:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>',
+  spark:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>',
+  x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  plus:(c='#fff')=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
+  home:(on)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="${on?'#111':'none'}" stroke="${on?'#111':'#8a8782'}" stroke-width="2" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z"/></svg>`,
+  closet:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8a8782" stroke-width="2" stroke-linejoin="round"><path d="M8 4 4 7l2 4 2-1v10h8V10l2 1 2-4-4-3c-.5 1.5-2 2.5-4 2.5S8.5 5.5 8 4z"/></svg>',
+  plan:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8a8782" stroke-width="2"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+  bag:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8a8782" stroke-width="2" stroke-linejoin="round"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+  camera:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  photos:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/></svg>',
+  link:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+  mail:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',
+  arrowR:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>',
+};
+const statusBar = `<div class="island"></div><div class="status"><span>9:41</span><span class="icons"><svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2.5a9 9 0 0 1 6.3 2.6l1.2-1.2A10.7 10.7 0 0 0 8 .8 10.7 10.7 0 0 0 .5 3.9l1.2 1.2A9 9 0 0 1 8 2.5zm0 3.4a5.6 5.6 0 0 1 3.9 1.6l1.2-1.2A7.3 7.3 0 0 0 8 4.2a7.3 7.3 0 0 0-5.1 2.1l1.2 1.2A5.6 5.6 0 0 1 8 5.9zm0 3.4c.6 0 1.1.2 1.5.6L8 11.5 6.5 9.9c.4-.4.9-.6 1.5-.6z"/></svg><svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="23.5" y="4" width="2" height="4" rx="1" opacity=".4"/></svg></span></div><div class="homebar"></div>`;
+
+/* ---------- HOME ---------- */
+// items: [img, cx, cy, h] inside a 363x268 collage
+const OUT = {
+  client:[
+    {why:'<b>Sharp for your 10:00 client meeting.</b> The tee keeps it light at 33°.', items:[['blazer',95,98,132],['tee_fitted',190,62,64],['trousers',272,128,226],['ankle_boot',178,200,70],['tote',88,212,82]]},
+    {why:'<b>One piece, no decisions.</b> Polished for the meeting and breathable all day.', items:[['dress',118,128,228],['pumps',232,214,58],['heart_bag',236,92,112],['sunglasses',300,170,26]]},
+    {why:'<b>Minimal and cool for 33°.</b> Keep the blazer at the office for the meeting.', items:[['tank',98,82,108],['trousers',220,128,226],['pumps',96,214,56],['clutch',300,214,36]]}],
+  office:[
+    {why:'<b>Easy office day.</b> Denim and a clean tee, sneakers for the commute.', items:[['tee',100,78,96],['jeans',250,128,226],['sneakers',94,206,82],['tote',174,182,78]]},
+    {why:'<b>Smart without trying.</b> Trousers and a tank stay cool at 33°.', items:[['tank',98,84,110],['trousers',240,128,226],['ankle_boot',98,212,70],['tote',170,178,80]]},
+    {why:'<b>Dark denim, fitted tee.</b> Works from desk to drinks.', items:[['tee_fitted',100,80,92],['black_jeans',240,130,220],['combat_boots',96,208,66],['sunglasses',176,160,24]]}],
+  casual:[
+    {why:'<b>Weekend comfort.</b> Your most-worn set, refreshed with the cap.', items:[['tee',100,80,96],['sweatpants',248,130,214],['sneakers',96,206,82],['cap',182,182,62]]},
+    {why:'<b>Built for 33°.</b> Shorts, a tank and shade.', items:[['tank',96,90,120],['shorts',236,96,90],['sneakers',236,206,82],['sunglasses',104,196,26]]},
+    {why:'<b>Relaxed but put together.</b> Straight denim and a fitted tee.', items:[['tee_fitted',96,80,92],['jeans',248,128,226],['combat_boots',96,206,64],['tote',174,180,78]]}],
+  evening:[
+    {why:'<b>Dinner at 19:30.</b> The white dress with your red bag as the one accent.', items:[['dress',118,128,228],['heart_bag',236,96,112],['pumps',240,214,58]]},
+    {why:'<b>Jacket for after sunset at 24°.</b> Black on black, sharp boots.', items:[['leather_jacket',100,92,118],['black_jeans',250,130,220],['ankle_boot',98,210,70],['clutch',176,176,34]]},
+    {why:'<b>Shorts, but dressed up.</b> Heels and a clutch carry it.', items:[['tee_fitted',100,78,92],['shorts',236,90,88],['pumps',236,200,58],['clutch',98,200,36]]}],
+};
+const SWAP = {tee:'tee_fitted',tee_fitted:'tee',jeans:'black_jeans',black_jeans:'jeans',trousers:'black_jeans',ankle_boot:'pumps',pumps:'ankle_boot',sneakers:'combat_boots',combat_boots:'sneakers',tote:'heart_bag',heart_bag:'clutch',clutch:'heart_bag',blazer:'leather_jacket',leather_jacket:'blazer',tank:'tee',sweatpants:'jeans',shorts:'jeans',cap:'sunglasses',sunglasses:'cap',dress:'dress'};
+const NAMES = {tee:'black crew tee',tee_fitted:'fitted black tee',jeans:'light wash jeans',black_jeans:'black jeans',trousers:'black trousers',ankle_boot:'sculpted ankle boots',pumps:'black pumps',sneakers:'chunky sneakers',combat_boots:'lace-up boots',tote:'canvas tote',heart_bag:'red heart bag',clutch:'croc clutch',blazer:'black blazer',leather_jacket:'leather jacket',tank:'white tank',sweatpants:'grey sweatpants',shorts:'pleated shorts',cap:'black cap',sunglasses:'sunglasses',dress:'white dress'};
+const AGAIN = {
+  client:[['hero_scarf','Tee + scarf','Saved on Day 1'],['hero_black','All black','Worn Jun 9'],['m_skirt','Skirt + tank','Worn Jun 16']],
+  office:[['hero_black','All black','Worn 3× · Jun 9'],['m_jeans','Tank + denim','Worn Jun 1'],['m_tee','Tee + sweats','Worn Jun 21']],
+  casual:[['m_sweats','Sunday set','Worn 4× · Jun 2'],['m_tee','Tee + sweats','Worn Jun 21'],['m_jeans','Tank + denim','Worn Jun 1']],
+  evening:[['m_skirt','Skirt + heart bag','Worn Jun 16'],['hero_black','All black','Worn Jun 9'],['m_coat','Oversized coat','Saved Jun 5']],
+};
+const CTX = [['client','Client meeting','10:00'],['office','Office',''],['evening','Dinner','19:30'],['casual','Casual','']];
+const home = {occ:'client',idx:0,worn:false,swapped:{},planned:false,toast:null,shop:false,gapHidden:false,wornAgain:null};
+function homeHTML(){
+  const s=home, o=OUT[s.occ][s.idx];
+  const items=o.items.map(([n,x,y,h],i)=>{const k=s.occ+s.idx+i;const nm=s.swapped[k]||n;return `<button class="it${s.lastSwap===k?' swapping':''}" data-swap="${i}" style="left:${x}px;top:${y}px;height:${h}px" aria-label="Swap ${NAMES[nm]||nm}"><img src="${I(nm)}" alt=""></button>`}).join('');
+  const chips=CTX.map(([k,l,t])=>`<button class="chip${s.occ===k?' on':''}" data-occ="${k}">${k==='client'||k==='evening'?ic.cal:''}${l}${t?` <small>${t}</small>`:''}</button>`).join('');
+  const again=AGAIN[s.occ].map(([m,t,d],i)=>`<button class="ag" data-again="${i}"><div class="ph"><img src="${I(m)}" alt=""></div><b>${t}</b><span>${d}</span></button>`).join('');
+  const days=[['Sun','21','m_tee','past'],['Mon','22','today',''],['Tue','23','m_skirt',''],['Wed','24',s.planned?'m_jeans':null,''],['Thu','25',s.planned?'hero_scarf':null,''],['Fri','26',s.planned?'m_black':null,''],['Sat','27',s.planned?'m_sweats':null,'']];
+  const pickThumb = s.worn ? (s.wornAgain||'m_black') : null;
+  const week=days.map(([d,n,img,c])=>{
+    const today=img==='today';
+    let slot;
+    if(today) slot = pickThumb?`<div class="slot"><img src="${I(pickThumb)}" alt=""></div>`:`<div class="slot empty" style="border-color:#111;color:#111;font-size:11px;font-weight:600">Today</div>`;
+    else slot = img?`<div class="slot ${c}"><img src="${I(img)}" alt=""></div>`:`<div class="slot empty">+</div>`;
+    return `<button class="day${today?' today':''}"><span>${d}</span><span class="d">${n}</span>${slot}</button>`}).join('');
+  const plannedCount = 1 + (s.planned?4:0);
+  return `${statusBar}<div class="scroll" id="homeScroll">
+    <div class="h-head"><span class="h-word">ALTA</span><div class="h-right"><span class="streak">${ic.flame} ${s.worn?3:2}</span><span class="avatar">S</span></div></div>
+    <div class="h-day"><b>Monday, June 22</b><span class="weather">${ic.sun} 33° · low 24°</span></div>
+    <div class="ctx" role="group" aria-label="What's on today">${chips}</div>
+    <div class="pick">
+      <div class="pick-top"><span class="lbl">${s.worn?'Wearing today':'Today’s pick'}</span><div class="dots" role="group" aria-label="Outfit options">${[0,1,2].map(i=>`<button class="${i===s.idx?'on':''}" data-go="${i}" aria-label="Option ${i+1} of 3"${s.worn?' disabled':''}></button>`).join('')}</div></div>
+      <div class="collage" id="collage">${items}
+</div>
+      <p class="why">${o.why}</p>
+      <p class="owned">${ic.check('#1D7A46',14)} ${s.worn?'Logged 8:12 · counts toward this week':`All ${o.items.length} pieces are in your closet · tap one to swap`}</p>
+      <div class="pick-actions">${s.worn
+        ?`<button class="btn done" data-unwear>${ic.check('#1D7A46',18)} Logged for today</button><button class="btn ghost" data-unwear aria-label="Undo">${'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>'}</button>`
+        :`<button class="btn primary" data-wear>Wear this</button><button class="btn ghost" data-nav="1" aria-label="Show another outfit">${ic.shuffle}</button>`}</div>
+    </div>
+    ${s.worn&&!s.tomorrow?`<div class="nudge"><div><b>Plan tomorrow too?</b><span>Tue 23 · Office · 31°, light rain</span></div><button class="sbtn" data-tomorrow>Plan it</button></div>`:''}
+    ${s.worn&&s.tomorrow?`<div class="nudge"><div><b>Tomorrow is planned</b><span>We'll show it at 7:30 tomorrow morning</span></div><button class="sbtn light" data-tomorrow-undo>Change</button></div>`:''}
+    ${s.worn?'':`<button class="ask">${ic.spark} Something else in mind? <u>Ask Alta</u></button>`}
+    <div class="blk"><div class="blk-h"><b>Wear again</b><span>Fits ${CTX.find(c=>c[0]===s.occ)[1].toLowerCase()}</span></div><div class="again">${again}</div></div>
+    <div class="blk"><div class="blk-h"><b>This week</b><span>${plannedCount} of 6 days planned</span></div><div class="week">${week}</div>
+      <div class="weekbar"><span>${s.planned?'Planned around your calendar. Edit any day.':'Fill Wed–Sat from your calendar in one tap.'}</span>${s.planned?'':`<button class="sbtn light" data-planweek>Plan the week</button>`}</div></div>
+    ${s.gapHidden?'':`<div class="blk"><div class="blk-h"><b>Closet gap</b><button data-hidegap>Hide</button></div><div class="gap">
+      <div class="gap-top"><div class="ph"><img src="${I('clutch')}" alt=""></div><div><b>No evening bag for Friday's dinner</b><span>A small clutch pairs with 7 pieces you own and unlocks 4 evening outfits.</span></div></div>
+      <div class="gap-act"><button data-ihave>I have one</button><button data-shop>${s.shop?'Hide picks':'Shop picks'}</button></div>
+      ${s.shop?`<div class="shop"><div class="shop-note"><span>Partner brands</span><span>Alta may earn a commission</span></div><div class="prods">
+        <button class="prod"><div class="ph"><img src="${I('clutch')}" alt=""></div><b>Croc-effect clutch</b><span>Partner · $68</span></button>
+        <button class="prod"><div class="ph"><img src="${I('heart_bag')}" alt=""></div><b>Heart mini bag</b><span>Partner · $95</span></button>
+        <button class="prod"><div class="ph" style="color:#999;font-size:12px;font-weight:600">See all</div><b>12 more</b><span>Under $120</span></button></div></div>`:''}
+    </div></div>`}
+    <div class="spacer"></div></div>
+    ${s.toast?`<div class="toast"><span>${s.toast}</span>${s.toastUndo?`<button data-toastundo>Undo</button>`:''}</div>`:''}
+    <nav class="tabbar"><button class="tab on">${ic.home(true)}Today</button><button class="tab">${ic.closet}Closet</button><button class="tab" aria-label="Add items"><span class="add">${ic.plus()}</span></button><button class="tab">${ic.plan}Plan</button><button class="tab">${ic.bag}Shop</button></nav>`;
+}
+let toastT;
+function toast(msg,undo){home.toast=msg;home.toastUndo=undo;clearTimeout(toastT);toastT=setTimeout(()=>{home.toast=null;renderHome()},2600)}
+const homeEl=document.getElementById('homeApp');
+function renderHome(){const sc=homeEl.querySelector('#homeScroll');const top=sc?sc.scrollTop:0;homeEl.innerHTML=homeHTML();const n=homeEl.querySelector('#homeScroll');n.scrollTop=top;home.lastSwap=null}
+homeEl.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+  if(d.occ){home.occ=d.occ;home.idx=0;home.worn=false;home.tomorrow=false;home.wornAgain=null}
+  else if(d.nav){home.idx=(home.idx+ +d.nav+3)%3}
+  else if(d.go){home.idx=+d.go}
+  else if('wear' in d){home.worn=true;home.wornAgain=null;toast('Logged for today. Streak: 3 weeks')}
+  else if('unwear' in d){home.worn=false;home.tomorrow=false}
+  else if('tomorrow' in d){home.tomorrow=true}
+  else if('tomorrowUndo' in d){home.tomorrow=false}
+  else if(d.swap){const i=+d.swap;const k=home.occ+home.idx+i;const base=OUT[home.occ][home.idx].items[i][0];const cur=home.swapped[k]||base;home.swapped[k]=SWAP[cur]||cur;home.lastSwap=k;if(SWAP[cur]===cur||!SWAP[cur])toast('No similar piece in your closet yet');else toast('Swapped in your '+NAMES[home.swapped[k]])}
+  else if(d.again){const a=AGAIN[home.occ][+d.again];home.worn=true;home.wornAgain=a[0];toast(`Wearing "${a[1]}" today`,true)}
+  else if('toastundo' in d){home.worn=false;home.wornAgain=null;home.toast=null}
+  else if('planweek' in d){home.planned=true;toast('Wed–Sat planned around your calendar',true)}
+  else if('hidegap' in d){home.gapHidden=true;toast('Hidden. We’ll show fewer gap cards.')}
+  else if('shop' in d){home.shop=!home.shop}
+  else if('ihave' in d){toast('Opening camera to add your bag')}
+  else return;
+  renderHome();
+});
+// swipe on collage
+let sx=null;homeEl.addEventListener('pointerdown',e=>{if(e.target.closest('#collage'))sx=e.clientX});
+homeEl.addEventListener('pointerup',e=>{if(sx!==null&&!home.worn){const dx=e.clientX-sx;if(Math.abs(dx)>40){home.idx=(home.idx+(dx<0?1:-1)+3)%3;renderHome()}}sx=null});
+
+/* ---------- ADD ---------- */
+const ITEMS0 = () => [
+  {id:'hoodie',name:'Light grey zip hoodie',cat:'Outerwear',color:'Grey',on:true,check:'dup'},
+  {id:'shorts',name:'Black pleated shorts',cat:'Bottoms',color:'Black',on:true,check:'cat'},
+  {id:'tee',name:'Black crew tee',cat:'Tops',color:'Black',on:true},
+  {id:'jeans',name:'Light wash straight jeans',cat:'Bottoms',color:'Blue',on:true},
+  {id:'sneakers',name:'Black chunky sneakers',cat:'Shoes',color:'Black',on:true},
+  {id:'tote',name:'Black canvas tote',cat:'Bags',color:'Black',on:true},
+  {id:'cap',name:'Black cotton cap',cat:'Accessories',color:'Black',on:true},
+];
+const add = {step:'capture',items:ITEMS0(),edit:null,answers:{},view:'cut'};
+const CATS=['Tops','Bottoms','Outerwear','Dresses','Shoes','Bags','Accessories'];
+const COLORS=[['Black','#111'],['White','#F5F5F2'],['Grey','#A9A9A6'],['Blue','#7C9CC4'],['Beige','#D9C7A7'],['Red','#8E1F2A']];
+const addEl=document.getElementById('addApp');
+function closetBG(){return `<div class="scroll" style="filter:saturate(.9)"><div class="a-title" style="padding-top:20px"><b>Closet</b><span>38 items · 52 outfits</span></div>
+  <div class="igrid" style="margin-top:16px">${['blazer','dress','trousers','leather_jacket','ankle_boot','heart_bag'].map(n=>`<div class="card"><div class="ph"><img src="${I(n)}" alt=""></div></div>`).join('')}</div></div>`}
+function addHTML(){
+  const s=add;
+  if(s.step==='capture'){
+    return `${statusBar}${closetBG()}<div class="scrim"></div><div class="sheet" role="dialog" aria-label="Add items"><div class="grab"></div><h5>Add to your closet</h5><p class="sub">Snap many pieces at once. We find each item, cut it out and tag it.</p>
+      <button class="src" data-src="pile"><span class="ic">${ic.camera}</span><span><b>Snap a pile</b><span>Lay clothes on the bed, take one photo</span></span><span class="badge">Fastest</span></button>
+      <button class="src" data-src="roll"><span class="ic">${ic.photos}</span><span><b>Choose from photos</b><span>Up to 50 at once, outfit selfies work too</span></span>${ic.arrowR}</button>
+      <button class="src" data-src="link"><span class="ic">${ic.link}</span><span><b>Paste a link or screenshot</b><span>From any store, details filled in</span></span>${ic.arrowR}</button>
+      <button class="src" data-src="mail"><span class="ic">${ic.mail}</span><span><b>Forward order emails</b><span>New purchases add themselves</span></span>${ic.arrowR}</button>
+    </div>`;
+  }
+  if(s.step==='proc'){return `${statusBar}<div class="scan"><b>Finding your clothes</b><p class="sub2">3 photos · cutting out and tagging each piece</p><div class="bar"><i></i></div><div class="tiles">${s.items.map((it,k)=>`<div style="animation-delay:${.12+k*.15}s"><img src="${I(it.id)}" alt=""></div>`).join('')}</div></div>`}
+  if(s.step==='done'){
+    const n=s.items.filter(i=>i.on).length;
+    const mini=(arr)=>arr.map(([m,x,y,h])=>`<img src="${I(m)}" style="left:${x}%;top:${y}%;height:${h}px" alt="">`).join('');
+    return `${statusBar}<div class="scroll"><div class="done-wrap"><div class="okc">${ic.check('#fff',30)}</div><h5>${n} items added</h5><p class="big">That's <b style="color:#111">14 new outfits</b> you can wear this week.</p>
+      <div class="unlock"><b>New combinations</b><div class="minis">
+        <div class="mini"><span class="new">NEW</span>${mini([['tee',32,34,48],['jeans',70,52,110],['sneakers',32,78,40]])}</div>
+        <div class="mini"><span class="new">NEW</span>${mini([['tank',32,32,52],['shorts',68,40,44],['sneakers',66,78,40],['cap',30,76,32]])}</div>
+        <div class="mini"><span class="new">NEW</span>${mini([['blazer',32,34,62],['jeans',70,52,110],['tote',32,78,42]])}</div>
+      </div></div>
+      <div class="cover"><div class="cover-h"><b>Days you can dress from your closet</b><span>this week</span></div>
+        <div class="cbar">${[1,1,1,1,1,1,0].map((v,k)=>`<i class="${k<3?'was':v?'now':''}"></i>`).join('')}</div>
+        <p>Up from 3 to 6 of 7. Still missing: a light rain jacket for Tuesday.</p></div></div></div>
+      <div class="done-acts"><button class="btn primary" data-gohome>See today's pick</button><button class="btn ghost" style="background:#F4F3F0" data-restart>Add more</button></div>`;
+  }
+  // review
+  const checks=s.items.filter(i=>i.check);
+  const ready=s.items.filter(i=>!i.check);
+  const sel=s.items.filter(i=>i.on).length;
+  const open=checks.filter(i=>!s.answers[i.id]).length;
+  const qbtns=i=>{const a=s.answers[i.id];
+    if(i.check==='dup') return `<p class="qask">Already in your closet?<small>Matches your grey hoodie from May 12</small></p><div class="qopts"><button class="opt${a==='skip'?' on':''}" data-ans="${i.id}:skip">Skip</button><button class="opt${a==='keep'?' on':''}" data-ans="${i.id}:keep">Keep both</button></div>`;
+    return `<p class="qask">Shorts or a skirt?<small>Helps us style it right</small></p><div class="qopts"><button class="opt${a==='Shorts'?' on':''}" data-ans="${i.id}:Shorts">Shorts</button><button class="opt${a==='Skirt'?' on':''}" data-ans="${i.id}:Skirt">Skirt</button></div>`};
+  const order=[...s.items].sort((x,y)=>(y.check&&!s.answers[y.id]?1:0)-(x.check&&!s.answers[x.id]?1:0));
+  const cards=order.map(i=>{const q=i.check&&!s.answers[i.id];return `<div class="card${i.on?'':' off'}${q?' q':''}"><button style="border:0;background:none;padding:0;width:100%;text-align:left" data-edit="${i.id}"><div class="ph"><img src="${I(i.id)}" alt=""></div></button>${q?'<span class="qflag">Quick check</span>':''}<button class="tick" data-toggle="${i.id}" aria-label="${i.on?'Leave out':'Include'} ${i.name}" aria-pressed="${i.on}">${i.on?ic.check('#fff',14):''}</button><div class="meta">${q?qbtns(i):`<b>${i.name}</b><span>${i.cat}</span>`}</div></div>`}).join('');
+  let sheet='';
+  if(s.edit){const i=s.items.find(x=>x.id===s.edit);
+    sheet=`<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-label="Edit item"><div class="grab"></div>
+      <div class="e-img" style="${s.view==='orig'?'background:#cbc6bd':''}"><img src="${I(i.id)}" alt="" style="${s.view==='orig'?'filter:drop-shadow(0 0 0 #000) contrast(.9)':''}"><div class="seg"><button class="${s.view==='cut'?'on':''}" data-view="cut">Cutout</button><button class="${s.view==='orig'?'on':''}" data-view="orig">Original</button></div></div>
+      <div class="field"><label for="ename">Name</label><input id="ename" value="${i.name}" data-name="${i.id}"></div>
+      <div class="field"><label>Category</label><div class="chips">${CATS.map(c=>`<button class="opt${i.cat===c?' on':''}" data-cat="${i.id}:${c}">${c}</button>`).join('')}</div></div>
+      <div class="field"><label>Color · ${i.color}</label><div class="chips">${COLORS.map(([c,h])=>`<button class="sw${i.color===c?' on':''}" style="background:${h}" data-color="${i.id}:${c}" aria-label="${c}"></button>`).join('')}</div></div>
+      <div class="field"><label for="ebrand">Brand · optional</label><input id="ebrand" placeholder="Add brand"></div>
+      <div class="e-links"><button data-redetect>Detect again</button><button class="rm" data-remove="${i.id}">Leave out of upload</button></div>
+      <button class="btn primary" style="width:100%;margin-top:14px" data-close>Done</button></div>`}
+  return `${statusBar}<div class="scroll">
+    <div class="a-head"><button class="iconbtn" data-restart aria-label="Close">${ic.x}</button><button class="sbtn light" data-src="roll" style="display:flex;gap:6px;align-items:center">${ic.photos.replace('width="22" height="22"','width="16" height="16"')} Add photos</button></div>
+    <div class="a-title"><b>We found ${s.items.length} items</b><span>From 3 photos · ${open?`<em style="font-style:normal;font-weight:600;color:#B4610E">${open} quick check${open>1?'s':''}</em>, optional`:'all set, tap any item to edit'}</span></div>
+    <div class="grid-h"><b>${sel} of ${s.items.length} selected</b><button data-all>${sel===s.items.length?'Deselect all':'Select all'}</button></div>
+    <div class="igrid">${cards}</div>
+    <button class="morebtn" data-src="roll">${ic.plus('#111')} Add more photos</button>
+    <div style="height:140px"></div></div>
+    <div class="a-foot"><button class="btn primary" data-addall ${sel?'':'disabled style="opacity:.4"'}>Add ${sel} item${sel===1?'':'s'} to closet</button><p>${open?'Skipped checks use our best guess':'Everything checked'}</p></div>${sheet}`;
+}
+function renderAdd(){const sc=addEl.querySelector('.scroll');const top=sc?sc.scrollTop:0;addEl.innerHTML=addHTML();const n=addEl.querySelector('.scroll');if(n&&add.keepScroll)n.scrollTop=top;add.keepScroll=true}
+addEl.addEventListener('click',e=>{
+  const t=e.target.closest('button,[data-close]');if(!t)return;const d=t.dataset;const s=add;
+  if(d.src){s.step='proc';s.keepScroll=false;renderAdd();setTimeout(()=>{s.step='review';s.keepScroll=false;renderAdd()},1300);return}
+  if(d.ans){const [id,v]=d.ans.split(':');s.answers[id]=v;const it=s.items.find(i=>i.id===id);if(it.check==='dup')it.on=v!=='skip';else{it.cat=v==='Skirt'?'Bottoms':'Bottoms';it.name=v==='Skirt'?'Black pleated skirt':'Black pleated shorts'}}
+  else if(d.toggle){const it=s.items.find(i=>i.id===d.toggle);it.on=!it.on}
+  else if(d.edit){s.edit=d.edit;s.view='cut'}
+  else if('close' in d){s.edit=null}
+  else if(d.view){s.view=d.view}
+  else if(d.cat){const [id,c]=d.cat.split(':');s.items.find(i=>i.id===id).cat=c}
+  else if(d.color){const [id,c]=d.color.split(':');s.items.find(i=>i.id===id).color=c}
+  else if(d.remove){s.items.find(i=>i.id===d.remove).on=false;s.edit=null}
+  else if('redetect' in d){return}
+  else if('all' in d){const all=s.items.every(i=>i.on);s.items.forEach(i=>i.on=!all)}
+  else if('addall' in d){s.step='done';s.keepScroll=false}
+  else if('restart' in d){Object.assign(s,{step:'capture',items:ITEMS0(),edit:null,answers:{}});s.keepScroll=false}
+  else if('gohome' in d){document.getElementById('home').scrollIntoView({behavior:'smooth'});return}
+  else return;
+  renderAdd();
+});
+addEl.addEventListener('input',e=>{if(e.target.dataset.name){add.items.find(i=>i.id===e.target.dataset.name).name=e.target.value}});
+
+document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.reset==='home'){Object.assign(home,{occ:'client',idx:0,worn:false,swapped:{},planned:false,toast:null,shop:false,gapHidden:false,wornAgain:null,tomorrow:false});renderHome()}
+  else{Object.assign(add,{step:'capture',items:ITEMS0(),edit:null,answers:{}});add.keepScroll=false;renderAdd()}
+}));
+
+// scale phones to fit
+const fit=()=>document.querySelectorAll('.device').forEach(d=>{const w=d.parentElement.clientWidth;d.style.setProperty('--s',Math.min(1,w/391))});
+new ResizeObserver(fit).observe(document.body);fit();
+
+/* critique log */
+const LOOPS=[
+ ['Loop 1','<b>Built v1 of both screens</b> from the brief: one pick with Wear this, context chips, Wear again, a week row, a gap card; opt-out review for adding.','Side arrows covered the collage and did the same job as the shuffle button. One product cutout still showed a model’s hand, and one Wear again photo split in two. The status bar faded into scrolled content. <b>Fixed:</b> arrows replaced by tappable dots and swipe, crops redone, solid status bar.'],
+ ['Loop 2','<b>Walked every state</b>: Wear this, Plan tomorrow, each add source, edit, success.','The Plan it button rendered black on black because a broad button rule beat its color. Quick checks repeated their items in the grid, pushing the grid below the fold, and their buttons wrapped. The loading screen was a blank spinner. <b>Fixed:</b> checks now live on the item cards, and the scan screen shows pieces appearing as they are found.'],
+ ['Loop 3','<b>Tightened Add items.</b>','A banner repeated what the card flags already said, a floating "Edit anything later" label did nothing, and the success screen had a dead gap. <b>Fixed:</b> the check count moved into the subtitle, the label became an Add photos button, and the success screen gained a days-covered meter that ties adding to planning.'],
+ ['Final','<b>Craft and fit check</b> at 375 × 812, at phone width, and in light and dark page themes.','On first open, the plan chips, the pick, its reason and Wear this all fit above the fold, with no horizontal scroll. Remaining risk: a pick that is wrong for her day. One-tap chips, piece swaps and two alternates soften it, and the reshuffle guardrail tracks it.'],
+];
+document.getElementById('loopLog').innerHTML=LOOPS.map(([v,a,b])=>`<div class="loop"><span class="v">${v}</span><p>${a}</p><p><b>Critique.</b> ${b}</p></div>`).join('');
+
+renderHome();renderAdd();
+})();
+</script>
+
+<script src="../../focus.js" data-keep=".device" data-hide=""></script></body></html>

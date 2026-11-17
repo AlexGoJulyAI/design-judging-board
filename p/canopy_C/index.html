@@ -1,0 +1,894 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Canopy Site Visit Brief</title>
+<meta charset="utf-8">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: one live 1440×900 focus-mode screen. Four steps share one frame: top bar, one centred column, one bottom action bar.
+   The two criteria are the thread: subject in Brief, tap targets in Interview, score cards in Score, checkmarks in Submitted. */
+:root{
+  --bg:#f3f5f2; --surface:#ffffff; --ink:#18201c; --muted:#5d6862; --line:#dde2dc; --accent:#1f6b4f; --accent-soft:#e2efe8;
+  --crit:#b3261e; --crit-soft:#fbe7e5; --major:#8f560d; --major-soft:#f8eedd; --minor:#55615a; --minor-soft:#eceeeb;
+  --display:"Instrument Sans","Inter",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  /* Product screen: deliberately light in both themes, like a screenshot. */
+  --m-bg:#ffffff; --m-soft:#f6f7f5; --m-line:#e3e5e1; --m-ink:#14181a; --m-muted:#5c625e; --m-faint:#8d928e;
+  --m-green:#17603f; --m-green-soft:#e1f0e7; --m-amber:#7d4a08; --m-amber-soft:#fbefd9; --m-scrim:rgba(20,24,26,.28);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111613;--surface:#18201b;--ink:#e8ede9;--muted:#9aa69f;--line:#2b3530;--accent:#6fc39c;--accent-soft:#1c3328;
+  --crit:#f2938b;--crit-soft:#3a1f1d;--major:#e3b06a;--major-soft:#33281a;--minor:#a9b4ae;--minor-soft:#232b27;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111613;--surface:#18201b;--ink:#e8ede9;--muted:#9aa69f;--line:#2b3530;--accent:#6fc39c;--accent-soft:#1c3328;
+  --crit:#f2938b;--crit-soft:#3a1f1d;--major:#e3b06a;--major-soft:#33281a;--minor:#a9b4ae;--minor-soft:#232b27;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+:root{--display:"Figtree",system-ui,sans-serif;--body:"Figtree",system-ui,sans-serif;--mono:"Figtree",system-ui,sans-serif;--bg:#f2f5f3;--accent:#1e6b4e;--accent-soft:#d9efe2;
+  --m-canvas:#f2f5f3;--m-card:#ffffff;--m-track:#e3e9e5;--m-track-2:#c9d3ce;--m-hair:#e8edea;--m-ink:#15201b;--m-muted:#5a6862;--m-faint:#8a9690;
+  --m-green:#1e6b4e;--m-green-2:#185a41;--m-mint:#d9efe2;--m-amber:#7a5300;--m-amber-soft:#fcf1d6;--m-scrim:rgba(21,32,27,.22)}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px}
+.wrap{max-width:1280px;margin:0 auto;display:grid;gap:36px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.1} h2{font-size:22px} h3{font-size:15px}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:74ch;color:var(--muted);font-size:16px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:14px} .links a{color:var(--accent)}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.flow button{appearance:none;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:12px 14px;cursor:pointer;display:grid;gap:2px;font:inherit}
+.flow button b{font-family:var(--display);font-size:14px} .flow button span{font-size:12.5px;color:var(--muted)}
+.flow button[aria-current="step"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.frame-bar{display:flex;justify-content:space-between;padding:2px 6px 10px;font:11px var(--mono);color:var(--muted);gap:12px;flex-wrap:wrap}
+.stage{position:relative;overflow:hidden;border-radius:6px}
+.screen{width:1440px;height:900px;position:absolute;top:0;left:0;transform-origin:0 0}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;min-width:0;display:grid;gap:10px;align-content:start}
+.wc{font:12px var(--mono);color:var(--muted)}
+.rationale p+p{margin-top:8px}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl table{min-width:940px}
+.card .tbl{border:0;border-radius:0} .card .tbl table{min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12.5px var(--display);color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.h{font-weight:600;font-family:var(--display);white-space:nowrap}
+td.n{font:500 12px var(--mono);color:var(--muted)}
+.sev{display:inline-block;font:600 11px var(--mono);border-radius:5px;padding:2px 7px;white-space:nowrap}
+.sev.s3{background:var(--crit-soft);color:var(--crit)} .sev.s2{background:var(--major-soft);color:var(--major)} .sev.s1{background:var(--minor-soft);color:var(--minor)} .sev.s0{background:var(--accent-soft);color:var(--accent)}
+.diff{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.diff .card ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.ok{font:600 11px var(--mono);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.cols,.rules,.flow,.diff{grid-template-columns:minmax(0,1fr)}}
+
+
+/* before vs after */
+.ba{display:grid;gap:16px}
+.ba-frame{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);aspect-ratio:1440/900;max-width:100%;user-select:none;touch-action:none}
+.ba-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba-after{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 0 0 var(--cut,50%))}
+.ba-after .screen2{width:1440px;height:900px;position:absolute;top:0;left:0;transform-origin:0 0;pointer-events:none}
+.ba-line{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:2px;margin-left:-1px;background:var(--accent)}
+.ba-knob{position:absolute;top:50%;left:var(--cut,50%);width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.ba-tag{position:absolute;top:14px;padding:6px 12px;border-radius:999px;font:600 13px var(--body);background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.ba-tag.l{left:14px}.ba-tag.r{right:14px}
+.ba input[type=range]{width:100%;accent-color:var(--accent)}
+.ba-cap{display:flex;justify-content:space-between;gap:16px;font-size:14px;color:var(--muted)}
+/* ================= PRODUCT SCREEN ================= */
+/* Visual system: green-tinted canvas, white surfaces, pills.
+   Type: Figtree, two sizes: 40 headline / 16 everything else. Weights 400 and 600. Hierarchy below the headline comes from weight and color.
+   Elevation: e1 resting surface, e2 interactive or raised, e3 overlay. Shadows tinted to the green ink.
+   Motion: one easing; 120 state, 160 content swap, 200-240 structure, 220 overlay; only on user action. */
+.m{--ease:cubic-bezier(.2,0,0,1);--e1:0 1px 2px rgba(21,32,27,.06),0 1px 3px rgba(21,32,27,.05);--e2:0 2px 4px rgba(21,32,27,.06),0 8px 20px rgba(21,32,27,.09);--e3:0 12px 24px rgba(21,32,27,.10),0 24px 56px rgba(21,32,27,.16);--eg:0 1px 2px rgba(30,107,78,.25),0 6px 16px rgba(30,107,78,.24);position:relative;height:100%;display:flex;flex-direction:column;background:var(--m-canvas);color:var(--m-ink);font:400 16px/1.5 var(--body);overflow:hidden;font-variant-numeric:tabular-nums}
+.m button{font:inherit;color:inherit;cursor:pointer;transition:background-color .12s var(--ease),color .12s var(--ease),transform .12s var(--ease),box-shadow .12s var(--ease),opacity .12s var(--ease)}
+.m .cc{transition:transform .12s var(--ease),box-shadow .12s var(--ease)}
+.m button:active:not([disabled]){transform:scale(.97);transition-duration:.08s}
+.m .top{height:76px;flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px}
+.m .exit{display:flex;gap:12px;align-items:center;font-size:16px;color:var(--m-muted)}
+.m .exit button{border:0;background:var(--m-card);border-radius:50%;width:40px;height:40px;font-size:16px;box-shadow:var(--e1)}
+.m .exit b{color:var(--m-ink);font-weight:600}
+.m .steps{position:relative;display:flex;gap:2px;background:var(--m-track);border-radius:999px;padding:4px}
+.m .steps .thumb{position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:999px;background:var(--m-card);box-shadow:var(--e2);transition:transform .24s var(--ease),width .24s var(--ease)}
+.m .steps button{display:inline-flex;align-items:center;flex:none;position:relative;z-index:1;border:0;background:none;border-radius:999px;padding:8px 18px;font-size:16px;font-weight:400;color:var(--m-muted);white-space:nowrap}
+.m .steps button.on{color:var(--m-ink);font-weight:600}
+.m .steps button.done{color:var(--m-green)}
+.m .steps button.done::before{content:"✓\00a0"}
+.m .thread{display:flex;justify-content:flex-end;gap:8px;align-items:center;white-space:nowrap}
+.m .tc{box-shadow:var(--e1);display:inline-flex;gap:8px;align-items:center;background:var(--m-card);border-radius:999px;padding:6px 14px 6px 10px;font-size:16px;font-weight:400}
+.m .tc::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--m-green);box-sizing:border-box;transition:background-color .12s var(--ease)}
+.m .tc.full::before{background:var(--m-green)}
+.m .tc em{font-style:normal;color:var(--m-muted)}
+.m .status{font-size:16px;color:var(--m-muted);margin-right:4px}
+
+.m .body{flex:1;min-height:0;position:relative}
+.m .view{position:absolute;inset:0;overflow:hidden;padding:16px 0 0}
+.m .fwd{animation:inR .2s var(--ease) .06s both}
+.m .back{animation:inL .2s var(--ease) .06s both}
+.m .out-fwd{animation:outL .12s var(--ease) both;pointer-events:none}
+.m .out-back{animation:outR .12s var(--ease) both;pointer-events:none}
+.m .leave-swap{animation:outL .09s var(--ease) both}
+.m .leave-swapb{animation:outR .09s var(--ease) both}
+.m #foot.fade{animation:fadeIn .16s var(--ease) .06s both}
+@keyframes inR{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+@keyframes inL{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+@keyframes outL{to{opacity:0;transform:translateX(-12px)}}
+@keyframes outR{to{opacity:0;transform:translateX(12px)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.m .col{width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.m .meta,.m .lbl{font-size:16px;color:var(--m-muted)}
+.m .meta b{color:var(--m-ink);font-weight:600}
+.m .h1,.m .bigq{font:600 40px/1.15 var(--body);letter-spacing:-.02em}
+.m .h1{margin-top:4px}
+.m .sub{color:var(--m-muted)}
+.m small,.m .df{font-size:16px;color:var(--m-muted)}
+
+.m .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.m .cc{border:0;border-radius:20px;background:var(--m-card);box-shadow:var(--e1);padding:22px;display:grid;gap:8px;align-content:start;text-align:left}
+.m .cc .nm{font-weight:600;display:flex;gap:10px;align-items:center}
+.m .cc .nm::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--m-green);flex:none}
+.m .cc .ql{display:grid;grid-template-columns:28px 1fr;gap:6px;padding-top:12px;border-top:1px solid var(--m-hair)}
+.m .cc .ql span:first-child{font-size:16px;color:var(--m-faint);padding-top:1px}
+.m .flag{grid-column:2;font-size:16px;color:var(--m-amber);background:var(--m-amber-soft);border-radius:10px;padding:6px 10px;justify-self:start}
+
+.m .lines{padding:0 4px}
+.m .line{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--m-track);align-items:baseline}
+.m .line:last-child{border-bottom:0}
+.m .line .lbl{color:var(--m-muted)}
+.m .strike span{text-decoration:line-through;text-decoration-color:var(--m-faint);color:var(--m-muted)}
+.m .more{display:flex;gap:8px;flex-wrap:wrap}
+.m .more{gap:20px;padding:0 4px}
+.m .more button{border:0;background:none;padding:0;font-size:16px;color:var(--m-muted);text-decoration:underline;text-decoration-color:var(--m-track-2);text-underline-offset:4px}
+.m .more button:hover{color:var(--m-ink)}
+
+.m .dots{display:flex;gap:6px}
+.m .dots i{width:48px;height:4px;border-radius:2px;background:var(--m-track);position:relative;overflow:hidden}
+.m .dots i::after{content:"";position:absolute;inset:0;background:var(--m-green);transform:scaleX(0);transform-origin:left;transition:transform .24s var(--ease)}
+.m .dots i.on::after{transform:none}
+.m .rowtop{display:flex;justify-content:space-between;align-items:center}
+.m .pill{display:inline-flex;gap:6px;align-items:center;border-radius:999px;padding:6px 14px;font-size:16px;background:var(--m-card)}
+.m .tiny{border:0;background:none;padding:0;font-size:16px;color:var(--m-muted);text-decoration:underline;text-underline-offset:3px}
+.m textarea{box-shadow:var(--e1);width:100%;border:0;border-radius:16px;padding:16px 18px;font:400 16px/1.5 var(--body);resize:none;background:var(--m-card);color:var(--m-ink);transition:box-shadow .12s var(--ease)}
+.m textarea:focus-visible,.m .kw:focus-visible,.m textarea:focus,.m .kw:focus{outline:none;box-shadow:0 0 0 2px var(--m-green),var(--e2)}
+.m textarea::placeholder,.m .kw::placeholder{color:var(--m-faint)}
+.m .jot{display:grid;gap:8px}
+.m .kw{width:100%;border:0;border-radius:16px;padding:16px 18px;font:400 16px/1.5 var(--body);color:var(--m-ink);background:var(--m-card);box-shadow:var(--e1);outline:none;transition:box-shadow .12s var(--ease)}
+
+.m .ctag{display:inline-flex;gap:8px;align-items:center;justify-self:start;align-self:flex-start;width:max-content;background:var(--m-mint);color:var(--m-green);border-radius:999px;padding:6px 14px;font-size:16px;font-weight:600}
+.m .ctag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--m-green)}
+.m .swap{animation:inR .16s var(--ease) both}
+.m .swapb{animation:inL .16s var(--ease) both}
+.m .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.m .scale4{display:flex;gap:10px}
+.m .scale4 button{width:56px;height:56px;border:0;border-radius:50%;background:var(--m-card);box-shadow:var(--e1);font-weight:600}
+.m .scale4 button:hover:not(.sel){transform:translateY(-2px);box-shadow:var(--e2)}
+.m .scale4 button:hover{background:var(--m-track)}
+.m .scale4 button.sel{background:var(--m-green);color:#fff;box-shadow:var(--eg)}
+.m .marks{display:grid;gap:8px}
+.m .mk{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:10px 4px;border-bottom:1px solid var(--m-track)}
+.m .mk:last-child{border-bottom:0}
+.m .mk span{color:var(--m-muted)}
+.m .mk .w{color:var(--m-ink)}
+.m .mk b{font-size:16px;font-weight:600;color:var(--m-green);padding-top:1px}
+.m .mk .w{font-weight:600}
+.m .mk .w.none{font-weight:400;color:var(--m-faint)}
+.m .stars{display:flex;gap:4px}
+.m .stars button{border:0;background:none;font-size:28px;color:var(--m-track-2);line-height:1;padding:0 2px}
+.m .stars button.sel{color:var(--m-green)}
+.m .seg{display:flex;gap:2px;background:var(--m-track);border-radius:999px;padding:4px}
+.m .seg button{flex:1;border:0;background:none;border-radius:999px;padding:9px 0;font-size:16px;font-weight:400;color:var(--m-muted)}
+.m .seg button.sel{background:var(--m-green);color:#fff;box-shadow:var(--eg)}
+.m .sum{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.m .sum .cc,.m .sum button.cc{display:grid;gap:4px;justify-content:stretch;align-items:start}
+.m .sum button.cc:hover{transform:translateY(-2px);box-shadow:var(--e2)}
+.m .sum .v{font-weight:600}
+.m .others{display:grid;gap:12px;padding:16px 20px;background:var(--m-card);border-radius:16px;box-shadow:var(--e1)}
+.m .others .r{display:flex;justify-content:space-between;align-items:center}
+.m .mini{display:inline-flex;gap:6px}
+.m .mini button{border:0;background:var(--m-canvas);border-radius:999px;min-width:40px;height:34px;padding:0 10px;font-size:16px;font-weight:600}
+.m .mini button.sel{background:var(--m-green);color:#fff}
+
+.m .foot{flex:none;padding:16px 0 26px}
+.m .foot .col{flex-direction:row;align-items:center;gap:10px}
+.m .btn{border:0;border-radius:999px;padding:13px 24px;font-weight:600;background:var(--m-green);color:#fff;white-space:nowrap;box-shadow:var(--eg)}
+.m .btn:hover:not([disabled]){background:var(--m-green-2);transform:translateY(-1px)}
+.m .btn.ghost{background:var(--m-card);color:var(--m-ink);box-shadow:var(--e1)}
+.m .btn.ghost:hover:not([disabled]){background:var(--m-card);box-shadow:var(--e2)}
+.m .btn.green{background:var(--m-green)}
+.m .btn[disabled]{opacity:.35;cursor:not-allowed;box-shadow:none}
+.m .why{font-size:16px;color:var(--m-muted);margin-left:auto;text-align:right}
+.m kbd{font:400 16px var(--body);opacity:.6;margin-left:6px}
+
+.m .done{display:grid;gap:18px;justify-items:start}
+.m .ok-big{width:56px;height:56px;border-radius:50%;background:var(--m-mint);color:var(--m-green);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600}
+.m .view.fwd .ok-big{animation:pop .22s var(--ease) .14s both}
+.m .reveal{animation:reveal .16s var(--ease) both}
+@keyframes reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.m .thumb.instant{transition:none!important}
+
+.m .prow{display:grid;grid-template-columns:22px 1fr auto;gap:10px;font-size:16px;align-items:center}
+.m .chk{width:22px;height:22px;border-radius:50%;background:var(--m-green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.m .chk.todo{background:none;border:1.5px dashed var(--m-faint);color:var(--m-faint)}
+.m .sw{display:flex;gap:10px;align-items:center;border:0;background:none;padding:0;font-weight:600}
+.m .sw i{width:38px;height:22px;border-radius:11px;background:var(--m-track-2);position:relative;transition:background-color .12s var(--ease)}
+.m .sw i::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .12s var(--ease)}
+.m .sw[aria-pressed="true"] i{background:var(--m-green)} .m .sw[aria-pressed="true"] i::after{left:18px}
+.m .toast{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:var(--m-ink);color:#fff;border-radius:999px;padding:10px 18px;font-size:16px;display:flex;gap:14px;align-items:center;white-space:nowrap;box-shadow:var(--e3);animation:toastIn .16s var(--ease) both}
+.m .toast.leaving{animation:toastOut .12s var(--ease) both}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,8px)}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+.m .toast button{border:0;background:none;color:#fff;text-decoration:underline;padding:0}
+@media (prefers-reduced-motion:reduce){.m *,.m *::after{animation:none!important;transition:none!important}}
+
+/* ---- v9: vertical rail replaces the top bar; panel context is on the page ---- */
+.m{flex-direction:row}
+.m .main{flex:1;display:flex;flex-direction:column;min-width:0}
+.m .rail{width:288px;flex:none;padding:28px 20px 28px 24px;display:flex;flex-direction:column;gap:28px;border-right:1px solid var(--m-track)}
+.m .exit{display:flex;gap:10px;align-items:center;border:0;background:none;padding:0;color:var(--m-muted);align-self:flex-start}
+.m .exit i{width:36px;height:36px;border-radius:50%;background:var(--m-card);box-shadow:var(--e1);display:inline-flex;align-items:center;justify-content:center;font-style:normal;color:var(--m-ink)}
+.m .who{display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:center}
+.m .who .av{grid-row:1/3;width:44px;height:44px;border-radius:50%;background:var(--m-mint);color:var(--m-green);display:flex;align-items:center;justify-content:center;font-weight:600}
+.m .who .ln{grid-column:1/3;color:var(--m-muted)}
+.m .linkish{border:0;background:none;padding:0;color:var(--m-muted);text-decoration:underline;text-decoration-color:var(--m-track-2);text-underline-offset:4px;text-align:left}
+.m .linkish:hover{color:var(--m-ink)}
+.m .steps{position:relative;display:grid;gap:2px;background:none;padding:0;border-radius:0}
+.m .steps::before{content:"";position:absolute;left:23px;top:26px;bottom:26px;width:2px;background:var(--m-track)}
+.m .steps .thumb{position:absolute;left:0;right:0;top:0;width:auto!important;height:0;border-radius:14px;background:var(--m-card);box-shadow:var(--e2);transition:transform .24s var(--ease),height .24s var(--ease)}
+.m .steps button{display:grid;grid-template-columns:24px 1fr;column-gap:12px;align-items:center;text-align:left;padding:10px 12px;border-radius:14px;color:var(--m-muted);font-weight:400;background:none;width:100%;white-space:normal}
+.m .steps button.on{color:var(--m-ink);font-weight:400}
+.m .steps button.done{color:var(--m-ink)}
+.m .steps button.done::before{content:none}
+.m .steps button:hover:not(.on){color:var(--m-ink)}
+.m .ix{grid-row:1/3;position:relative;z-index:1;width:24px;height:24px;border-radius:50%;border:2px solid var(--m-track-2);background:var(--m-canvas);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-style:normal;transition:background-color .12s var(--ease),border-color .12s var(--ease)}
+.m .on .ix{border-color:var(--m-green);background:var(--m-card)}
+.m .on .ix::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--m-green)}
+.m .done .ix{border-color:var(--m-green);background:var(--m-green)}
+.m .done .ix::after{content:"✓";color:#fff;font-size:12px;line-height:1}
+.m .st-l{line-height:1.3}
+.m .on .st-l{font-weight:600}
+.m .st-s{color:var(--m-muted);line-height:1.3}
+.m .st-s:empty{display:none}
+.m .rcrit{display:grid;gap:10px}
+.m .rcrit .tc{background:none;box-shadow:none;padding:0;border-radius:0;font-size:16px;gap:10px}
+.m .rbottom{margin-top:auto;display:grid;gap:16px}
+.m .sw{font-weight:400}
+.m .body .col,.m .foot .col{width:840px}
+.m .view{padding-top:36px}
+.m .panel{display:grid;gap:12px}
+.m .panel-h{display:flex;justify-content:space-between;align-items:baseline}
+.m .pgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.m .pp{display:grid;gap:2px;align-content:start;padding-top:12px;border-top:2px solid var(--m-track)}
+.m .pp-h{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.m .pp-h .chk{width:18px;height:18px;font-size:11px}
+.m .pp-h span:last-child{color:var(--m-muted)}
+.m .pp s{color:var(--m-muted);text-decoration-color:var(--m-faint)}
+.m .tip{color:var(--m-green);display:flex;gap:8px;align-items:baseline}
+.m .tip::before{content:"Tip";font-weight:600}
+
+/* ---- v10: airy spacing, no floating step highlight, fewer captions ---- */
+.m .rail{width:272px;padding:40px 24px 36px 36px;gap:44px;border-right:0}
+.m .who{grid-template-columns:48px 1fr;gap:2px 14px}
+.m .who .av{width:48px;height:48px}
+.m .steps{gap:6px}
+.m .steps::before{left:11px;top:14px;bottom:14px}
+.m .steps .thumb{display:none}
+.m .steps button{grid-template-columns:24px 1fr;column-gap:16px;padding:6px 0;border-radius:0;background:none!important;box-shadow:none!important}
+.m .steps button:active{transform:none}
+.m .on .st-l{color:var(--m-ink)}
+.m .st-s{color:var(--m-green)}
+.m .rcrit{gap:12px}
+.m .rbottom{gap:18px}
+.m .view{padding-top:64px}
+.m .body .col,.m .foot .col{width:800px}
+.m .col{gap:36px}
+.m .h1{margin-top:8px}
+.m .pair{gap:20px}
+.m .cc{padding:28px;gap:10px;border-radius:24px}
+.m .cc .ql{padding-top:14px}
+.m .pgrid{gap:28px}
+.m .pp{padding-top:16px;gap:4px}
+.m .pp-h{margin-bottom:6px}
+.m .line{padding:12px 0}
+.m .foot{padding:20px 0 40px}
+.m .scale-row{display:flex;align-items:center;gap:14px}
+.m .scale-row .sub{padding:0 2px}
+.m .scale4{gap:12px}
+.m .mk{padding:14px 4px}
+.m .done{gap:28px}
+.m .view{padding-top:44px;overflow-y:auto;scrollbar-width:none}
+.m .body .col,.m .foot .col{width:880px}
+.m .col{gap:28px}
+.m .cc{padding:24px}
+.m #v-brief .col{padding-bottom:12px}
+.m #v-brief .lines{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:0 4px}
+.m #v-brief .line{grid-template-columns:1fr;gap:4px;padding:16px 0 0;border-bottom:0;border-top:2px solid var(--m-track)}
+.m #v-brief .col{gap:26px}
+.m #v-brief{padding-top:28px}
+
+/* ---- v11: alignment pass. Rail uses one grid: 24px icon slot + 16px gap = text at 40px. ---- */
+.m .rail{width:272px;padding:32px 28px 40px 36px;gap:40px}
+.m .back{border:0;background:none;padding:0;color:var(--m-muted);text-align:left;align-self:flex-start;display:grid;grid-template-columns:24px auto;column-gap:16px;align-items:center}
+.m .back:hover{color:var(--m-ink)}
+.m .who{display:grid;grid-template-columns:24px 1fr;column-gap:16px;row-gap:2px}
+.m .who b,.m .who span{grid-column:2}
+.m .steps{gap:12px}
+.m .steps::before{content:none}
+.m .steps button{position:relative;grid-template-columns:24px 1fr;grid-template-rows:auto auto;column-gap:16px;row-gap:2px;padding:0}
+.m .steps button[disabled]{cursor:default;color:var(--m-faint)}
+.m .ix{grid-row:1;grid-column:1;align-self:center}
+.m .st-l{grid-row:1;grid-column:2;line-height:24px}
+.m .st-s{grid-row:2;grid-column:2;line-height:24px}
+.m .steps button:not(:last-child)::after{content:"";position:absolute;left:11px;top:26px;bottom:-12px;width:2px;background:var(--m-track)}
+.m .steps button.done:not(:last-child)::after{background:var(--m-green)}
+.m .rcrit{gap:12px}
+.m .rcrit .tc{display:grid;grid-template-columns:24px auto 1fr;column-gap:16px;align-items:center;line-height:24px}
+.m .rcrit .tc::before{justify-self:center}
+.m .rcrit .tc em{justify-self:end;white-space:nowrap;padding-left:8px}
+.m .rcrit .tc{white-space:nowrap;grid-template-columns:24px max-content minmax(0,1fr)}
+.m .rbottom{margin-top:auto;display:grid;grid-template-columns:24px 1fr auto;column-gap:16px;align-items:center;min-height:50px}
+.m .rbottom span{grid-column:2}
+.m .view,.m #v-brief{padding-top:32px}
+.m #v-brief .col{gap:24px}
+.m .cc{position:relative}
+.m .cc .nm{display:block;position:relative}
+.m .cc .nm::before{position:absolute;left:-16px;top:.6em;width:8px;height:8px}
+.m .cc{padding-left:36px}
+
+/* Wrapper: same family, four sizes (32 / 20 / 15 / 13), sentence case */
+h1{font-size:32px!important;letter-spacing:-.01em} h2{font-size:20px!important} h3{font-size:15px!important}
+h1,h2,h3{font-weight:600!important}
+.lede{font-size:15px!important}
+.eyebrow{font:500 13px var(--body)!important;letter-spacing:0!important;text-transform:none!important}
+.ok{font:600 15px var(--body)!important;letter-spacing:0!important;text-transform:none!important}
+.sev{font:600 13px var(--body)!important}
+.frame-bar,.wc,td.n{font:13px var(--body)!important}
+th{font:600 13px var(--body)!important}
+table,.card ul,.card p,.flow button span,.links{font-size:15px!important}
+.flow button b{font:600 15px var(--body)!important}
+.card,.frame,.tbl,.flow button{border-radius:16px!important}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw-c{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.sw-c i{display:block;width:72px;height:44px;border-radius:12px;border:1px solid var(--line)}
+.type-row{display:grid;gap:6px}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:12px">
+    <span class="eyebrow">Canopy · Interviewer workspace · Final design</span>
+    <h1>The site visit brief</h1>
+    <p class="lede">Owen opens Canopy at 1:50 for a 2:00 site visit. Four steps, one frame. His two criteria carry through each step. Click through the live screen below.</p>
+    <div class="links"><a href="https://claude.ai/artifact/CnpN9xBgt6VVrxh7oHWqiP" target="_blank" rel="noopener">Draft directions (D1–D3)</a><a href="https://claude.ai/artifact/RLQrFbxRx2MFhYauk7veYE" target="_blank" rel="noopener">Simulated field test of D2</a></div>
+  </header>
+
+  <nav class="flow" aria-label="Jump to a step">
+    <button data-go="brief" aria-current="step"><b>1 · Prepare</b><span>1:50 · what the hour is for</span></button>
+    <button data-go="interview"><b>2 · Interview</b><span>2:00 · one question, three words</span></button>
+    <button data-go="score"><b>3 · Score</b><span>3:00 · one criterion at a time</span></button>
+    <button data-go="done"><b>4 · Submitted</b><span>Blind lifts · one follow-up</span></button>
+  </nav>
+
+  <div class="frame">
+    <div class="frame-bar"><span>Desktop · 1440 × 900 · interactive · keys: Enter in the three-word field for the next question, ← → to move</span><span id="frameState">Owen Park · Prepare · 1:50 PM</span></div>
+    <div class="stage" id="stage"><div class="screen" id="screen">
+      <div class="m" id="app">
+        <aside class="rail" aria-label="Site visit">
+          <button class="back" aria-label="Back to Interviews"><span>←</span><span>Interviews</span></button>
+          <div class="who"><b>Jordan Ellis</b><span class="sub">they/them</span></div>
+          <nav class="steps" id="steps" aria-label="Steps"><span class="thumb" id="thumb" hidden></span>
+            <button data-go="brief"><i class="ix"></i><span class="st-l">Prepare</span><span class="st-s" id="ss-brief"></span></button>
+            <button data-go="interview"><i class="ix"></i><span class="st-l">Interview</span><span class="st-s" id="ss-interview"></span></button>
+            <button data-go="score"><i class="ix"></i><span class="st-l">Score</span><span class="st-s" id="ss-score"></span></button>
+            <button data-go="done"><i class="ix"></i><span class="st-l">Done</span><span class="st-s" id="ss-done"></span></button>
+          </nav>
+          <div class="rcrit" aria-label="Your criteria"><span class="tc" id="tc0">Power systems<em id="te0"></em></span><span class="tc" id="tc1">Field crews<em id="te1"></em></span></div>
+          <div class="rbottom"><span>Tips</span><button class="sw" id="tipsSw" aria-pressed="true" aria-label="Tips"><i></i></button></div>
+        </aside>
+        <div class="main">
+        <div class="body">
+          <!-- BRIEF -->
+          <div class="view" id="v-brief">
+            <div class="col">
+              <div><div class="meta">Today <b>2:00–3:00</b> · Brighton substation · Last of 5</div>
+                <div class="h1">Your hour with Jordan covers two things</div></div>
+              <div class="pair">
+                <div class="cc"><span class="nm">Power systems knowledge</span><span class="df">Understands distribution networks, protection and interconnection.</span>
+                  <div class="ql"><span>Q1</span><span>“Walk me through this substation. What would you check before we energize the new feeder?”</span></div></div>
+                <div class="cc"><span class="nm">Working with field crews</span><span class="df">Explains a plan in plain terms to the people who will carry it out.</span>
+                  <div class="ql"><span>Q2</span><span>“What do you need to hear from the crew before switching starts?”</span></div>
+                  <div class="ql"><span>Q3</span><span>“Something here doesn't match the drawings. Talk me through your next ten minutes.”</span><span class="flag">Similar to Lena's. Use something on site.</span></div></div>
+              </div>
+              <div class="panel">
+                <div class="panel-h"><span class="lbl">Already asked</span></div>
+                <div class="pgrid">
+                  <div class="pp"><div class="pp-h"><span class="chk">✓</span><b>Theo</b><span>Screen</span></div><s>Why climate</s><s>Pay and start date</s><s>PE license</s><s>Substation walkthrough</s></div>
+                  <div class="pp"><div class="pp-h"><span class="chk">✓</span><b>Ravi</b><span>Technical</span></div><s>Radial feeder protection</s><s>Hosting-capacity power flow</s></div>
+                  <div class="pp"><div class="pp-h"><span class="chk">✓</span><b>Lena</b><span>Field crew</span></div><s>Planned outage to a crew</s><s>Wrong as-built drawing</s></div>
+                  <div class="pp"><div class="pp-h"><span class="chk">✓</span><b>Nina</b><span>Hiring manager</span></div><s>Career goals</s><s>Battery storage pipeline</s><s>How they like to work</s></div>
+                </div>
+              </div>
+              <div class="lines">
+                <div class="line"><span class="lbl">Go deeper</span><span>The 12 MW solar substation upgrade</span></div>
+                <div class="line"><span class="lbl">Leave time for</span><span>Jordan's question about time in the field</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERVIEW -->
+          <div class="view" id="v-interview" hidden>
+            <div class="col">
+              <div class="dots" id="qdots" role="img"><i></i><i></i><i></i><i></i></div><span id="qLabel" class="visually-hidden"></span>
+              <div style="display:grid;gap:14px"><span class="ctag" id="qTag"></span><div class="bigq" id="qText" style="min-height:0"></div><div class="tip" id="qTip"></div></div>
+              <div class="jot" id="jot">
+                <label for="kw" class="visually-hidden">Three words to remember</label>
+                <input id="kw" class="kw" autocomplete="off" placeholder="Three words to remember · private, not recorded">
+              </div>
+            </div>
+          </div>
+
+          <!-- SCORE -->
+          <div class="view" id="v-score" hidden>
+            <div class="col" id="scoreCrit">
+              <div class="dots" id="sdots"><i></i><i></i><i></i></div><span id="sLabel" class="visually-hidden"></span>
+              <div><div class="h1" id="sName"></div><div class="sub" id="sDef" style="margin-top:8px"></div></div>
+              <div class="scale-row"><span class="sub">Low</span><div class="scale4" id="scale4"><button>1</button><button>2</button><button>3</button><button>4</button></div><span class="sub">High</span></div>
+              <div class="marks" id="marks"></div>
+              <textarea id="ev" rows="3" placeholder="What Jordan said or did, not your impression"></textarea>
+            </div>
+            <div class="col" id="scoreOverall" hidden>
+              <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+              <div class="h1">Overall</div>
+              <div class="sum" id="sum"></div>
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:16px 24px;align-items:center">
+                <span class="lbl">Rating</span><div class="stars" id="stars"><button aria-label="1 star">★</button><button aria-label="2 stars">★</button><button aria-label="3 stars">★</button><button aria-label="4 stars">★</button><button aria-label="5 stars">★</button></div>
+                <span class="lbl">Recommendation</span><div class="seg" id="reco"><button>Strong no</button><button>No</button><button>Neutral</button><button>Yes</button><button>Strong yes</button></div>
+              </div>
+              <div><button class="tiny" id="othersBtn" aria-expanded="false">Other criteria (optional)</button>
+                <div class="others" id="others" hidden style="margin-top:10px">
+                  <div class="r"><span>Grid data and software</span><span class="mini"><button>1</button><button>2</button><button>3</button><button>4</button></span></div>
+                  <div class="r"><span>Problem solving</span><span class="mini"><button>1</button><button>2</button><button>3</button><button>4</button></span></div>
+                  <div class="r"><span>Holds a PE license</span><span class="mini"><button>Yes</button><button>No</button></span></div>
+                </div></div>
+            </div>
+          </div>
+
+          <!-- DONE -->
+          <div class="view" id="v-done" hidden>
+            <div class="col done">
+              <div class="ok-big">✓</div>
+              <div class="h1">Scorecard submitted</div>
+              
+              <div class="pair" style="width:100%"><div class="cc" id="dn0"></div><div class="cc" id="dn1"></div></div>
+              <div style="display:grid;gap:10px"><b>Did you repeat a question someone else asked?</b><div class="seg" id="yn" style="width:360px"><button>No</button><button>Yes</button><button>Not sure</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="foot"><div class="col" id="foot"></div></div>
+        </div>
+
+        <div class="toast" id="toast" hidden><span id="toastText"></span><button id="toastUndo" hidden>Undo</button></div>
+      </div>
+    </div></div>
+  </div>
+
+  <section class="ba" id="before-after">
+    <h2>Before vs after</h2>
+    <p class="lede">Same candidate, same ten minutes before the visit. Drag to compare Canopy today with the new Prepare step.</p>
+    <div class="ba-frame" id="baFrame">
+      <img src="before.jpg" alt="Before: Canopy today. Three panels with contact details, the job description and a blank scorecard of five criteria.">
+      <div class="ba-after" id="baAfter" aria-label="After: the new Prepare step"><div class="screen2" id="screen2"></div></div>
+      <span class="ba-line"></span><span class="ba-knob" aria-hidden="true">↔</span>
+      <span class="ba-tag l">Before · Canopy today</span><span class="ba-tag r">After · Prepare</span>
+    </div>
+    <label class="ba-cap" for="baRange"><span>Before</span><span>Drag or use arrow keys</span><span>After</span></label>
+    <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Compare before and after">
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td class="h">Leads with</td><td>Contact details</td><td>“Your hour with Jordan covers two things”</td></tr>
+        <tr><td class="h">Which interview</td><td>Not shown</td><td>Site visit, today 2:00–3:00, last of 5</td></tr>
+        <tr><td class="h">Criteria</td><td>All five wait on a blank scorecard</td><td>Owen's two, each with the team's questions under it</td></tr>
+        <tr><td class="h">Earlier interviews</td><td>Invisible</td><td>Four columns: who, which interview, topics asked; no ratings</td></tr>
+        <tr><td class="h">Candidate</td><td>Contact details and a job description</td><td>The one fact to go deeper on, and Jordan's own question</td></tr>
+        <tr><td class="h">First-timer help</td><td>None</td><td>One tip under each question, switchable</td></tr>
+        <tr><td class="h">During the call</td><td>The same three panels</td><td>One question at a time, a private three-word note</td></tr>
+        <tr><td class="h">Scorecard</td><td>Visible from the start, framed as a queue: “1 of 10”, “Submit and next”</td><td>Opens when the visit ends, one criterion per screen, notes beside each question</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Review round 11 · alignment</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Check, measured in the browser</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Rail text column: back, name, steps, criteria, tips</td><td>All at 76 px</td></tr>
+        <tr><td>Rail icon column: arrow, step circles, criteria dots</td><td>All at 36 px</td></tr>
+        <tr><td>Step circle center vs label center</td><td>0 px on every step</td></tr>
+        <tr><td>Top edge, rail vs content</td><td>Both 32 px</td></tr>
+        <tr><td>Bottom row, tips vs footer buttons</td><td>Same center line</td></tr>
+        <tr><td>Card name vs the text under it</td><td>Same left edge; the dot hangs in the margin</td></tr>
+        <tr><td>Done reachable before submitting</td><td>No; the step is locked</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Review round 10</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">Bug fixed</span><p>The step highlight was a separate layer measured before the font loaded, so it sat short and off-center. The current step is now marked by its own ring and bold label.</p></div>
+      <div class="card"><span class="ok">Fewer captions</span><p>Removed: step subtitles except on the current step, “Your criteria”, role and links in the rail, read time, progress counts, privacy line, footer hints.</p></div>
+      <div class="card"><span class="ok">More air</span><p>Wider gaps between groups, 24 px card padding, no rail divider. The last two notes sit side by side, so every step fits in one screen.</p></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Review round 9</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">Navigation: a vertical rail</span><p>Candidate, the four steps with their status, and the two criteria, read top to bottom. The top bar is gone.</p></div>
+      <div class="card"><span class="ok">Status lives on the step</span><p>“Live · 2:04 PM” sits under Interview and “Due tomorrow 3 PM” under Score, instead of floating in the header.</p></div>
+      <div class="card"><span class="ok">No drawer</span><p>Who asked what is four columns on Prepare, one per interviewer, topics struck through. Jordan's details sit in the rail.</p></div>
+      <div class="card"><span class="ok">Tips in context</span><p>One line under each question, switched in the rail. Nothing to open.</p></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Review round 8</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">Type: two sizes</span>
+        <div class="type-row"><span style="font:600 40px/1.15 var(--body);letter-spacing:-.02em">40 Headline</span><span style="font:600 16px var(--body)">16 Title</span><span style="font:400 16px var(--body)">16 Body</span><span style="font:400 16px var(--body);color:var(--muted)">16 Supporting</span></div>
+        <p>Headline is 2.5× body. Below it, weight and color do the work.</p></div>
+      <div class="card"><span class="ok">Elevation</span>
+        <ul><li>e1, resting: criteria cards, fields, pills, ghost buttons</li><li>e2, raised: hover, focus, step thumb</li><li>Green shadow: primary button and selected choices</li><li>e3, overlay: toast</li></ul>
+        <p>Reference text stays flat.</p></div>
+      <div class="card"><span class="ok">Motion rules</span>
+        <ul><li>Only on user action. Nothing moves on load</li><li>120 ms state · 160 ms swap · 200–240 ms structure · 220 ms overlay</li><li>One easing curve, at most 16 px of travel</li><li>Everything that enters also leaves</li></ul></div>
+      <div class="card"><span class="ok">Still to test</span><p>The handover and the lift were timed in the browser, not watched by users. Check them with five interviewers on a real laptop.</p></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Motion</th><th>Trigger</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Screen handover</td><td>Step change</td><td>Out 120 ms, in 200 ms</td><td>Kept</td><td>Direction shows forward or back</td></tr>
+        <tr><td>Question and criterion swap</td><td>Next, Previous, Back</td><td>90 ms out, 160 ms in</td><td>Kept</td><td>Content changes, frame stays</td></tr>
+        <tr><td>Footer actions</td><td>Step change</td><td>Fade 160 ms</td><td>Kept</td><td>Lands with the new screen</td></tr>
+        <tr><td>Step thumb</td><td>Page load</td><td>Slid in from the left edge</td><td>Placed with no motion</td><td>Nothing should move unless asked</td></tr>
+        <tr><td>Progress segments</td><td>Next</td><td>220 ms</td><td>240 ms</td><td>Same timing as the step thumb</td></tr>
+        <tr><td>Criterion pill dot</td><td>Scored</td><td>180 ms</td><td>120 ms</td><td>State changes share one timing</td></tr>
+        <tr><td>Hover and focus</td><td>Pointer, keyboard</td><td>Color only</td><td>Lift to e2, 120 ms</td><td>Shows what is interactive</td></tr>
+        <tr><td>Press</td><td>Click</td><td>Scale 0.97, 80 ms</td><td>Kept</td><td>Immediate feedback</td></tr>
+        <tr><td>Submit becomes available</td><td>Last field done</td><td>Snapped on</td><td>120 ms fade</td><td>Draws the eye to it</td></tr>
+        <tr><td>Toast</td><td>Saved, pocket card</td><td>In only, held 2.6 s</td><td>In and out, held 1.6 s</td><td>Leaves cleanly, gets in the way less</td></tr>
+        <tr><td>Drawer and scrim</td><td>Open, close</td><td>220 ms and 180 ms</td><td>Both 220 ms</td><td>Move as one layer</td></tr>
+        <tr><td>Other criteria, tips</td><td>Expand</td><td>Snapped open</td><td>160 ms reveal</td><td>Connects the control to what it opened</td></tr>
+        <tr><td>Done check</td><td>Submit</td><td>Popped while the screen arrived</td><td>Pops 140 ms in</td><td>Plays after the screen settles</td></tr>
+        <tr><td>Reduced motion</td><td>System setting</td><td>All off</td><td>Kept, including timers</td><td>Accessibility</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Review round 7</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">1 · Focus</span><p>Headline or question, and the green button. One of each per screen.</p></div>
+      <div class="card"><span class="ok">2 · Work</span><p>White fields: criteria cards, the notes field, the score circles, evidence.</p></div>
+      <div class="card"><span class="ok">3 · Reference</span><p>Plain gray text on the canvas: already asked, your notes, links.</p></div>
+      <div class="card"><span class="ok">Motion</span><p>The old screen leaves (120 ms) as the new one arrives (200 ms, 60 ms overlap). No screen cuts in.</p></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Measured in the live screen</th><th>Before (v6)</th><th>After (v7)</th></tr></thead>
+      <tbody>
+        <tr><td>Words on Prepare</td><td>184</td><td>170 (61 are the team's, unchanged)</td></tr>
+        <tr><td>White surfaces on Prepare</td><td>9</td><td>4</td></tr>
+        <tr><td>Words on Interview</td><td>61</td><td>50</td></tr>
+        <tr><td>Buttons in the Interview footer</td><td>3</td><td>2</td></tr>
+        <tr><td>Words on Score / Overall</td><td>73 / 66</td><td>66 / 63</td></tr>
+        <tr><td>Screen change</td><td>Old screen vanishes, new one slides in</td><td>Old leaves while new arrives, 260 ms total</td></tr>
+      </tbody></table></div>
+    <p class="sub">Counted by script in the browser. This is not a user test.</p>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Visual system</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">Color</span>
+        <div class="swatches"><span class="sw-c"><i style="background:#f2f5f3"></i>Canvas</span><span class="sw-c"><i style="background:#ffffff"></i>Card</span><span class="sw-c"><i style="background:#1e6b4e"></i>Green</span><span class="sw-c"><i style="background:#d9efe2"></i>Mint</span><span class="sw-c"><i style="background:#15201b"></i>Ink</span></div>
+        <p>The canvas carries a little of the green, so the accent belongs to it.</p></div>
+      <div class="card"><span class="ok">Type</span>
+        <div class="type-row"><span style="font:600 40px/1.15 var(--body);letter-spacing:-.02em">40 Headline</span><span style="font:400 16px var(--body)">16 Everything else</span></div>
+        <p>Figtree, two sizes, weights 400 and 600.</p></div>
+      <div class="card"><span class="ok">Motion</span>
+        <ul><li>120 + 200 ms: screens hand over in the direction you move</li><li>90 + 160 ms: question or criterion swap</li><li>240 ms: step indicator and progress</li><li>120 ms: state, hover lift, focus</li><li>220 ms: toast</li></ul>
+        <p>One easing curve. Off when reduced motion is set.</p></div>
+      <div class="card"><span class="ok">Shape and elevation</span><p>White surfaces at 20 px radius, no borders, three shadow levels. Every control is a pill or a circle.</p></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px" id="content-review">
+    <h2>Content review</h2>
+    <p class="lede">Senior content strategist pass on every word in the product screen. The reader is an occasional interviewer with ten minutes, often standing at a site, sometimes running their first interview. The content has three jobs: tell Owen what's his, keep him from repeating anyone, and help him write evidence that compares with everyone else's. The team's criteria, definitions and questions are out of scope. They are theirs, and they stay verbatim.</p>
+    <div class="diff">
+      <div class="card"><span class="ok">Never put words in anyone's mouth</span><p>Quotation marks only for words someone actually wrote. Everything else is attributed plainly: “Jordan asked in their cover note…”</p></div>
+      <div class="card"><span class="ok">Facts first, Canopy's advice second</span><p>Lead with what the team and Jordan provided. Canopy's own words are limited to labels, instructions and status.</p></div>
+      <div class="card"><span class="ok">Written for ten minutes and a hard hat</span><p>The key word comes first in every line. Buttons say what happens. No line asks the reader to work out who “the panel” is.</p></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Issue</th><th>Type</th><th>Before</th><th>After</th><th>Why it matters for Owen</th></tr></thead>
+      <tbody>
+        <tr><td class="h">Invented quote</td><td><span class="sev s3">Trust</span></td><td>Jordan's question: “How much of the job is in the field?”</td><td>Jordan's question: how much of the job is in the field</td><td>The application paraphrases Jordan. Quoting invented words breaks “nothing is generated”, and Owen might repeat them back to Jordan as their own.</td></tr>
+        <tr><td class="h">Told to skip his own question</td><td><span class="sev s3">Contradiction</span></td><td>Skip: … Wrong as-built<br>Q3: “Something here doesn't match the drawings…”</td><td>Already asked: (as-built removed)<br>Q3 flag: Close to Lena's as-built question. Use something on site.</td><td>A command (“Skip”) that conflicts with the team's own question leaves Owen stuck. A factual label plus one specific flag resolves it.</td></tr>
+        <tr><td class="h">Told to skip and ask the same thing</td><td><span class="sev s3">Contradiction</span></td><td>Skip: Substation project walkthrough (via Theo)<br>Ask about: The substation upgrade Jordan led…</td><td>Go deeper on: Jordan's 12 MW solar substation upgrade. Theo heard the overview.</td><td>Both lines were true. Together they read as a mistake. Naming what's done tells Owen where to start.</td></tr>
+        <tr><td class="h">Paraphrase drift</td><td><span class="sev s2">Accuracy</span></td><td>Career story · Radial feeder · Power-flow exercise · Outage to a crew</td><td>Why climate · Pay and start date · PE license · Radial feeder protection · Hosting-capacity power flow · Planned outage to a crew · Career goals</td><td>No one asked about a “career story”. Topics now trace back to the team's “What it asked” column, so Owen can trust the list.</td></tr>
+        <tr><td class="h">Leading example</td><td><span class="sev s2">Fairness</span></td><td>e.g. recloser settings · calls dispatch first · photos drawing</td><td>Type, then press Enter</td><td>Example answers prime Owen on what a good answer sounds like before Jordan speaks. The field needs a format hint, not content.</td></tr>
+        <tr><td class="h">Unclear privacy</td><td><span class="sev s2">Trust</span></td><td>Only you see it, and it's waiting for you when you score.</td><td>Private to you · not recorded</td><td>“Only you see it” could end at submit. Owen needs to know shorthand won't land in front of Nina.</td></tr>
+        <tr><td class="h">Evidence standard missing</td><td><span class="sev s2">Core promise</span></td><td>What did Jordan say or do in these answers?</td><td>What Jordan said or did, not your impression</td><td>Comparable evidence is the product's promise. The one place Owen writes it should say what counts.</td></tr>
+        <tr><td class="h">Scale with no direction</td><td><span class="sev s2">Clarity</span></td><td>Score on the team's 1–4 scale</td><td>1 low · 4 high</td><td>Direction is universal and safe to state. What each level means belongs to the team: ask them to add it to the rubric.</td></tr>
+        <tr><td class="h">Hiring jargon</td><td><span class="sev s1">Plain language</span></td><td>4 of 4 in · the panel's feedback · View panel feedback</td><td>4 of 4 submitted · the other interviewers' feedback · See their feedback</td><td>“Panel” and “in” are recruiter shorthand. An engineer who interviews monthly reads “other interviewers” without thinking.</td></tr>
+        <tr><td class="h">Mixed names for one thing</td><td><span class="sev s1">Consistency</span></td><td>Brief / brief / Back to brief · your review</td><td>Prepare / Back to prep · your scorecard</td><td>Steps are now verbs (Prepare, Interview, Score), and the form has one name everywhere: scorecard.</td></tr>
+        <tr><td class="h">Closing too early</td><td><span class="sev s1">Clarity</span></td><td>Overall, and you're done.</td><td>Last step: your overall view.</td><td>He isn't done until he submits. Saying so early invites leaving with a half-finished scorecard.</td></tr>
+        <tr><td class="h">Ambiguous blind message</td><td><span class="sev s1">Trust</span></td><td>Ready. Ratings stay blind until you submit.</td><td>Ready. After you submit, you'll see the other interviewers' feedback.</td><td>“Whose ratings?” The new line says what changes and why it's worth submitting.</td></tr>
+        <tr><td class="h">Position without meaning</td><td><span class="sev s1">Context</span></td><td>interview 5 of 5</td><td>last of 5 interviews</td><td>“Last” tells Owen the others have covered a lot and he is filling gaps.</td></tr>
+        <tr><td class="h">Mechanism, not benefit</td><td><span class="sev s1">Plain language</span></td><td>Saved for offline · opens on its own at 2:00</td><td>Available offline · Interview view opens at 2:00</td><td>Say what Owen gets and what opens, not how the system does it.</td></tr>
+      </tbody></table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Use</th><th>Instead of</th><th>Meaning in Canopy</th></tr></thead>
+      <tbody>
+        <tr><td class="h">criteria</td><td>competencies, rubric items, signals</td><td>What the team scores. Names and definitions are the team's.</td></tr>
+        <tr><td class="h">other interviewers</td><td>panel, loop, interview team</td><td>Everyone else interviewing this candidate for this role.</td></tr>
+        <tr><td class="h">scorecard</td><td>review, feedback form</td><td>The form Owen submits, with all its fields.</td></tr>
+        <tr><td class="h">evidence</td><td>notes, impressions, thoughts</td><td>What the candidate said or did.</td></tr>
+        <tr><td class="h">submitted</td><td>in, done, complete</td><td>A scorecard someone has sent. The only status shown for others.</td></tr>
+        <tr><td class="h">Prepare · Interview · Score</td><td>Brief, kit, review</td><td>The three steps, always as verbs.</td></tr>
+      </tbody></table></div>
+    <p class="sub">Still for the team: a description for each level of the 1–4 scale, and a criterion tag on every question they write. Both are content Canopy should ask for, not invent.</p>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>What changed from v1</h2>
+    <div class="diff">
+      <div class="card"><span class="ok">One frame for all four steps</span><ul><li>Focus mode: product sidebar and permanent right panels removed</li><li>The same top bar, 920px column and bottom action bar in every step</li><li>Steps fade in place, so the page never jumps layout</li></ul></div>
+      <div class="card"><span class="ok">The two criteria are the thread</span><ul><li>Prepare: two cards hold the questions</li><li>Interview: each question carries its criterion tag</li><li>Score: one criterion per screen, then a summary pair</li><li>Done: the pair shows finished scores</li><li>Top bar pills track them throughout</li></ul></div>
+      <div class="card"><span class="ok">Three words instead of timestamps</span><ul><li>v2 had a tap to save the time of good evidence. A bare time is a weak memory cue, and nothing showed it helped, so it's gone</li><li>Now: as he moves on, Owen jots three words from Jordan's answer. His own words are a far stronger cue</li><li>Ending the interview opens Score at once, the biggest lever against forgetting</li><li>Paper option: a pocket card with the three questions</li></ul></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Heuristic review · NN/g 10 usability heuristics</h2>
+    <p class="lede">Severity uses NN/g's 0–4 scale (0 no problem, 1 cosmetic, 2 minor, 3 major, 4 catastrophe). Each issue was found in v1, and the fix is in the screen above. The last column is what is still open.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>#</th><th>Heuristic</th><th>How D2.2 meets it</th><th>Issue in v1 → fix</th><th>Sev.</th><th>Still open</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td class="h">Visibility of system status</td><td>Step bar; criteria pills show answers noted, then scores, then ✓; live clock; “Available offline”.</td><td>Offline and progress state were scattered across panels → one top bar.</td><td><span class="sev s2">2</span></td><td>Show “Waiting to sync” if he submits with no signal.</td></tr>
+        <tr><td class="n">2</td><td class="h">Match with the real world</td><td>Site-visit words and times; the team's criteria and questions verbatim; one glossary (see Content review).</td><td>“Rubric”, “panel”, “in” and queue language → plain words.</td><td><span class="sev s1">1</span></td><td>Test whether “criteria” is clear to first-timers.</td></tr>
+        <tr><td class="n">3</td><td class="h">User control and freedom</td><td>Back on every step; ✕ exits; any step reachable from the step bar; jotted words stay editable until submit.</td><td>A mistaken tap couldn't be undone, and a mark couldn't be read back → taps removed; words are editable.</td><td><span class="sev s3">3</span></td><td>None known.</td></tr>
+        <tr><td class="n">4</td><td class="h">Consistency and standards</td><td>One frame, one card component, primary action always bottom-right.</td><td>Brief and Score used desktop panels; Interview did not → unified.</td><td><span class="sev s3">3</span></td><td>None known.</td></tr>
+        <tr><td class="n">5</td><td class="h">Error prevention</td><td>Can't submit without both scores and evidence; Interview ends with Back still possible; optional criteria marked optional.</td><td>“Submit” sat next to the brief before the visit → only in Score.</td><td><span class="sev s2">2</span></td><td>Warn before leaving with unsaved evidence.</td></tr>
+        <tr><td class="n">6</td><td class="h">Recognition rather than recall</td><td>Score shows each question Owen asked for that criterion, next to the three words he jotted.</td><td>Bare timestamps asked Owen to recall what happened at 2:14 → replaced by the question plus his own words.</td><td><span class="sev s3">3</span></td><td>Test whether three words are enough to rebuild an answer an hour later.</td></tr>
+        <tr><td class="n">7</td><td class="h">Flexibility and efficiency</td><td>Enter saves the words and moves on, arrow keys move between questions; tips switch off for veterans; pocket card for paper people; Interview view opens at 2:00.</td><td>Veterans had to scroll past guidance → tips sit beside each question and switch off.</td><td><span class="sev s1">1</span></td><td>Let veterans skip straight to Interview.</td></tr>
+        <tr><td class="n">8</td><td class="h">Aesthetic and minimalist design</td><td>One job per screen. Prepare is two cards and three lines.</td><td>Brief had 3 regions and Score had 6 blocks → 1 column each.</td><td><span class="sev s3">3</span></td><td>Watch the Q3 flag: one more flag starts to become noise.</td></tr>
+        <tr><td class="n">9</td><td class="h">Recognize, diagnose, recover from errors</td><td>A disabled Submit says exactly what's missing (“Add evidence for Working with field crews”).</td><td>Checklist with no link to the field → reason next to the button; Back goes to the field.</td><td><span class="sev s2">2</span></td><td>Make the reason a link to that criterion.</td></tr>
+        <tr><td class="n">10</td><td class="h">Help and documentation</td><td>Tips beside each question; “1 low · 4 high” hint.</td><td>Tips took a permanent panel → one line per question.</td><td><span class="sev s1">1</span></td><td>The team's rubric has no description per score level. Ask the team to add one.</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <div class="cols">
+    <section class="card rationale">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><h2>Rationale</h2><span class="wc" id="wc">words · limit 250</span></div>
+      <p>Owen opens Canopy ten minutes before a site visit. Today the page leads with contact details and a blank scorecard. The redesign leads with what he needs most: his hour is for two criteria.</p>
+      <p>The whole flow is one focused frame in four steps: Prepare, Interview, Score, Done. His two criteria are the thread. When he prepares, they hold the team's questions. During the visit each question carries its criterion, and as he moves on he can jot three words from Jordan's answer. A simulated field test suggested people on site won't write full notes. When the visit ends, Score opens straight away, one criterion per screen, showing each question beside his own words. At the end, the criteria show as done.</p>
+      <p>Prepare adds three plain lines: what the other interviewers already asked, as topics; the one application fact to go deeper on; and the question Jordan raised in their cover note. It reads in about two minutes, inside the five-minute guardrail. Jordan's details sit in the side rail, who asked what is laid out by interviewer, and tips sit beside each question.</p>
+      <p>The other interviewers appear only as plan and status. Ratings, recommendations and notes stay locked until Owen submits. Every word comes from the team or from Jordan's application, and the scorecard keeps all its fields.</p>
+    </section>
+    <section class="card">
+      <h2>Expected effect on the north star</h2>
+      <p class="sub">North star: the share of interviews where the interviewer scores every criterion their interview covers, with written evidence, within 24 hours. Targets are hypotheses for an A/B test, not forecasts.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Part of the metric</th><th>Design lever</th><th>Leading signal</th></tr></thead>
+        <tbody>
+          <tr><td><b>Every criterion</b></td><td>Two criteria lead the brief and get one Score screen each. Submit is blocked without them.</td><td>Fewer unscored criteria across the panel</td></tr>
+          <tr><td><b>Written evidence</b></td><td>Three words per answer while it's live; Score shows them beside each question.</td><td>Evidence on 100% of own criteria; words per criterion</td></tr>
+          <tr><td><b>Within 24 h</b></td><td>Ending the interview opens Score; the due time stays visible.</td><td>Median time from end to submit</td></tr>
+          <tr><td>Prepared</td><td>Saved offline; opens itself at 2:00.</td><td>Share who open the brief before start</td></tr>
+          <tr><td>No repeats</td><td>“Already asked” line, plus a flag on the overlapping question.</td><td>“Did you repeat?” answered No</td></tr>
+        </tbody></table></div>
+      <p><b>Hypothesis:</b> +15–25 points on the north star in a 4-week A/B test. Guardrail: median prep time ≤ 5 minutes.</p>
+    </section>
+  </div>
+
+  <section style="display:grid;gap:12px">
+    <h2>Rules kept</h2>
+    <div class="rules">
+      <div class="card"><span class="ok">✓ Blind</span><p>Before submitting: which interviews happened, what they covered and asked, and who submitted. Nothing they concluded.</p></div>
+      <div class="card"><span class="ok">✓ Team's words</span><p>Criteria, definitions and questions are verbatim. Only their order and grouping change.</p></div>
+      <div class="card"><span class="ok">✓ Nothing generated</span><p>No recording, no transcription. Every word, from the three-word jots to the evidence, is typed by the interviewer.</p></div>
+      <div class="card"><span class="ok">✓ Scorecard fields</span><p>Rating, recommendation and all five criteria are kept. Only their order and timing change.</p></div>
+    </div>
+    <p class="sub">Assumptions: the team tags each question with a criterion and marks overlapping questions when they write the plan. Each criterion already has an evidence field.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var stage=$('stage'),screen=$('screen');
+  function fit(){var w=stage.clientWidth;if(!w)return;var s=w/1440;screen.style.transform='scale('+s+')';stage.style.height=(900*s)+'px';}
+  window.addEventListener('resize',fit);
+
+  var C=[{nm:'Power systems knowledge',sh:'Power systems',df:'Understands distribution networks, protection and interconnection.'},
+         {nm:'Working with field crews',sh:'Field crews',df:'Explains a plan in plain terms to the people who will carry it out.'}];
+  var Q=[{c:'Power systems knowledge',t:'“Walk me through this substation. What would you check before we energize the new feeder?”',n:1,ci:0},
+         {c:'Working with field crews',t:'“What do you need to hear from the crew before switching starts?”',n:2,ci:1},
+         {c:'Working with field crews',t:'“Something here doesn\'t match the drawings. Talk me through your next ten minutes.”',n:3,ci:1},
+         {c:'Jordan\'s question',t:'Answer Jordan\'s question about time in the field.',n:0,ci:null}];
+  var st={view:'brief',submitted:false,tips:true,q:0,sub:0,min:4,kw:['','','',''],scores:[null,null],ev:['',''],stars:0,reco:null};
+  function noted(c){return Q.filter(function(q,i){return q.ci===c&&st.kw[i].trim()}).length}
+  var ORDER=['brief','interview','score','done'];
+  function hhmm(m){return (2+Math.floor(m/60))+':'+String(m%60).padStart(2,'0')}
+
+  var toastT;
+  function toast(t,undo){var el=$('toast');el.classList.remove('leaving');$('toastText').textContent=t;$('toastUndo').hidden=!undo;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(hideToast,1600)}
+  function hideToast(){var el=$('toast');if(el.hidden)return;if(RM){el.hidden=true;return}el.classList.add('leaving');clearTimeout(toastT);toastT=setTimeout(function(){el.hidden=true;el.classList.remove('leaving')},120)}
+
+  function thread(){
+    [0,1].forEach(function(c){var el=$('tc'+c),em=$('te'+c),txt='',full=false;
+      if(st.view==='interview'&&noted(c))txt=noted(c)+' noted';
+      if(st.view==='score'&&st.scores[c])txt=st.scores[c]+'/4';
+      if(st.view==='done'){txt='✓';full=true}
+      if(st.view==='score'&&st.scores[c]&&st.ev[c].trim())full=true;
+      em.textContent=txt;el.classList.toggle('full',full);});
+    var ss={brief:'',interview:'Live · '+hhmm(st.min),score:'Due tomorrow 3 PM',done:'3:08 PM'};
+    ORDER.forEach(function(k){if(k!==st.view)ss[k]=''});
+    ORDER.forEach(function(k){$('ss-'+k).textContent=ss[k]});
+  }
+
+  function foot(fade){
+    var f=$('foot'),h='';
+    if(st.view==='brief') h='<button class="btn ghost" data-act="pocket">Pocket card</button><span style="margin-left:auto"></span><button class="btn" data-act="start">Start interview</button>';
+    if(st.view==='interview') h='<button class="btn ghost" data-act="prevQ"'+(st.q===0?' disabled':'')+'>Previous</button>'+
+      '<span class="why"></span>'+
+      (st.q<3?'<button class="btn" data-act="nextQ">Next <kbd>Enter</kbd></button>':'<button class="btn green" data-act="toScore">Finish and score</button>');
+    if(st.view==='score'){
+      if(st.sub<2){var ok=st.scores[st.sub]&&st.ev[st.sub].trim();
+        h='<button class="btn ghost" data-act="sBack">Back</button><span class="why"></span><button class="btn" data-act="sNext">Next</button>';}
+      else{var miss=missing();
+        h='<button class="btn ghost" data-act="sBack">Back</button><span class="why">'+(miss||'')+'</span><button class="btn green" data-act="submit"'+(miss?' disabled':'')+'>Submit scorecard</button>';}
+    }
+    if(st.view==='done') h='<button class="btn ghost" data-act="toBrief">Back to prep</button><span style="margin-left:auto"></span><button class="btn">See all feedback</button>';
+    f.innerHTML=h;
+    if(fade&&!RM)anim(f,'fade');
+  }
+  function missing(){
+    for(var c=0;c<2;c++){if(!st.scores[c])return 'Score '+C[c].sh;if(!st.ev[c].trim())return 'Evidence for '+C[c].sh;}
+    if(!st.stars)return 'Rating'; if(!st.reco)return 'Recommendation'; return '';
+  }
+
+  var RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function anim(el,cls){el.classList.remove('fwd','back','swap','swapb','out-fwd','out-back','leave-swap','leave-swapb','fade','reveal');void el.offsetWidth;el.classList.add(cls)}
+  function swapIn(leaving,dir,render,entering){
+    if(!dir||RM){render();return}
+    leaving.forEach(function(e){if(!e.hidden)anim(e,'leave-'+dir)});
+    setTimeout(function(){render();(entering?entering():leaving).forEach(function(e){if(!e.hidden)anim(e,dir)})},90);
+  }
+  var thumbReady=false;
+  function moveThumb(){return;var on=$('steps').querySelector('button.on'),t=$('thumb');if(!on)return;if(!thumbReady)t.classList.add('instant');t.style.height=on.offsetHeight+'px';t.style.transform='translateY('+on.offsetTop+'px)';if(!thumbReady){void t.offsetWidth;t.classList.remove('instant')}}
+  function demoFill(){st.scores=['3','3'];st.ev=['Checked relay settings and grounding before energizing the new feeder.','Asked the crew lead to read back the switching order before starting.'];st.stars=4;st.reco='Yes';st.submitted=true}
+  function go(v){
+    if(v==='done'&&!st.submitted)demoFill();
+    var dir=ORDER.indexOf(v)>=ORDER.indexOf(st.view)?'fwd':'back',prev=st.view;
+    st.view=v;
+    ORDER.forEach(function(k){var el=$('v-'+k);
+      if(k===v){if(el.hidden||/out-/.test(el.className)){el.hidden=false;anim(el,dir)}}
+      else if(!el.hidden){
+        if(k===prev&&!RM){anim(el,'out-'+dir);setTimeout(function(){if(st.view!==k){el.hidden=true;el.classList.remove('out-fwd','out-back')}},120)}
+        else el.hidden=true;}});
+    var cur=ORDER.indexOf(v);
+    [].forEach.call($('steps').querySelectorAll('button'),function(b){var i=ORDER.indexOf(b.dataset.go);b.className=i===cur?'on':(i<cur?'done':'');b.disabled=(i===3&&!st.submitted)});moveThumb();
+    document.querySelectorAll('.flow button').forEach(function(b){if(b.dataset.go===v)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+    $('frameState').textContent='Owen Park · '+{brief:'Prepare · 1:50 PM',interview:'Interview · live',score:'Score · after the visit',done:'Submitted'}[v];
+    hideToast();
+    if(v==='interview')showQ(); if(v==='score')showScore(); if(v==='done')showDone();
+    thread();foot(true);
+  }
+
+  // interview
+  function showQ(dir){swapIn([$('qText').parentNode,$('jot')],dir,renderQ)}
+  function renderQ(){var q=Q[st.q];
+    $('qLabel').textContent=st.q<3?(st.q+1)+' of 3':'Before you finish';
+    $('qTag').textContent=q.ci===null?'Jordan\'s question':q.c;$('qText').textContent=q.t;
+    [].forEach.call($('qdots').children,function(d,i){d.className=i<=st.q?'on':''});
+    var tips=['Start by saying what the hour covers.','Follow up: “What would you do next?”','Follow up: “What would you do next?”','Leave about 10 minutes for this.'];
+    $('qTip').textContent=tips[st.q];$('qTip').hidden=!st.tips;
+    $('jot').hidden=q.ci===null;$('kw').value=st.kw[st.q];}
+  function nextQ(){if(st.q>=3)return;var had=st.kw[st.q].trim();st.q++;st.min=Math.min(st.min+15,57);showQ('swap');foot(true);thread();
+    if(had)toast('Saved for scoring',false);}
+  $('kw').addEventListener('input',function(){st.kw[st.q]=this.value;thread()});
+  $('kw').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();nextQ()}});
+
+  // score
+  function showScore(dir){
+    var secs=[$('scoreCrit'),$('scoreOverall')];
+    swapIn(secs,dir,renderScore,function(){return secs});
+  }
+  function renderScore(){
+    $('scoreCrit').hidden=st.sub===2;$('scoreOverall').hidden=st.sub!==2;
+    if(st.sub<2){var c=C[st.sub];
+      $('sLabel').textContent=(st.sub+1)+' of 3';$('sName').textContent=c.nm;$('sDef').textContent=c.df;
+      [].forEach.call($('sdots').children,function(d,i){d.className=i<=st.sub?'on':''});
+      [].forEach.call($('scale4').children,function(b){b.classList.toggle('sel',b.textContent===st.scores[st.sub])});
+      var mk=$('marks');mk.innerHTML='';
+      Q.forEach(function(q,i){if(q.ci!==st.sub)return;var d=document.createElement('div');d.className='mk';
+        d.innerHTML='<b>Q'+q.n+'</b><span style="display:grid;gap:4px"><span></span><span class="w"></span></span>';
+        d.querySelector('span span').textContent=q.t;
+        var w=d.querySelector('span span:last-child');
+        if(st.kw[i].trim()){w.textContent='Noted: '+st.kw[i].trim()}else{w.textContent='No notes';w.classList.add('none')}
+        mk.appendChild(d)});
+      $('ev').value=st.ev[st.sub];
+    } else {
+      $('sum').innerHTML='';
+      C.forEach(function(c,i){var d=document.createElement('button');d.className='cc';d.style.cursor='pointer';
+        d.innerHTML='<span class="nm"></span><span class="v"></span><span class="df"></span>';
+        d.children[0].textContent=c.nm;d.children[1].textContent=(st.scores[i]?st.scores[i]+' / 4':'Not scored yet');
+        d.children[2].textContent=st.ev[i].trim()?st.ev[i].trim().slice(0,90)+(st.ev[i].length>90?'…':''):'Add evidence';
+        d.addEventListener('click',function(){st.sub=i;showScore('swapb');foot(true)});$('sum').appendChild(d)});
+    }
+  }
+  $('scale4').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;st.scores[st.sub]=b.textContent;
+    [].forEach.call(this.children,function(x){x.classList.toggle('sel',x===b)});thread();foot();});
+  $('ev').addEventListener('input',function(){st.ev[st.sub]=this.value;thread();foot()});
+  $('stars').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=[].indexOf.call(this.children,b);st.stars=i+1;
+    [].forEach.call(this.children,function(x,j){x.classList.toggle('sel',j<=i)});foot()});
+  $('reco').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;st.reco=b.textContent;[].forEach.call(this.children,function(x){x.classList.toggle('sel',x===b)});foot()});
+  $('othersBtn').addEventListener('click',function(){var o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!o);$('others').hidden=o;if(!o&&!RM)anim($('others'),'reveal')});
+  document.querySelectorAll('.mini').forEach(function(s){s.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(s.children,function(x){x.classList.toggle('sel',x===b)})})});
+
+  function showDone(){[0,1].forEach(function(i){var d=$('dn'+i);d.innerHTML='<span class="nm"></span><span class="v"></span>';
+    d.children[0].textContent=C[i].nm;d.children[1].textContent=st.scores[i]+' / 4 · evidence written'})}
+  $('yn').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('sel',x===b)});toast('Thanks',false)});
+
+  // footer + nav actions
+  $('foot').addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b||b.disabled)return;var a=b.dataset.act;
+    if(a==='start')go('interview');
+    if(a==='pocket')toast('Pocket card ready to print',false);
+    if(a==='toBrief')go('brief');
+    if(a==='prevQ'&&st.q>0){st.q--;showQ('swapb');foot(true)}
+    if(a==='nextQ')nextQ();
+    if(a==='toScore'){st.sub=0;go('score')}
+    if(a==='sBack'){if(st.sub===0)go('interview');else{st.sub--;showScore('swapb');foot(true)}}
+    if(a==='sNext'){st.sub++;showScore('swap');foot(true)}
+    if(a==='submit'){st.submitted=true;go('done')}});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+
+  // rail
+  $('tipsSw').addEventListener('click',function(){st.tips=this.getAttribute('aria-pressed')!=='true';this.setAttribute('aria-pressed',st.tips);var t=$('qTip');t.hidden=!st.tips;if(st.tips&&!RM)anim(t,'reveal')});
+
+  // keyboard (ignored while typing)
+  document.addEventListener('keydown',function(e){if(/TEXTAREA|INPUT/.test(e.target.tagName))return;
+    if(st.view==='interview'){if(e.key==='ArrowRight')nextQ();
+      if(e.key==='ArrowLeft'&&st.q>0){st.q--;showQ('swapb');foot()}}});
+
+
+  // before vs after: a static copy of the Prepare step, scaled like the live screen
+  (function(){
+    var frame=$('baFrame'),holder=$('screen2'),range=$('baRange');if(!frame)return;
+    function build(){var c=$('app').cloneNode(true);c.removeAttribute('id');
+      c.querySelectorAll('[id]').forEach(function(e){e.removeAttribute('id')});
+      c.querySelectorAll('.view').forEach(function(v,i){v.className='view';v.hidden=i!==0});
+      holder.innerHTML='';holder.appendChild(c);}
+    function size(){var w=frame.clientWidth;if(w)holder.style.transform='scale('+(w/1440)+')'}
+    function set(v){frame.style.setProperty('--cut',v+'%');range.value=v}
+    range.addEventListener('input',function(){set(this.value)});
+    var drag=false;function at(e){var r=frame.getBoundingClientRect();set(Math.max(0,Math.min(100,Math.round((e.clientX-r.left)/r.width*100))))}
+    frame.addEventListener('pointerdown',function(e){drag=true;try{frame.setPointerCapture(e.pointerId)}catch(_){}at(e)});
+    frame.addEventListener('pointermove',function(e){if(drag)at(e)});
+    frame.addEventListener('pointerup',function(){drag=false});
+    window.addEventListener('resize',size);
+    build();size();set(50);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){build();size()});
+  })();
+  // word count
+  var w=[].map.call(document.querySelectorAll('.rationale p'),function(p){return p.textContent}).join(' ').split(/\s+/).filter(Boolean).length;
+  $('wc').textContent=w+' words · limit 250';
+
+  go('brief');fit();setTimeout(fit,300);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){fit();moveThumb();thumbReady=true});else thumbReady=true;
+})();
+</script>
+
+<script src="../../focus.js" data-keep=".frame > .stage" data-hide=""></script></body></html>

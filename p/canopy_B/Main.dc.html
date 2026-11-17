@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Interviewer workspace, before the interview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F6F3}
+a{color:#1E6B45}a:hover{color:#14432D}
+.cw{--ink:#1B1A18;--ink2:#45433F;--muted:#67645E;--line:#E5E2DC;--line2:#EFEDE8;--canvas:#F7F6F3;--surface:#FFFFFF;--g9:#14432D;--g7:#1E6B45;--g1:#DCEDE2;--g0:#EEF6F1;--amb:#7A4A0B;--amb0:#FBF2E2;font-family:Inter,system-ui,sans-serif;color:var(--ink);font-size:14px;line-height:1.5;background:var(--canvas);display:flex;min-height:100%;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+.cw *{box-sizing:border-box}
+:where(.cw) :where(h1,h2,h3,p,ol,ul){margin:0;padding:0;list-style:none}
+.cw button{font:inherit;color:inherit;cursor:pointer}
+.rail{width:64px;flex:none;background:#FFFFFF;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--g9);color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.navb{width:44px;height:44px;border-radius:10px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.navb[aria-current="page"]{background:var(--g0);color:var(--g9)}
+.rail .sp{flex:1}
+.ava{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;flex:none}
+.app{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 32px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--ink2);text-decoration:none;font-weight:500;height:36px;padding:0 10px 0 6px;border-radius:8px}
+.back:hover{background:var(--line2);color:var(--ink)}
+.crumb{color:var(--muted)}
+.crumb b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:999px;background:var(--g0);color:var(--g9);font-weight:600;font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--g7)}
+.btn{height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn:hover{background:var(--line2)}
+.btn.pri{background:var(--g9);border-color:var(--g9);color:#fff}
+.btn.pri:hover{background:#0E3121}
+.page{padding:32px 40px 56px;display:flex;flex-direction:column;gap:28px;max-width:1376px}
+.hero{display:flex;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.hero .l{flex:1 1 560px;min-width:0}
+.eyebrow{font-size:13px;font-weight:600;color:var(--g7);letter-spacing:.01em}
+.h1{font-size:30px;line-height:1.2;font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;color:var(--ink2)}
+.meta span{display:inline-flex;align-items:center;gap:7px}
+.meta svg{color:var(--muted)}
+.grid{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.main{flex:999 1 640px;min-width:0;display:flex;flex-direction:column;gap:24px}
+.aside{flex:1 1 360px;max-width:392px;display:flex;flex-direction:column;gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px}
+.sec{padding:24px}
+.sh{display:flex;align-items:baseline;gap:12px}
+.num{width:24px;height:24px;flex:none;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transform:translateY(-2px)}
+.h2{font-size:18px;font-weight:650;font-weight:600;letter-spacing:-.01em}
+.sub{color:var(--muted);margin-top:4px;padding-left:36px}
+.sh .r{margin-left:auto}
+.crit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.cc{border:1.5px solid var(--g7);border-radius:14px;padding:18px 18px 16px;background:linear-gradient(#fff,#fff)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:600}
+.tag.y{background:var(--g9);color:#fff}
+.tag.n{background:var(--line2);color:var(--ink2)}
+.tag.a{background:var(--amb0);color:var(--amb)}
+.cc h3{font-size:17px;font-weight:600;margin-top:10px;letter-spacing:-.01em}
+.cc .def{color:var(--ink2);margin-top:4px}
+.cc .scale{font-size:12.5px;color:var(--muted);margin-top:6px}
+.earlier{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2)}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.earlier li{display:flex;gap:10px;margin-top:10px;font-size:13.5px}
+.earlier .who{color:var(--muted);font-size:12.5px}
+.earlier .q{color:var(--ink)}
+.notyours{margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:var(--canvas);color:var(--ink2);font-size:13.5px}
+.notyours .chips{display:flex;gap:6px;flex-wrap:wrap}
+.qs{margin-top:20px;display:flex;flex-direction:column}
+.qi{display:flex;gap:16px;padding:16px 0;border-top:1px solid var(--line2)}
+.qi:first-child{border-top:0;padding-top:4px}
+.qn{font-size:13px;font-weight:700;color:var(--g7);width:20px;flex:none;padding-top:3px}
+.qt{font-size:17px;line-height:1.45;font-weight:500;letter-spacing:-.005em}
+.link{background:none;border:0;color:var(--g7);font-weight:600;padding:8px 4px;font-size:13.5px}
+.tbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px}
+.tbl th{text-align:left;font-weight:600;font-size:12px;color:var(--muted);padding:0 10px 10px;vertical-align:bottom;line-height:1.3}
+.tbl th.c,.tbl td.c{text-align:center;width:78px;padding-left:4px;padding-right:4px}
+.tbl th.mine{color:var(--g9)}
+.tbl td{padding:14px 10px;border-top:1px solid var(--line2);vertical-align:top}
+.tbl td.c{vertical-align:middle}
+.tbl td.mine,.tbl th.mine{background:var(--g0)}
+.tbl thead th.mine{border-radius:10px 10px 0 0;padding-top:10px}
+.tbl tbody tr:last-child td.mine{border-radius:0 0 10px 10px}
+.tbl tr.you td{background:#FBFAF7}
+.tbl tr.you td.mine{background:var(--g1)}
+.iv b{font-weight:600;display:block}
+.iv span{color:var(--muted);font-size:12.5px}
+.cov{width:12px;height:12px;border-radius:50%;background:var(--ink2);display:inline-block}
+.cov.you{background:var(--g9);box-shadow:0 0 0 3px #fff,0 0 0 4.5px var(--g9)}
+.none{display:inline-block;width:10px;height:2px;background:#D6D3CC;border-radius:2px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap;color:var(--ink2)}
+.st svg{color:var(--g7)}
+.st.t{color:var(--g9);font-weight:600}
+.blind{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:12px;background:var(--canvas);font-size:13px;color:var(--ink2)}
+.blind svg{color:var(--muted);flex:none}
+.cand{padding:20px}
+.ch{display:flex;gap:14px;align-items:center}
+.ch .ava{width:48px;height:48px;background:#E7DCCB;color:#5A4528;font-size:16px}
+.cn{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.cn span{font-weight:400;color:var(--muted);font-size:13px;margin-left:4px}
+.cr{color:var(--ink2);font-size:13.5px}
+.cfacts{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:13px}
+.cfacts span{display:inline-flex;gap:6px;align-items:center}
+.pl{display:flex;gap:12px;margin-top:12px}
+.pl .ic{width:32px;height:32px;flex:none;border-radius:9px;background:var(--canvas);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.pl p{font-size:14px}
+.pl .s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.theirq{margin-top:14px;padding:14px;border-radius:12px;background:var(--amb0)}
+.theirq .lbl{color:var(--amb)}
+.theirq p{margin-top:4px}
+.theirq .s{font-size:12.5px;color:var(--amb);margin-top:6px}
+.disc{display:flex;align-items:center;justify-content:space-between;width:100%;height:44px;margin-top:12px;padding:0 4px;background:none;border:0;border-top:1px solid var(--line2);color:var(--ink2);font-weight:500}
+.sc{padding:20px}
+.sch{display:flex;align-items:center;gap:10px}
+.sch .r{margin-left:auto}
+.sclist{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.sclist li{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--ink2)}
+.sclist li b{font-weight:500;color:var(--ink)}
+.box{width:16px;height:16px;border-radius:5px;border:1.5px solid #B8B4AC;display:inline-block;flex:none}
+.due{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--canvas);font-size:13px;color:var(--ink2);display:flex;gap:10px;align-items:flex-start}
+.due svg{color:var(--muted);flex:none;margin-top:2px}
+.sc .btn{width:100%;justify-content:center;margin-top:14px}
+.cct{display:flex;align-items:center;justify-content:space-between}
+.cc .cct .scale{margin:0}
+.also{margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);font-size:13px;color:var(--ink2);display:flex;gap:10px;align-items:baseline}
+.also .lbl{flex:none;font-size:11.5px}
+.ask{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;margin-top:20px;padding-left:36px}
+.yours .qs{margin-top:8px}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.asked{background:var(--canvas);border-radius:14px;padding:16px 18px}
+.al li{padding:12px 0;border-top:1px solid var(--line)}
+.al li:first-child{border-top:0;padding-top:8px}
+.aq{font-size:14px;color:var(--ink)}
+.al .who{font-size:12.5px;color:var(--muted);margin-top:3px}
+.ct{color:var(--g9);font-weight:600}
+.lockline{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);align-self:center}
+.tbl td.iv{padding-top:12px;padding-bottom:12px}
+.tbl th.c,.tbl td.c{width:96px}
+.tbl th.s,.tbl td.s{width:150px;text-align:right;vertical-align:middle}
+.tbl td{vertical-align:middle}
+.sclist{margin-top:16px}
+.qi{padding:14px 0}
+.qn{width:22px;height:22px;border-radius:6px;background:var(--g0);color:var(--g9);display:inline-flex;align-items:center;justify-content:center;padding:0;font-size:12px;margin-top:2px}
+.qt{font-size:16.5px}
+.gd{padding:20px}
+.probe-list{margin-top:16px;padding-top:16px;border-top:1px solid var(--line2)}
+.cw .link{color:var(--g7)}
+.cw .link:hover{color:var(--g9);text-decoration:underline}
+.gh{display:flex;align-items:center;gap:10px}
+.gh .r{margin-left:auto}
+.gsub{font-size:13px;color:var(--muted);margin-top:4px}
+.ros{margin-top:16px;display:flex;flex-direction:column}
+.ros li{display:grid;grid-template-columns:40px 14px minmax(0,1fr);gap:10px;position:relative;padding-bottom:14px}
+.ros li:last-child{padding-bottom:0}
+.rt{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.rb{width:10px;height:10px;border-radius:50%;border:2px solid #B8B4AC;background:#fff;margin-top:5px;position:relative;z-index:1}
+.ros li::before{content:"";position:absolute;left:54px;top:15px;bottom:-5px;width:2px;background:var(--line)}
+.ros li:last-child::before{display:none}
+.ros li.m .rb{border-color:var(--g9);background:var(--g9)}
+.ros b{display:block;font-weight:600;font-size:14px}
+.ros div span{font-size:13px;color:var(--ink2)}
+.fu{margin-top:18px;padding-top:16px;border-top:1px solid var(--line2)}
+.fu ul{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.fu li{font-size:14px}
+.tips{margin-top:16px;padding-top:16px;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:8px}
+.tips li{font-size:13.5px;color:var(--ink2)}
+.tips b{color:var(--ink);font-weight:600}
+.iv b{display:block}
+</style>
+</helmet>
+<div class="cw">
+
+<nav class="rail" aria-label="Canopy">
+  <div class="logo" aria-hidden="true">C</div>
+  <button class="navb" aria-label="Home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></button>
+  <button class="navb" aria-label="Interviews" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></button>
+  <button class="navb" aria-label="Notifications"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/></svg></button>
+  <div class="sp"></div>
+  <div class="ava" style="width:36px;height:36px;background:#DCE6F2;color:#22405F;font-size:13px" aria-label="Owen Park">OP</div>
+</nav>
+
+<div class="app">
+  <header class="top">
+    <a class="back" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Interviews</a>
+    <span class="crumb"><b>Jordan Ellis</b> · Grid Modernization Engineer · Solaris Energy Co.</span>
+    <div class="sp"></div>
+    <span class="pill"><span class="dot"></span>Starts in 10 min</span>
+    <button class="btn pri"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>Start interview</button>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="l">
+        <p class="eyebrow">Interview 5 of 5 · Site visit</p>
+        <h1 class="h1">Your site visit with Jordan Ellis</h1>
+        <div class="meta">
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Today, 2:00–3:00 PM</span>
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Brighton substation</span>
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Owen Park (you), Construction Manager</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="main">
+
+        <section class="card sec" aria-labelledby="s1">
+          <div class="sh"><span class="num">1</span><h2 class="h2" id="s1">What your interview covers</h2></div>
+          <p class="sub">The hiring team planned the site visit to cover two of the five criteria. Come back with evidence on these two.</p>
+          <div class="crit">
+            <article class="cc">
+              <div class="cct"><span class="tag y">Yours to score</span><span class="scale">1 to 4</span></div>
+              <h3>Power systems knowledge</h3>
+              <p class="def">Understands distribution networks, protection and interconnection.</p>
+              <p class="also"><span class="lbl">ALSO IN</span>Technical interview (Ravi) · Hiring manager interview (Nina)</p>
+            </article>
+            <article class="cc">
+              <div class="cct"><span class="tag y">Yours to score</span><span class="scale">1 to 4</span></div>
+              <h3>Working with field crews</h3>
+              <p class="def">Explains a plan in plain terms to the people who will carry it out.</p>
+              <p class="also"><span class="lbl">ALSO IN</span>Field crew walkthrough (Lena) · Hiring manager interview (Nina)</p>
+            </article>
+          </div>
+          <div class="notyours">
+            <span>Not in your interview:</span>
+            <span class="chips"><span class="tag n">Grid data and software</span><span class="tag n">Problem solving</span><span class="tag n">Holds a PE license</span></span>
+            <span>Others on the panel cover these.</span>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="s2">
+          <div class="sec">
+            <div class="sh"><span class="num">2</span><h2 class="h2" id="s2">What to ask, and what’s been asked</h2></div>
+            <p class="sub">The panel’s questions sit beside yours, so you can build on them instead of repeating them.</p>
+            <div class="ask">
+              <div class="yours">
+                <p class="lbl">YOUR QUESTIONS · WRITTEN BY THE HIRING TEAM</p>
+                <ol class="qs">
+                  <li class="qi"><span class="qn">1</span><p class="qt">“Walk me through this substation. What would you check before we energize the new feeder?”</p></li>
+                  <li class="qi"><span class="qn">2</span><p class="qt">“What do you need to hear from the crew before switching starts?”</p></li>
+                  <li class="qi"><span class="qn">3</span><p class="qt">“Something here doesn't match the drawings. Talk me through your next ten minutes.”</p></li>
+                </ol>
+                <p class="hint">Ask all three, in this order, so Jordan’s answers compare with other candidates’.</p>
+              </div>
+              <div class="asked">
+                <p class="lbl">ALREADY ASKED · DON’T REPEAT</p>
+                <ul class="al">
+                  <li><p class="aq">Explain a planned outage to a switching crew; a crew finds the as-built drawing is wrong</p><p class="who">Lena Fischer · Field crew walkthrough · <span class="ct">Field crews</span></p></li>
+                  <li><p class="aq">Protecting a radial feeder; a hosting-capacity power-flow exercise</p><p class="who">Ravi Desai · Technical interview · <span class="ct">Power systems</span></p></li>
+                  <li><p class="aq">Career goals, the battery storage pipeline, how they like to work</p><p class="who">Nina Okafor · Hiring manager interview · <span class="ct">Both of yours</span></p></li>
+                  <li><p class="aq">Why climate, pay expectations, start date, a walkthrough of the substation project</p><p class="who">Theo Marsh · Recruiter screen</p></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card sec" aria-labelledby="s3">
+          <div class="sh"><span class="num">3</span><h2 class="h2" id="s3">Panel coverage</h2><span class="r lockline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Ratings, recommendations and notes stay hidden until you submit yours</span></div>
+          <p class="sub">Which criteria each interview was planned to cover. Every criterion has at least one interview on it.</p>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th scope="col">Interview</th>
+                <th scope="col" class="c mine">Power systems</th>
+                <th scope="col" class="c">Grid data</th>
+                <th scope="col" class="c">Problem solving</th>
+                <th scope="col" class="c mine">Field crews</th>
+                <th scope="col" class="c">PE license</th>
+                <th scope="col" class="s">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="iv"><b>Recruiter screen</b><span>Theo Marsh, Talent Partner</span></td>
+                <td class="c mine"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c mine"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="s"><span class="st"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Scorecard in</span></td>
+              </tr>
+              <tr>
+                <td class="iv"><b>Technical interview</b><span>Ravi Desai, Senior Grid Engineer</span></td>
+                <td class="c mine"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c mine"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="s"><span class="st"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Scorecard in</span></td>
+              </tr>
+              <tr>
+                <td class="iv"><b>Field crew walkthrough</b><span>Lena Fischer, Field Operations Lead</span></td>
+                <td class="c mine"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c mine"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="s"><span class="st"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Scorecard in</span></td>
+              </tr>
+              <tr>
+                <td class="iv"><b>Hiring manager interview</b><span>Nina Okafor, Engineering Manager</span></td>
+                <td class="c mine"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c mine"><span class="cov" aria-label="Covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="s"><span class="st"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Scorecard in</span></td>
+              </tr>
+              <tr class="you">
+                <td class="iv"><b>Site visit</b><span>Owen Park (you)</span></td>
+                <td class="c mine"><span class="cov you" aria-label="Yours"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="c mine"><span class="cov you" aria-label="Yours"></span></td>
+                <td class="c"><span class="none" aria-label="Not covered"></span></td>
+                <td class="s"><span class="st t">Today, 2:00 PM</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <aside class="aside" aria-label="Candidate and scorecard">
+        <section class="card cand" aria-labelledby="cn">
+          <div class="ch">
+            <div class="ava" aria-hidden="true">JE</div>
+            <div>
+              <h2 class="cn" id="cn">Jordan Ellis<span>they/them</span></h2>
+              <p class="cr">Distribution Engineer, Front Range Electric Cooperative</p>
+            </div>
+          </div>
+          <div class="cfacts"><span>6 years’ experience</span><span>Boulder, CO</span><a href="#">Application</a></div>
+          <div class="probe-list">
+            <p class="lbl">WORTH PROBING, FROM THEIR APPLICATION</p>
+            <div class="pl">
+              <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+              <div><p>Led a substation upgrade that added 12 MW of solar interconnection.</p></div>
+            </div>
+            <div class="pl">
+              <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg></span>
+              <div><p>Holds a Colorado PE license.</p><p class="s">Scored in the recruiter screen, not in yours.</p></div>
+            </div>
+            <div class="theirq">
+              <p class="lbl">THEIR QUESTION FOR YOU</p>
+              <p>How much of the job is in the field?</p>
+              <p class="s">From their cover note. Keep time at the end to answer it.</p>
+            </div>
+          </div>
+          <button class="disc" aria-expanded="false">Contact details<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        </section>
+
+        <section class="card gd" aria-labelledby="gn">
+          <div class="gh">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:#1E6B45"><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3zM9.5 20h5"/></svg>
+            <h2 class="h2" id="gn" style="font-size:16px">How to run the hour</h2>
+            <button class="link r" aria-expanded="true">Hide</button>
+          </div>
+          <p class="gsub">For newer interviewers. Hide it once you know the drill; Canopy remembers.</p>
+          <ol class="ros">
+            <li><span class="rt">2:00</span><span class="rb"></span><div><b>Intro</b><span>5 min. Who you are, how the hour runs.</span></div></li>
+            <li class="m"><span class="rt">2:05</span><span class="rb"></span><div><b>The team’s three questions</b><span>40 min. Let each answer run, then follow up.</span></div></li>
+            <li><span class="rt">2:45</span><span class="rb"></span><div><b>Their questions</b><span>10 min. Answer their cover-note question.</span></div></li>
+            <li><span class="rt">2:55</span><span class="rb"></span><div><b>Wrap</b><span>5 min. Tell them what happens next.</span></div></li>
+          </ol>
+          <div class="fu">
+            <p class="lbl">FOLLOW UP ON ANY ANSWER</p>
+            <ul><li>“What did you do next?”</li><li>“Why that, and not something else?”</li><li>“What happened as a result?”</li></ul>
+          </div>
+          <ul class="tips">
+            <li><b>Ask what they did, not what they would do.</b> Past actions are the evidence your scorecard needs.</li>
+            <li><b>Write down what you heard,</b> not your impression of it.</li>
+            <li><b>Score only what you saw.</b> Leave a criterion blank rather than guess.</li>
+          </ul>
+        </section>
+
+        <section class="card sc" aria-labelledby="scn">
+          <div class="sch">
+            <h2 class="h2" id="scn" style="font-size:16px">Your scorecard</h2>
+            <span class="tag n r"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Blind</span>
+          </div>
+          <ul class="sclist">
+            <li><b>Power systems knowledge</b><span class="box" aria-hidden="true"></span></li>
+            <li><b>Working with field crews</b><span class="box" aria-hidden="true"></span></li>
+            <li><span>Rating and recommendation</span><span class="box" aria-hidden="true"></span></li>
+          </ul>
+          <div class="due">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span>Opens when you start. Submit by <b style="color:#1B1A18;font-weight:600">3:00 PM tomorrow</b>, while the hour is fresh.</span>
+          </div>
+          <button class="btn">Open scorecard now</button>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1780}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+<script src="../../focus.js" data-keep="" data-hide=""></script></body>
+</html>

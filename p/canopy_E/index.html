@@ -1,0 +1,649 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta charset="utf-8">
+<title>Canopy Interviewer Workspace</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Canopy shell (icon rail) + one centered reading column. Warm paper ground, white rounded cards, a serif voice for names and questions, one lime moment, forest-green pill actions. A sticky bar with a progress ring carries the single next action.
+   Motion: snappy feedback (100–200ms) on presses and selections; smooth 320ms ease for state changes (scoring reveal, confirm, submit). */
+:root{
+  --bg:#f5f4ef;
+  --surface:#ffffff;
+  --sunk:#efeee8;
+  --ink:#151a16;
+  --ink-2:#3a423c;
+  --mute:#5c645d;
+  --line:#e3e1d9;
+  --line-2:#cfcdc4;
+  --forest:#1f4d36;
+  --forest-ink:#ffffff;
+  --forest-soft:#e5eee8;
+  --lime:#c8f169;
+  --lime-ink:#1d3510;
+  --lime-soft:#eef8d6;
+  --amber:#7f4f00;
+  --amber-soft:#faefd3;
+  --blind:#474b8a;
+  --blind-soft:#eeeef8;
+  --focus:#2f6fd6;
+  --shadow:0 1px 2px rgba(30,35,25,.05),0 8px 24px -12px rgba(30,35,25,.12);
+
+  --f-serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-ui:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  --t-fast:120ms;
+  --t-base:200ms;
+  --t-state:320ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+  --ease-move:cubic-bezier(.3,1.25,.5,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1210; --surface:#181c19; --sunk:#1f2420; --ink:#eef1ec; --ink-2:#cfd5cf; --mute:#a0a8a1;
+    --line:#2a2f2b; --line-2:#3a403b; --forest:#93d7ab; --forest-ink:#0e1a12; --forest-soft:#1d2d23;
+    --lime:#c8f169; --lime-ink:#1a2c0d; --lime-soft:#26321a; --amber:#efbd68; --amber-soft:#33291a;
+    --blind:#b9bcf4; --blind-soft:#24263b; --focus:#7aa7ff; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1210; --surface:#181c19; --sunk:#1f2420; --ink:#eef1ec; --ink-2:#cfd5cf; --mute:#a0a8a1;
+  --line:#2a2f2b; --line-2:#3a403b; --forest:#93d7ab; --forest-ink:#0e1a12; --forest-soft:#1d2d23;
+  --lime:#c8f169; --lime-ink:#1a2c0d; --lime-soft:#26321a; --amber:#efbd68; --amber-soft:#33291a;
+  --blind:#b9bcf4; --blind-soft:#24263b; --focus:#7aa7ff; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:10px}
+.page{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:20px 64px}
+.inner{max-width:1440px;margin:0 auto}
+
+/* ---------- motion primitives ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes swapIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
+@keyframes draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+@keyframes savedDot{0%{transform:scale(.4);opacity:0}40%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+.anim .rise{animation:rise 420ms var(--ease-out) both;animation-delay:calc(var(--d,0) * 50ms)}
+.swap{animation:swapIn var(--t-base) var(--ease-out) both}
+.press{transition:transform var(--t-fast) var(--ease-out),background-color var(--t-base) var(--ease-out),color var(--t-base) var(--ease-out),border-color var(--t-base) var(--ease-out),opacity var(--t-base)}
+.press:active{transform:scale(.97)}
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--t-state) var(--ease-io)}
+.reveal > .rv{min-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:opacity var(--t-base) var(--ease-out),transform var(--t-base) var(--ease-out)}
+.reveal.open{grid-template-rows:1fr}
+.reveal.open > .rv{opacity:1;transform:none;transition-delay:90ms}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important;transition-delay:0ms!important;scroll-behavior:auto!important}
+}
+
+/* ---------- prototype bar ---------- */
+.concept{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:14px;color:var(--mute);font-size:13px}
+.concept b{color:var(--ink);font-weight:600}
+.concept .acts{display:flex;gap:8px;flex-wrap:wrap}
+.ghost{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600}
+.ghost:hover{border-color:var(--ink-2)}
+
+/* ---------- app shell ---------- */
+.app{display:grid;grid-template-columns:72px minmax(0,1fr);background:var(--bg);border:1px solid var(--line);border-radius:24px;overflow:clip;box-shadow:var(--shadow)}
+.rail{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0;border-right:1px solid var(--line)}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--forest);color:var(--forest-ink);display:grid;place-items:center;font:500 22px/1 var(--f-serif);margin-bottom:16px}
+.rail-btn{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:var(--mute);border:0;background:none}
+.rail-btn:hover{background:var(--sunk)}
+.rail-btn.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.rail-btn svg{width:19px;height:19px}
+.rail .sp{flex:1}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center;font-size:12px;font-weight:700}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.col{width:100%;max-width:860px;margin:0 auto;padding:44px 32px 0}
+
+/* ---------- header ---------- */
+.eyebrow{font:600 12px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+h1{font:400 46px/1.05 var(--f-serif);letter-spacing:-.02em;margin:10px 0 0;text-wrap:balance}
+h1 em{font-style:italic;color:var(--forest)}
+.about{margin:12px 0 0;font-size:15px;color:var(--ink-2)}
+.about b{color:var(--ink);font-weight:600}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.tile{background:var(--surface);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow)}
+.tile .v{font:400 34px/1 var(--f-serif);letter-spacing:-.02em}
+.tile .v small{font:500 15px var(--f-ui);letter-spacing:0;color:var(--mute);margin-left:4px}
+.tile .k{margin-top:8px;font-size:13.5px;color:var(--mute)}
+.tile.hi{background:var(--lime);color:var(--lime-ink)}
+.tile.hi .k,.tile.hi .v small{color:var(--lime-ink);opacity:.8}
+
+.job{margin-top:14px;padding:16px 20px;border-radius:20px;background:var(--forest-soft);font-size:16.5px;line-height:1.45;color:var(--ink)}
+.job b{font-weight:600}
+.job .tips{font-weight:600;font-size:14.5px;color:var(--forest);border:0;background:none;padding:0;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;margin-left:4px}
+#jobText{display:inline}
+.tipwrap{margin-top:8px}
+.tipbox{padding:14px 20px;border-radius:20px;background:var(--surface);box-shadow:var(--shadow);font-size:14.5px}
+.tipbox ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.tipbox li::marker{color:var(--mute);font-size:13px}
+.tipbox .src{margin-top:8px;font-size:12.5px;color:var(--mute)}
+
+/* ---------- already covered ---------- */
+.covered{margin-top:14px;padding:16px 20px;border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}
+.covered .h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.covered .h b{font-size:15px;font-weight:600}
+.who{display:flex;gap:4px;align-items:center}
+.who span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-weight:700;background:var(--sunk);color:var(--ink-2);border:2px solid var(--surface);margin-left:-4px;position:relative}
+.who span:first-child{margin-left:0}
+.who span::after{content:"";position:absolute;right:-3px;bottom:-3px;width:11px;height:11px;border-radius:50%;background:var(--forest) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center/7px no-repeat;border:1.5px solid var(--surface)}
+.who em{font-style:normal;font-size:13px;color:var(--mute);margin-left:8px}
+.topics{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.topic{font-size:13.5px;padding:5px 12px;border-radius:999px;background:var(--sunk);color:var(--ink-2);white-space:nowrap;text-decoration:line-through;text-decoration-color:color-mix(in srgb, var(--mute) 55%, transparent);text-decoration-thickness:1px}
+.blind{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13.5px;color:var(--blind)}
+.blind .ic{width:22px;height:22px;border-radius:7px;background:var(--blind-soft);display:grid;place-items:center;flex:none}
+.blind svg{width:13px;height:13px}
+.blind svg .shackle{transform-origin:16px 11px;transition:transform var(--t-state) var(--ease-move)}
+.blind.open svg .shackle{transform:rotate(28deg) translateY(-1px)}
+.blind span.msg{transition:opacity var(--t-base)}
+
+/* ---------- criterion cards ---------- */
+.cards{display:flex;flex-direction:column;gap:16px;margin-top:32px}
+.crit{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;transition:opacity var(--t-state) var(--ease-out)}
+.crit-h{padding:22px 24px 6px;display:flex;gap:16px;align-items:flex-start}
+.num{flex:none;width:34px;height:34px;border-radius:12px;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center;font:500 18px/1 var(--f-serif)}
+.crit-h h2{margin:0;font:400 27px/1.15 var(--f-serif);letter-spacing:-.01em}
+.crit-h p{margin:4px 0 0;color:var(--mute);font-size:14.5px}
+.blk{padding:12px 24px 0 74px}
+.lbl{font:600 11.5px/1 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ask{margin:0;list-style:none;padding:0;display:grid;gap:12px}
+.ask li{font:400 21px/1.35 var(--f-serif);color:var(--ink);letter-spacing:-.005em}
+.sim{display:inline-flex;gap:6px;align-items:center;margin-top:6px;font:600 12.5px/1.3 var(--f-ui);color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:4px 10px}
+.sim::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+textarea.note{display:block;width:100%;min-height:112px;resize:vertical;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;background:var(--bg);font-size:15.5px;line-height:1.5;transition:border-color var(--t-base) var(--ease-out),box-shadow var(--t-base) var(--ease-out),background-color var(--t-base)}
+textarea.note:hover{border-color:var(--line-2)}
+textarea.note:focus{border-color:var(--forest);outline:none;background:var(--surface);box-shadow:0 0 0 4px var(--forest-soft)}
+textarea.note::placeholder{color:var(--mute)}
+textarea.note[readonly]{background:var(--sunk);border-color:transparent}
+.saved{display:inline-flex;gap:6px;align-items:center;font:600 12px var(--f-ui);letter-spacing:0;text-transform:none;color:var(--forest);opacity:0;transition:opacity 500ms var(--ease-out)}
+.saved::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--forest)}
+.saved.on{opacity:1;transition-duration:var(--t-fast)}
+.saved.on::before{animation:savedDot 260ms var(--ease-out)}
+.notes-blk{padding-bottom:22px}
+
+.scorewrap .rv{border-top:1px solid var(--line);background:var(--sunk)}
+.scoreblk{padding:16px 24px 18px 74px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.scoreblk .lbl{margin:0}
+
+/* segmented control with sliding thumb */
+.seg{--n:4;--i:0;position:relative;display:inline-grid;grid-template-columns:repeat(var(--n),1fr);background:var(--surface);border-radius:999px;padding:4px;box-shadow:inset 0 0 0 1px var(--line)}
+.seg .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / var(--n));border-radius:999px;background:var(--forest);transform:translateX(calc(var(--i) * 100%)) scale(.6);opacity:0;transition:transform 260ms var(--ease-move),opacity var(--t-fast)}
+.seg.has .thumb{opacity:1;transform:translateX(calc(var(--i) * 100%))}
+.seg button{position:relative;z-index:1;border:0;background:none;min-width:52px;height:44px;border-radius:999px;font-size:16px;font-weight:600;color:var(--ink-2);transition:color var(--t-base) var(--ease-out)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-checked="true"]{color:var(--forest-ink)}
+.seg.yn button{min-width:70px;font-size:14.5px}
+
+.last{border-radius:24px;padding:18px 24px;display:flex;gap:16px;align-items:flex-start;border:1.5px dashed var(--line-2)}
+.last .num{background:var(--sunk);color:var(--ink-2)}
+.last .num svg{width:17px;height:17px}
+.last h2{margin:0;font:400 21px/1.25 var(--f-serif)}
+.last p{margin:4px 0 0;font-size:15px;color:var(--ink-2)}
+.last textarea.note{margin-top:12px;min-height:64px}
+
+/* ---------- finish ---------- */
+.finishwrap{margin-top:16px}
+.finish{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.finish > .h{padding:20px 24px 6px}
+.finish > .h h2{margin:0;font:400 27px var(--f-serif);letter-spacing:-.01em}
+.frow{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.frow + .frow{border-top:1px solid var(--line)}
+.frow b{font-weight:600;font-size:15.5px}
+.frow small{display:block;color:var(--mute);font-size:13.5px}
+.stars{display:inline-flex;gap:2px}
+.stars button{border:0;background:none;padding:4px;color:var(--line-2);border-radius:10px;transition:color var(--t-base) var(--ease-out)}
+.stars button svg{width:30px;height:30px;display:block}
+.stars button.on{color:var(--forest)}
+.stars button.pop svg{animation:pop 260ms var(--ease-out) both;animation-delay:calc(var(--s) * 30ms)}
+.recs{display:flex;gap:6px;flex-wrap:wrap}
+.recs button{border:0;background:var(--sunk);border-radius:999px;height:42px;padding:0 16px;font-size:14px;font-weight:600;color:var(--ink-2)}
+.recs button:hover{background:var(--line)}
+.recs button[aria-checked="true"]{background:var(--forest);color:var(--forest-ink)}
+.optbtn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;border:0;border-top:1px solid var(--line);background:none;padding:16px 24px;text-align:left;font-weight:600;font-size:15px;color:var(--ink-2)}
+.optbtn span{font-weight:400;color:var(--mute)}
+.optbtn svg{width:18px;height:18px;color:var(--mute);transition:transform var(--t-base) var(--ease-out)}
+.optbtn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.opt .frow{border-top:1px solid var(--line)}
+.fnote{padding:14px 24px 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--mute)}
+
+/* ---------- sticky bar ---------- */
+.bar{position:sticky;bottom:0;z-index:5;margin-top:36px;padding:0 24px 16px}
+.bar-in{max-width:812px;margin:0 auto;padding:12px 12px 12px 14px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-radius:999px;background:color-mix(in srgb, var(--surface) 88%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 0 1px var(--line),0 12px 32px -14px rgba(20,30,20,.35)}
+.prog{display:flex;gap:12px;align-items:center;min-width:0;flex:1}
+.ring{flex:none;width:44px;height:44px;position:relative}
+.ring svg{width:44px;height:44px;transform:rotate(-90deg)}
+.ring .tr{stroke:var(--sunk)}
+.ring .pg{stroke:var(--forest);transition:stroke-dashoffset 480ms var(--ease-out),stroke var(--t-base)}
+.ring .ct{position:absolute;inset:0;display:grid;place-items:center;font-size:12.5px;font-weight:700;color:var(--ink)}
+.ring .ck{position:absolute;inset:0;display:grid;place-items:center}
+.ring .ck svg{transform:none;width:20px;height:20px}
+.ring .ck path{stroke-dasharray:24;animation:draw 360ms var(--ease-out) 120ms both}
+.ring.done .pg{stroke:var(--lime)}
+.ring.done{background:var(--forest);border-radius:50%}
+.ring.done .tr{stroke:var(--forest)}
+.status{font-size:14.5px;color:var(--ink-2);min-width:0}
+.status b{color:var(--ink);font-weight:600}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;background:var(--sunk);border-radius:999px;height:48px;padding:0 22px;font-weight:600;font-size:15px;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;color:var(--ink)}
+.btn:hover{background:var(--line)}
+.btn.pri{background:var(--forest);color:var(--forest-ink)}
+.btn.pri:hover{filter:brightness(1.1)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;filter:none}
+.btn svg{width:17px;height:17px}
+.pulse{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center;margin-left:6px}
+.pulse button{border:0;background:var(--sunk);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:600}
+.pulse button[aria-pressed="true"]{background:var(--forest);color:var(--forest-ink)}
+
+.app.submitted .crit{opacity:.82}
+
+/* ---------- rationale ---------- */
+.doc{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px;margin-top:44px}
+.doc h2{font:400 32px/1.15 var(--f-serif);letter-spacing:-.015em;margin:8px 0 14px;text-wrap:balance}
+.doc p{margin:0 0 12px;max-width:68ch;color:var(--ink-2)}
+.doc .wc{font-size:12.5px;color:var(--mute)}
+.card{background:var(--surface);border-radius:24px;box-shadow:var(--shadow)}
+.metric{padding:24px}
+.metric h3{margin:0 0 4px;font:400 23px var(--f-serif)}
+.metric .def{font-size:13.5px;color:var(--mute);margin:0 0 12px}
+.lever{display:grid;grid-template-columns:118px 1fr;gap:4px 12px;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
+.lever .k{font-weight:700;font-size:12.5px;color:var(--forest);padding-top:1px}
+.lever span{color:var(--ink-2)}
+.assume{margin-top:20px;padding:16px 20px;border-radius:20px;background:var(--sunk);font-size:13.5px;color:var(--ink-2)}
+.assume ul{margin:6px 0 0;padding-left:18px}
+.motion{margin-top:24px;padding:24px}
+.motion h3{margin:0 0 12px;font:400 23px var(--f-serif)}
+.mtable{width:100%;border-collapse:collapse;font-size:13.5px}
+.mtable th{text-align:left;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);font-weight:600;padding:0 10px 8px 0}
+.mtable td{border-top:1px solid var(--line);padding:9px 10px 9px 0;vertical-align:top;color:var(--ink-2)}
+.mtable td:first-child{color:var(--ink);font-weight:600}
+.mtable code{font:500 12.5px ui-monospace,Menlo,monospace;background:var(--sunk);padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tscroll{overflow-x:auto}
+
+@media (max-width:1000px){ .doc{grid-template-columns:1fr} }
+@media (max-width:720px){
+  .app{grid-template-columns:1fr;border-radius:18px}
+  .rail{display:none}
+  .col{padding:28px 16px 0}
+  .bar{padding:0 10px 10px}
+  .bar-in{border-radius:22px}
+  .blk,.scoreblk{padding-left:24px}
+  h1{font-size:34px}
+  .tiles{grid-template-columns:1fr 1fr}
+  .tiles .tile:last-child{grid-column:span 2}
+  .lever{grid-template-columns:1fr}
+}
+</style>
+
+<div class="page"><div class="inner">
+
+  <div class="concept">
+    <span><b>Canopy · interviewer workspace redesign</b> · concept prototype at 1440px · Owen Park at 1:50 pm, ten minutes before his site visit</span>
+    <span class="acts">
+      <button class="ghost press" id="fillNotes" type="button">Fill example notes</button>
+      <button class="ghost press" id="resetAll" type="button">Reset prototype</button>
+    </span>
+  </div>
+
+  <div class="app" id="app">
+    <nav class="rail" aria-label="Canopy">
+      <div class="logo" aria-hidden="true">c</div>
+      <button class="rail-btn press" type="button" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></button>
+      <button class="rail-btn on press" type="button" aria-label="My interviews" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></button>
+      <span class="sp"></span>
+      <div class="avatar" aria-label="Owen Park">OP</div>
+    </nav>
+
+    <main class="main">
+      <div class="col">
+        <div class="eyebrow rise" style="--d:0">Site visit · Brighton substation · Grid Modernization Engineer</div>
+        <h1 class="rise" style="--d:1">Interview Jordan Ellis <em>at 2:00</em></h1>
+        <p class="about rise" style="--d:2"><b>Jordan Ellis</b> (they/them) · distribution engineer, 6 years · led a 12 MW solar substation upgrade · Colorado PE license</p>
+
+        <div class="tiles">
+          <div class="tile rise" style="--d:3"><div class="v" id="tileTime">10<small>min</small></div><div class="k" id="tileTimeK">until 2:00–3:00 pm</div></div>
+          <div class="tile hi rise" style="--d:4"><div class="v">2</div><div class="k">criteria you score</div></div>
+          <div class="tile rise" style="--d:5"><div class="v">5<small>of 5</small></div><div class="k">your interview in the plan</div></div>
+        </div>
+
+        <div class="job rise" style="--d:6"><span id="jobText"></span><button class="tips" type="button" id="tipsBtn" aria-expanded="false" aria-controls="tipwrap">First time? 4 tips</button></div>
+        <div class="reveal tipwrap" id="tipwrap">
+          <div class="rv"><div class="tipbox">
+            <ol>
+              <li>Start by saying what this interview covers.</li>
+              <li>Ask each question as written, so answers compare.</li>
+              <li>Ask for specifics: “What did you do next?”</li>
+              <li>Write what they said and did, not how it felt.</li>
+            </ol>
+            <div class="src">Tips from Canopy</div>
+          </div></div>
+        </div>
+
+        <section class="covered rise" style="--d:7" aria-labelledby="covH">
+          <div class="h"><b id="covH">Already covered. Skip these.</b>
+            <span class="who" aria-label="Theo, Ravi, Lena and Nina have submitted"><span>TM</span><span>RD</span><span>LF</span><span>NO</span><em>all submitted</em></span>
+          </div>
+          <div class="topics">
+            <span class="topic">Career story</span><span class="topic">12 MW project</span><span class="topic">PE license</span><span class="topic">Radial feeder protection</span><span class="topic">Power-flow exercise</span><span class="topic">Outage briefing to a crew</span><span class="topic">Wrong as-built drawing</span><span class="topic">Battery pipeline</span>
+          </div>
+          <div class="blind" id="blind">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path class="shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+            <span class="msg" id="blindMsg">Their scores stay hidden until you submit yours.</span>
+          </div>
+        </section>
+
+        <div class="cards">
+          <article class="crit rise" style="--d:8" aria-labelledby="c1">
+            <div class="crit-h"><span class="num">1</span><div><h2 id="c1">Power systems knowledge</h2><p>Understands distribution networks, protection and interconnection.</p></div></div>
+            <div class="blk">
+              <div class="lbl">Ask</div>
+              <ul class="ask"><li>“Walk me through this substation. What would you check before we energize the new feeder?”</li></ul>
+            </div>
+            <div class="blk notes-blk">
+              <label class="lbl" for="n-power"><span>Your notes</span><span class="saved" id="s-power" aria-live="polite">Saved</span></label>
+              <textarea class="note" id="n-power" data-k="power" placeholder="What did Jordan say or do?"></textarea>
+            </div>
+            <div class="reveal scorewrap" data-score><div class="rv"><div class="scoreblk"><span class="lbl">Score 1 to 4</span><div class="seg" role="radiogroup" aria-label="Score for power systems knowledge" data-seg="power"></div></div></div></div>
+          </article>
+
+          <article class="crit rise" style="--d:9" aria-labelledby="c2">
+            <div class="crit-h"><span class="num">2</span><div><h2 id="c2">Working with field crews</h2><p>Explains a plan in plain terms to the people who will carry it out.</p></div></div>
+            <div class="blk">
+              <div class="lbl">Ask</div>
+              <ul class="ask">
+                <li>“What do you need to hear from the crew before switching starts?”</li>
+                <li>“Something here doesn’t match the drawings. Talk me through your next ten minutes.”<br><span class="sim">Lena asked something similar this morning</span></li>
+              </ul>
+            </div>
+            <div class="blk notes-blk">
+              <label class="lbl" for="n-crews"><span>Your notes</span><span class="saved" id="s-crews" aria-live="polite">Saved</span></label>
+              <textarea class="note" id="n-crews" data-k="crews" placeholder="What did Jordan say or do?"></textarea>
+            </div>
+            <div class="reveal scorewrap" data-score style="--delay:60ms"><div class="rv"><div class="scoreblk"><span class="lbl">Score 1 to 4</span><div class="seg" role="radiogroup" aria-label="Score for working with field crews" data-seg="crews"></div></div></div></div>
+          </article>
+
+          <div class="last rise" style="--d:10">
+            <span class="num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span>
+            <div style="flex:1;min-width:0">
+              <h2>Last 10 minutes: Jordan’s question</h2>
+              <p>“How much of the job is in the field?” From their cover note.</p>
+              <textarea class="note" id="n-other" data-k="other" aria-label="Other notes" placeholder="Other notes (optional)"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal finishwrap" id="finishwrap">
+          <div class="rv">
+            <section class="finish" aria-labelledby="finH">
+              <div class="h"><h2 id="finH">Finish your scorecard</h2></div>
+              <div class="frow"><div><b>Rating</b><small>Press 1 to 5</small></div><div class="stars" role="radiogroup" aria-label="Rating" id="stars"></div></div>
+              <div class="frow"><div><b>Recommendation</b></div><div class="recs" role="radiogroup" aria-label="Recommendation" id="recs"></div></div>
+              <button class="optbtn" type="button" id="optBtn" aria-expanded="false" aria-controls="optwrap">Other criteria <span>· optional, not in your plan</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="reveal" id="optwrap"><div class="rv opt">
+                <div class="frow"><div><b>Grid data and software</b><small>Works with SCADA, load data and power-flow tools.</small></div><div class="seg" role="radiogroup" aria-label="Score for grid data and software" data-seg="grid"></div></div>
+                <div class="frow"><div><b>Problem solving</b><small>Breaks down an unfamiliar problem and reasons through trade-offs.</small></div><div class="seg" role="radiogroup" aria-label="Score for problem solving" data-seg="ps"></div></div>
+                <div class="frow"><div><b>Holds a PE license</b><small>Yes or no.</small></div><div class="seg yn" role="radiogroup" aria-label="Holds a PE license" data-seg="pe" data-yn="1"></div></div>
+              </div></div>
+              <div class="fnote">Your notes above become the scorecard’s Notes.</div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div class="bar" role="region" aria-label="Next step">
+        <div class="bar-in">
+          <div class="prog">
+            <div class="ring" id="ring" aria-hidden="true">
+              <svg viewBox="0 0 44 44"><circle class="tr" cx="22" cy="22" r="18" fill="none" stroke-width="4"/><circle class="pg" id="ringPg" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1"/></svg>
+              <span class="ct" id="ringCt">0/6</span>
+            </div>
+            <div class="status" id="status" aria-live="polite"></div>
+          </div>
+          <div class="acts" id="acts"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <section class="doc" aria-label="Design rationale">
+    <div>
+      <div class="eyebrow">Rationale</div>
+      <h2>One page, organised around what Owen scores</h2>
+      <div id="rationale">
+        <p>Owen opens Canopy at 1:50, maybe from his truck at the substation, with ten minutes and no training. He needs three answers: what do I score, what do I ask, what should I skip. The page gives them in that order and nothing else.</p>
+        <p>The header says when, where and who, plus one line on the job. One strip lists what earlier interviews covered, who has submitted, and that their scores stay hidden until he submits. Below are two cards, one per criterion he owns. Each holds the team's definition, the team's questions and a notes box asking what Jordan said or did. A flag marks the question Lena already asked in similar form.</p>
+        <p>There are no tabs and no modes. Notes save as he types. When he presses Score, a 1–4 control opens under his notes in each card, and rating and recommendation open below. Every scorecard field is kept. A sticky bar shows the one next action and a ring of what's done.</p>
+        <p>Nothing is generated. Every line comes from the team, the plan or Jordan.</p>
+      </div>
+      <div class="wc" id="wc"></div>
+      <div class="assume">
+        <b>Assumptions to confirm with the Canopy team</b>
+        <ul>
+          <li>The plan can record which criterion each question targets and flag similar questions. The hiring team sets both.</li>
+          <li>The "already covered" topics are short labels from each interview's "What it asked" entry.</li>
+          <li>The scorecard's Notes field is filled from Owen's notes. No field is added.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card metric">
+        <h3>Expected effect on the north star</h3>
+        <p class="def">Interviews where the interviewer scores every criterion they cover, with written evidence, within 24 hours.</p>
+        <div class="lever"><span class="k">Every criterion</span><span>The page is built from Owen's 2 criteria, so he can't miss one. Submit stays blocked until both are scored.</span></div>
+        <div class="lever"><span class="k">With evidence</span><span>The notes box sits under each criterion's questions and asks what Jordan said or did. Evidence exists before scoring.</span></div>
+        <div class="lever"><span class="k">Within 24 h</span><span>Scoring happens on the same page as the notes: no blank form, no re-typing. The ring shows what's left.</span></div>
+        <div class="lever"><span class="k">Guardrail</span><span>About 150 words to read before 2:00, plus 3 questions. Test time-to-ready with first-time interviewers.</span></div>
+      </div>
+      <div class="card motion">
+        <h3>Motion</h3>
+        <div class="tscroll"><table class="mtable">
+          <thead><tr><th>Moment</th><th>Motion</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>Page opens</td><td>Header, tiles, cards rise 10px in reading order</td><td><code>420ms · 50ms stagger</code></td></tr>
+            <tr><td>Press</td><td>Buttons scale to 0.97</td><td><code>120ms</code></td></tr>
+            <tr><td>Note saved</td><td>Green dot pops in, label fades out</td><td><code>260ms in · 500ms out</code></td></tr>
+            <tr><td>Start scoring</td><td>Score rows open inside each card, then the finish card; page glides to score 1</td><td><code>320ms · 90ms content delay</code></td></tr>
+            <tr><td>Pick a score</td><td>Thumb slides to the value with a slight settle</td><td><code>260ms</code></td></tr>
+            <tr><td>Rating</td><td>Stars fill left to right with a small pop</td><td><code>260ms · 30ms stagger</code></td></tr>
+            <tr><td>Progress</td><td>Ring fills as each item is done</td><td><code>480ms</code></td></tr>
+            <tr><td>Bar changes</td><td>New message and actions fade up</td><td><code>200ms</code></td></tr>
+            <tr><td>Submit</td><td>Ring turns forest, check draws; lock shackle swings open</td><td><code>360ms · 320ms</code></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+</div></div>
+
+<script>
+(function(){
+  const S = {
+    get(k,d){ try{ const v=localStorage.getItem('canopy4-'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+    set(k,v){ try{ localStorage.setItem('canopy4-'+k, JSON.stringify(v)); }catch(e){} }
+  };
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Entrance motion only when the page is actually on screen, so a hidden or captured page never rests mid-animation.
+  if(!reduce && document.visibilityState==='visible'){
+    document.documentElement.classList.add('anim');
+    setTimeout(()=>document.documentElement.classList.remove('anim'), 1200);
+  }
+  const st = S.get('st', {phase:'notes', power:null, crews:null, grid:null, ps:null, pe:null, rating:0, rec:null, confirm:false, pulse:null});
+  const notes = S.get('notes', {power:'', crews:'', other:''});
+  const save = ()=> S.set('st', st);
+  const $ = id => document.getElementById(id);
+
+  // tips + optional criteria disclosures
+  function toggle(btn, wrap){ const open = !wrap.classList.contains('open'); wrap.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); wrap.querySelector('.rv').inert = !open; }
+  $('tipwrap').querySelector('.rv').inert = true; $('optwrap').querySelector('.rv').inert = true;
+  $('tipsBtn').addEventListener('click', ()=> toggle($('tipsBtn'), $('tipwrap')));
+  $('optBtn').addEventListener('click', ()=> toggle($('optBtn'), $('optwrap')));
+
+  // notes
+  const areas=[...document.querySelectorAll('textarea.note')]; const timers={};
+  areas.forEach(a=>{
+    a.value=notes[a.dataset.k]||'';
+    a.addEventListener('input', ()=>{
+      notes[a.dataset.k]=a.value; S.set('notes',notes); render();
+      const s=$('s-'+a.dataset.k); if(!s) return;
+      s.classList.remove('on'); void s.offsetWidth; s.classList.add('on');
+      clearTimeout(timers[a.dataset.k]); timers[a.dataset.k]=setTimeout(()=>s.classList.remove('on'),1200);
+    });
+  });
+  $('fillNotes').addEventListener('click', ()=>{
+    Object.assign(notes,{
+      power:'Before energizing: check relay settings against the new feeder load, recloser coordination, transformer tap position. Asked if the bus tie is normally open.\nUnsure how to confirm CT ratios on site without drawings.',
+      crews:'Wants the crew lead to repeat back the switching order. Asks who holds the clearance before anyone touches a breaker.\nDrawing mismatch: stopped work, gathered the crew, explained the mismatch in plain words, asked the lineman what he saw.',
+      other:'Told Jordan: about two site days a week in construction season.'
+    });
+    S.set('notes',notes); areas.forEach(a=>a.value=notes[a.dataset.k]); render();
+  });
+
+  // segmented controls (built once so the thumb can slide)
+  document.querySelectorAll('[data-seg]').forEach(el=>{
+    const yn=!!el.dataset.yn;
+    const opts= yn?[['yes','Yes'],['no','No']]:[[1,'1'],[2,'2'],[3,'3'],[4,'4']];
+    el.style.setProperty('--n', opts.length);
+    el.innerHTML='<span class="thumb" aria-hidden="true"></span>'+opts.map(([v,l])=>`<button type="button" role="radio" class="press" data-v="${v}" aria-checked="false">${l}</button>`).join('');
+    el.addEventListener('click', e=>{
+      const b=e.target.closest('button'); if(!b||st.phase==='done') return;
+      const v=b.dataset.v; st[el.dataset.seg]=(v==='yes'||v==='no')?v:+v; st.confirm=false; save(); render();
+    });
+  });
+  function paintSeg(el){
+    const k=el.dataset.seg, btns=[...el.querySelectorAll('button')];
+    const idx=btns.findIndex(b=>String(st[k])===b.dataset.v);
+    btns.forEach((b,i)=> b.setAttribute('aria-checked', i===idx));
+    el.classList.toggle('has', idx>=0); if(idx>=0) el.style.setProperty('--i', idx);
+  }
+
+  // stars + recommendation (built once)
+  const stars=$('stars'), recs=$('recs');
+  stars.innerHTML=[1,2,3,4,5].map(i=>`<button type="button" role="radio" data-v="${i}" aria-checked="false" aria-label="${i} star${i>1?'s':''}" style="--s:${i-1}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>`).join('');
+  recs.innerHTML=['Strong no','No','Neutral','Yes','Strong yes'].map(r=>`<button type="button" role="radio" class="press" data-v="${r}" aria-checked="false">${r}</button>`).join('');
+  function setRating(n){
+    if(st.phase==='done') return;
+    st.rating=n; st.confirm=false; save();
+    [...stars.children].forEach((b,i)=>{ b.classList.remove('pop'); if(i<n){ void b.offsetWidth; b.classList.add('pop'); } });
+    render();
+  }
+  stars.addEventListener('click', e=>{ const b=e.target.closest('button'); if(b) setRating(+b.dataset.v); });
+  recs.addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b||st.phase==='done') return; st.rec=b.dataset.v; st.confirm=false; save(); render(); });
+  document.addEventListener('keydown', e=>{
+    if(st.phase!=='score' || ['TEXTAREA','INPUT'].includes(document.activeElement.tagName)) return;
+    if(/^[1-5]$/.test(e.key)) setRating(+e.key);
+  });
+
+  // progress
+  function items(){
+    return [
+      ['power systems notes', !!notes.power.trim()],
+      ['field crews notes', !!notes.crews.trim()],
+      ['power systems score', st.power!=null],
+      ['field crews score', st.crews!=null],
+      ['rating', !!st.rating],
+      ['recommendation', !!st.rec]
+    ];
+  }
+
+  const statusEl=$('status'), acts=$('acts');
+  let lastKey='';
+  const jobCopy = {
+    notes:'You score <b>2 criteria</b>. Ask the questions below, note what Jordan says and does, then score. ',
+    score:'Score each criterion under your notes, then finish below. ',
+    done:'Done. Thanks for interviewing Jordan. '
+  };
+  function render(){
+    const scoring = st.phase!=='notes';
+    document.querySelectorAll('[data-score]').forEach(x=>{ x.classList.toggle('open', scoring); x.querySelector('.rv').inert=!scoring; });
+    $('finishwrap').classList.toggle('open', scoring); $('finishwrap').querySelector('.rv').inert=!scoring;
+    document.querySelectorAll('[data-seg]').forEach(paintSeg);
+    [...stars.children].forEach((b,i)=>{ b.classList.toggle('on', i<st.rating); b.setAttribute('aria-checked', i+1===st.rating); });
+    [...recs.children].forEach(b=> b.setAttribute('aria-checked', b.dataset.v===st.rec));
+    areas.forEach(a=> a.readOnly = st.phase==='done');
+    $('app').classList.toggle('submitted', st.phase==='done');
+
+    // ring
+    const it=items(), done=it.filter(i=>i[1]).length, C=113.1;
+    $('ringPg').style.strokeDashoffset = C*(1-done/it.length);
+    const ring=$('ring');
+    if(st.phase==='done'){
+      if(!ring.classList.contains('done')){ ring.classList.add('done'); $('ringCt').outerHTML='<span class="ck" id="ringCt"><svg viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>'; }
+    } else {
+      if(ring.classList.contains('done')){ ring.classList.remove('done'); $('ringCt').outerHTML='<span class="ct" id="ringCt"></span>'; }
+      $('ringCt').textContent = done+'/'+it.length;
+    }
+
+    // blind line
+    $('blind').classList.toggle('open', st.phase==='done');
+    $('blindMsg').textContent = st.phase==='done' ? 'You submitted. Their scorecards are open in Jordan’s profile.' : 'Their scores stay hidden until you submit yours.';
+
+    // header bits
+    $('tileTime').innerHTML = st.phase==='notes' ? '10<small>min</small>' : st.phase==='score' ? '24<small>h</small>' : 'Done';
+    $('tileTimeK').textContent = st.phase==='notes' ? 'until 2:00–3:00 pm' : st.phase==='score' ? 'to submit, by 3:00 pm tomorrow' : 'scorecard submitted';
+
+    // bar + job line: animate only when the state actually changes
+    const key = st.phase+'|'+st.confirm+'|'+(st.phase==='score' && !st.confirm ? (it.every(i=>i[1])?'ready':'todo') : '');
+    const left = it.filter(i=>!i[1]).map(i=>i[0]);
+    let s, a;
+    if(st.phase==='notes'){
+      s = done ? `<b>${done} of 6 done.</b> Notes save as you type.` : 'Notes save as you type.';
+      a = '<button class="btn pri press" type="button" data-a="score">Done interviewing · Score</button>';
+    } else if(st.phase==='score'){
+      if(st.confirm){
+        s = '<b>Submit now?</b> Their scorecards unlock once you do.';
+        a = '<button class="btn press" type="button" data-a="cancel">Not yet</button><button class="btn pri press" type="button" data-a="submit">Submit</button>';
+      } else {
+        s = left.length ? `<b>${left.length} left:</b> ${left.join(', ')}` : '<b>Ready.</b> Everything is filled in.';
+        a = '<button class="btn press" type="button" data-a="back">Back to notes</button><button class="btn pri press" type="button" data-a="confirm"'+(left.length?' disabled':'')+'>Submit scorecard</button>';
+      }
+    } else {
+      s = '<b>Submitted.</b> Did you repeat a question?<span class="pulse">'+['No','Yes','Not sure'].map(o=>`<button type="button" class="press" data-p="${o}" aria-pressed="${st.pulse===o}">${o}</button>`).join('')+'</span>';
+      a = '';
+    }
+    statusEl.innerHTML = s; acts.innerHTML = a;
+    const jt=$('jobText'); jt.innerHTML = jobCopy[st.phase];
+    if(key!==lastKey){
+      if(lastKey) [statusEl, acts, jt].forEach(el=>{ el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); });
+      lastKey=key;
+    }
+  }
+
+  acts.addEventListener('click', e=>{
+    const a=e.target.closest('[data-a]')?.dataset.a; if(!a) return;
+    if(a==='score'){
+      st.phase='score'; save(); render();
+      const target=document.querySelector('[data-seg="power"]');
+      setTimeout(()=>{ target.closest('.crit').scrollIntoView({behavior: reduce?'auto':'smooth', block:'center'}); target.querySelector('button').focus({preventScroll:true}); }, reduce?0:200);
+    }
+    if(a==='back'){ st.phase='notes'; st.confirm=false; save(); render(); }
+    if(a==='confirm'){ st.confirm=true; save(); render(); acts.querySelector('[data-a="submit"]').focus(); }
+    if(a==='cancel'){ st.confirm=false; save(); render(); acts.querySelector('[data-a="confirm"]')?.focus(); }
+    if(a==='submit'){ st.phase='done'; st.confirm=false; save(); render(); }
+  });
+  statusEl.addEventListener('click', e=>{
+    const b=e.target.closest('[data-p]'); if(!b) return;
+    st.pulse=b.dataset.p; save();
+    statusEl.querySelectorAll('[data-p]').forEach(x=> x.setAttribute('aria-pressed', x.dataset.p===st.pulse));
+  });
+
+  $('resetAll').addEventListener('click', ()=>{
+    try{ Object.keys(localStorage).filter(k=>k.startsWith('canopy')).forEach(k=>localStorage.removeItem(k)); }catch(e){}
+    location.reload();
+  });
+
+  $('wc').textContent = $('rationale').innerText.trim().split(/\s+/).length+' words';
+  render();
+})();
+</script>
+
+<script src="../../focus.js" data-keep="" data-hide="section.doc, section.doc ~ *"></script></body></html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<!--
+Canopy remix final8 (Nov 16): Contact button removed from the candidate card (three links fit). final7 (Nov 16): Résumé and LinkedIn links in the candidate card (sample file and link). final6 (Nov 16): 'Also probed by' with first names in the loop's avatar style (loop labels carry the same names); Start interview on the title row; a stronger Job description button; Contact with email and phone (sample). final5: final4 + Back to prep during the interview (notes and scores kept); the 1–4 score sits as chips beside each criterion name, so under the questions there's only the note.
+final4: v22 (Ruolan 8/10, signs off) + her polish: one avatar style (grey disc; the loop adds the done-check); 12 MW inline at body size; one meta line; How-to in the button shape; a quieter hover underline; a status ring before Recommendation. Kept: Jordan at 28 (the person asked for the name highlighted), single-letter avatars (two letters put 'NO' beside the No recommendation).
+v22: v21 + Ruolan (7/10): rubric tooltip no longer clipped (the card doesn't hide overflow); a visible hover cue on the names (control-grey underline, name + tile as target); four type tiers (40/24/16/13); one profile meta line; the application's own words for 12 MW; PE in ink; 'How-to' named once; one footer divider; one drawer label column; focus avatars without the done-check.
+v21: v20 + Ruolan (8/10): the focus area is the one raised surface and its names step up to 24; rubric tips open to the right; two deliberate profile meta lines; a one-line 12 MW fact; Owen's node needs no label; one 'done' language (no extra ring); the other-criteria row leads with grey criterion tiles; one drawer label style.
+v20: v19 + Ruolan (8/10): no instruction box (the quote opens only on hover/select); one-surface candidate card (plain meta line, two facts without boxes, 12 MW the one figure, in Jordan's words); one avatar style with the done-check; one-word loop labels on one line; no 15px; a real 'other criteria' row; Submit deep green when ready, grey when not.
+v19: show, don't tell. Rubric definitions, interview asks, Jordan's details and the blind rule move into hover; the loop is a horizontal 1-5 avatar strip (Ruolan v18) whose step shows what it asked on hover/tap; candidate and loop are two cards; Jordan's name larger; Start interview deep green, level with the top row.
+final3: v18 (Ruolan look judge 8/10, signs off) + her polish: the frame ends with its content; the other criteria named without the count; one control text size; PE badge at 13; a quiet guide fill; 12 MW as the one figure; a briefcase for the project; a ring that fills when a recommendation is chosen.
+v18: v17 + Ruolan's look critique (8/10): a lighter right column (first-name bylines, no step numbers; two facts, PE as a badge by the name; a two-line profile meta); Owen's node ringed with the lock beside it; plain 'also covered' avatars; even header separators; quiet '3 more criteria' with names; 16px score values; an outlined disabled Submit.
+v17: v16 + Ruolan's look critique (8/10): the focus area is one grid (headers, questions, scores in shared rows), so both score blocks align; journey quotes quieter (ink2) and tighter; one check style (green = asked / done); the You step is Owen's avatar with his two criteria; '14 of 60 min'; a clearly unavailable Submit; no 'Your focus' label; 'Search'; a one-line profile meta.
+v16: v15 + Ruolan's look critique (8/10): profile in two lines + meta; criterion done = its icon tile turns into a green check (one check style); no '5 left'; timer '14 min'; journey steps numbered, lock on the timeline; 'also covered' words dropped (names on hover); badge glyph for the license; one border grey for non-inputs; drawer values in ink; How-to as a white closable block.
+v15: v14 + Ruolan's look critique (7/10): journey quote first (16 regular), then who (13); a present profile (22px name, one role line, 12 MW and PE as figures, no divider); 'also covered' sits under each definition, columns end where they end; full-width 1–4; marks instead of 'still to do'; the You step shows Owen's two criteria as icons; one control label size; 'Cooperative'.
+v14: v13 + Ruolan's look critique (7/10): Jordan named once up top (the profile); journey steps two lines (title · who, then the quote); one avatar style with a check; no hanging divider; score blocks aligned, no repeated 'Your score'; 'How-to'; a lock with 'Scores hidden'; one less tier.
+v13: look pass against Elisha v4 and Ruolan v18 (Ruolan look judge 7/10 on final2): status as marks (avatar + check), a stronger profile, small avatar rows for 'also covered by', no labels that restate the form, '5 of 5' in the title, airier definitions, a cleaner Application drawer.
+final2: v12 (Ruolan 8/10, signs off) + her polish: Recommendation uses the same segmented control as the score; one border grey for secondary buttons; even label gaps; sentence-case drawer heads; a muted disabled Submit; 'also covered by' rows aligned across both columns.
+v12: v11 + Ruolan's v11 critique (8/10): Application opens the full record as submitted (no invented résumé); the profile is an open block, the focus area the only bordered one; 'also covered by' label above its pills; one sentence-case label style; disabled Submit outlined, to-do only while something's missing; input edges at 3:1; the 3 other criteria named.
+v11: v10 + Ruolan's v10 critique (7/10): journey quotes wrap to two lines so repeats stay visible; no invented quote marks on Jordan's cover note; plain facts; one JD link (by the role); white profile card, fill only on the team's questions; 8/16/24 spacing; no 'not scored yet'; one label style.
+v10: v9 + Ruolan's v9 critique (7/10): each focus column ends where its content ends; 'also covered by' pills carry the journey's step numbers; Submit needs scores, notes and a recommendation, and says so; four type tiers (40/22/16/13); a quieter profile card; journey quotes one line each, full on hover; 'Interview 5 of 5' once; the guide labelled as Canopy's.
+v9: restructured to the person's golden workflow (open 5 min before; know the candidate, the role,
+what to ask and what was asked, how to evaluate, how to fill the scorecard, where this interview fits; click for more).
+- One focus container, two columns; the team's questions sit inside the focus area they test (the team's tag, assumed).
+- During the call each focus column becomes its part of the scorecard, under its questions (fields unchanged, moved).
+- Profile card restored: photo, name, role, place; three facts; Application / Job description / Contact one click each.
+- Journey on the right: 1-5, what each asked (quoted, from the plan), then who; scores closed until submit.
+- Less text: no section sub-captions, short facts, one line per journey step's byline.
+-->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canopy: Site visit, remix</title>
+<style>
+:root{--f:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;--ink:#1C1A17;--ink2:#5E5851;--ink3:#5E5851;--card:#F6F4F1;--card2:#ECE8E2;--line:#DCD6CE;--edge:#DCD6CE;--ctl:#968E84;--green:#1F6B3F;--greenbg:#E8F1EA;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:#E9E6E1;color:var(--ink);font-size:15px;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;cursor:pointer;transition:background-color .18s,color .18s,box-shadow .18s,transform .12s var(--ease)}
+button:active{transform:scale(.98)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+#window{display:flex;flex-direction:column;gap:40px;padding:24px 32px 48px}
+.cap{font-size:15px;font-weight:600;margin-bottom:10px}
+.cap em{font-style:normal;color:var(--ink3);margin-right:8px}
+.app{width:1440px;background:#fff;border-radius:12px;overflow:hidden;display:flex;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.1)}
+.rail{width:78px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:24px 0;gap:8px}
+.rail .logo{font-size:40px;font-weight:300;margin-bottom:24px}
+.rail button{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.rail button:hover{background:var(--card)}
+.rail button.on{background:var(--card2);color:var(--ink)}
+.page{flex:1;min-width:0;position:relative}
+.top{height:66px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 40px}
+.crumb{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--ink2)}
+.crumb b{color:var(--ink);font-weight:600}
+.ib{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px var(--line)}
+.ib:hover{background:var(--card)}
+.search{margin-left:auto;width:340px;height:40px;border-radius:10px;background:var(--card);display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--ink3);font-size:13px}
+/* header */
+.hdr{align-items:flex-start!important;padding:24px 40px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;gap:24px}
+.who{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--ink2)}
+.who b{color:var(--ink);font-weight:600}
+.jd{display:inline-flex;align-items:center;gap:4px;color:var(--ink);font-weight:600;border-radius:6px;padding:2px 6px;margin-left:-2px;text-decoration:underline;text-decoration-color:var(--edge);text-underline-offset:3px}
+.jd:hover{text-decoration-color:var(--ink)}
+.hdr h1{font-size:44px;font-weight:700;letter-spacing:-.02em;margin:8px 0 6px;line-height:1.05}
+.meta{display:flex;gap:20px;color:var(--ink2);font-size:16px}
+.meta span{display:flex;align-items:center;gap:6px}
+.first{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink2);border-radius:10px;height:36px;padding:0 14px;box-shadow:inset 0 0 0 1px var(--line);margin-top:14px}
+.first:hover{background:var(--card)}
+.start{margin-left:auto;height:52px;border-radius:12px;background:#14532D;color:#fff;font-size:16px;font-weight:600;padding:0 24px;display:flex;align-items:center;gap:10px}
+.start:hover{background:#1B6B3A;transform:translateY(-1px)}
+/* body */
+.body{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:32px;padding:24px 40px 48px}
+.sec{margin-bottom:28px}
+.lbl{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400;color:var(--ink3);margin-bottom:12px}
+.lbl .sub{text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink3);margin-left:auto}
+/* criteria rows */
+.crit{border-radius:16px;box-shadow:inset 0 0 0 1px var(--line),0 2px 8px rgba(28,26,23,.06);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s}
+.crit:hover{box-shadow:inset 0 0 0 1px var(--line),0 4px 14px rgba(28,26,23,.09)}
+.crit.hl{box-shadow:inset 0 0 0 2px var(--green)}
+.crit .row{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:24px}
+.cic{width:44px;height:44px;border-radius:12px;background:var(--greenbg);color:var(--green);display:flex;align-items:center;justify-content:center;flex:none}
+.crit .nm{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.crit .def{font-size:16px;color:var(--ink2);margin-top:2px}
+.crit .tail{margin-left:auto;display:flex;align-items:center;gap:12px;flex:none}
+.crit .chev{transition:transform .25s var(--ease);color:var(--ink3)}
+.crit.open .chev{transform:rotate(180deg)}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.crit.open .more{grid-template-rows:1fr}
+.more>div{overflow:hidden}
+.morein{padding:0 24px 24px 84px;display:flex;flex-direction:column;gap:14px}
+.mh{font-size:13px;color:var(--ink3);font-weight:600}
+.earlier{display:flex;flex-wrap:wrap;gap:8px}
+.earlier .eq{border-radius:999px;padding:4px 12px 4px 4px;box-shadow:inset 0 0 0 1px var(--line);align-items:center}
+.earlier .eq:hover{background:var(--greenbg)}
+.eq{display:flex;gap:12px;align-items:flex-start}
+.eq q{font-size:16px;color:var(--ink);quotes:"\201C" "\201D"}
+.eq .by{font-size:13px;color:var(--ink3);margin-top:2px}
+.scale{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--ink3)}
+.scale i{font-style:normal;width:28px;height:28px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink2);font-weight:600}
+/* questions */
+.qs{display:flex;flex-direction:column}
+.q{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.q:last-child{border-bottom:0}
+.qn{font-size:16px;font-weight:700;color:var(--ink2);width:24px;flex:none;line-height:1.35}
+.q q{font-size:20px;font-weight:400;line-height:1.35;letter-spacing:-.01em;quotes:"\201C" "\201D";flex:1}
+.q .tick{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ink3);display:flex;align-items:center;justify-content:center;color:transparent;flex:none;margin-top:2px}
+.q .tick:hover{box-shadow:inset 0 0 0 1.5px var(--green)}
+.q.done .tick{background:var(--green);color:#fff;box-shadow:none}
+.q.done q{color:var(--ink3)}
+.cand{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:12px;background:var(--card);margin-top:12px}
+.cand q{font-size:16px;quotes:"\201C" "\201D"}
+.cand .by{font-size:13px;color:var(--ink3);margin-top:4px}
+/* right column */
+.card{border-radius:16px;background:var(--card);padding:16px}
+.jordan{display:flex;gap:14px;align-items:center}
+.jordan h3{font-size:16px;font-weight:600;font-weight:700}
+.jordan .pr{font-size:13px;color:var(--ink3)}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#fff;background:var(--green);border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:3px}
+.facts{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.fact{display:flex;gap:10px;font-size:16px;line-height:1.4}
+.fact svg{flex:none;margin-top:2px;color:var(--ink2)}
+.fact .src{display:block;font-size:13px;color:var(--ink3);margin-top:2px}
+.contact{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink2)}
+.contact:hover{color:var(--ink)}
+/* timeline */
+.tl{position:relative;margin-top:4px}
+.tl::before{content:"";position:absolute;left:19px;top:20px;bottom:28px;width:2px;background:var(--edge)}
+.st.on{background:var(--card2)}
+.st.on .av{box-shadow:0 0 0 4px var(--card2)}
+.qs.compact .q q{font-size:16px;font-weight:400}
+.qs.compact .q{padding:10px 0}
+.score{margin-top:8px}
+.score textarea{min-height:140px}
+.st{position:relative;display:flex;gap:14px;padding:8px;margin-left:-8px;width:calc(100% + 8px);border-radius:12px;width:100%;text-align:left}
+.st:hover{background:var(--card)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--ink2);flex:none;position:relative;z-index:1;box-shadow:0 0 0 4px #fff}
+.st:hover .av{box-shadow:0 0 0 4px var(--card)}
+.av .ok{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:#fff;color:var(--ink2);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+.av.you{background:#fff;color:var(--green);box-shadow:0 0 0 4px #fff,inset 0 0 0 2px var(--green)}
+.st .asked{display:flex;flex-direction:column;gap:4px}
+.st q{font-size:16px;font-weight:400;line-height:1.35;quotes:"\201C" "\201D"}
+.st .by{font-size:13px;color:var(--ink3);margin-top:4px}
+.st .by b{color:var(--ink2);font-weight:600}
+.st .chips{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:600;border-radius:999px;padding:2px 8px;box-shadow:inset 0 0 0 1px var(--edge);color:var(--ink2);transition:background .2s,color .2s}
+.chip.mine{background:var(--green);color:#fff;box-shadow:none}
+.blind{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3);margin:6px 0 0 54px}
+/* review */
+.review{display:flex;align-items:center;gap:12px;margin-top:20px;padding:16px 20px;border-radius:16px;box-shadow:inset 0 0 0 1px var(--line)}
+.review b{font-size:16px}
+.review .s{font-size:13px;color:var(--ink3)}
+/* drawer */
+.dim{position:absolute;inset:0;background:rgba(28,26,23,.28);z-index:8;animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:560px;background:#fff;z-index:9;box-shadow:-20px 0 40px rgba(0,0,0,.08);animation:slide .32s var(--ease);display:flex;flex-direction:column}
+@keyframes slide{from{transform:translateX(100%)}}
+.dh{display:flex;align-items:center;gap:12px;padding:24px 28px;border-bottom:1px solid var(--line)}
+.dh h2{font-size:22px;font-weight:700;flex:1}
+.db{padding:24px 28px;overflow:auto;display:flex;flex-direction:column;gap:24px;font-size:16px;line-height:1.55;color:var(--ink)}
+.db h4{font-size:13px;font-weight:400;color:var(--ink3);margin-bottom:8px}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;align-items:baseline}
+.kv span:nth-child(odd){font-size:13px}
+.kv span:nth-child(odd){color:var(--ink3)}
+.kv span:nth-child(even){color:var(--ink)}
+.guide{border-radius:14px;background:var(--card);padding:18px 20px;margin-bottom:28px;animation:fade .3s}
+.guide ol{padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
+.guide .gh{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:10px}
+/* during: scorecard */
+.score .cr{padding:16px 0;border-bottom:1px solid var(--line)}
+.score .cr h4{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.seg{display:inline-flex;gap:4px;background:#fff;border-radius:10px;padding:4px;box-shadow:inset 0 0 0 1px var(--ctl)}
+.seg button{width:44px;height:36px;border-radius:8px;font-weight:600;color:var(--ink2)}
+.seg button:hover{background:#fff}
+.seg button.on{background:var(--ink);color:#fff}
+textarea{width:100%;min-height:76px;margin-top:10px;border-radius:10px;border:1px solid var(--ctl);font-size:16px!important;background:#fff;padding:10px 12px;font:inherit;color:var(--ink);resize:vertical}
+textarea:focus{outline:2px solid var(--green);outline-offset:0}
+.rest:hover{background:var(--card)}
+.rest{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 0;font-size:16px;font-weight:600;color:var(--ink2)}
+.rec{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:14px;padding:4px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--ctl)}
+.rec button{height:36px;border-radius:8px;background:#fff;font-size:16px;font-size:13px;font-weight:600;color:var(--ink2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.rec button:hover{background:var(--card2)}
+.rec button.on{background:var(--ink);color:#fff}
+.submit{width:100%;height:52px;border-radius:12px;background:var(--ink);color:#fff;font-size:16px;font-weight:600;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit:disabled{background:var(--card2);color:var(--ink2);box-shadow:none;cursor:not-allowed}
+.submit:not(:disabled){background:#14532D}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--green);background:var(--greenbg);border-radius:999px;padding:6px 12px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.why{max-width:1100px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-size:15px;line-height:22px;color:var(--ink2)}
+.why b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.focus{border-radius:20px;box-shadow:0 1px 2px rgba(28,26,23,.06),0 10px 28px rgba(28,26,23,.08);background:#fff;overflow:visible}
+.fh{display:flex;align-items:center;padding:20px 24px 0}
+.hint{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink3)}
+.fcols{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.fcol+.fcol{min-height:100%}
+.fcol{padding:20px 24px 24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.fcol+.fcol{border-left:1px solid var(--line)}
+.ft{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}
+.ft .nm{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.ft .def{font-size:16px;color:var(--ink2);margin-top:8px;line-height:1.4}
+.sub{font-size:13px;font-weight:400;color:var(--ink3);margin-top:16px}
+.focus .q{display:flex;gap:16px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--card);border:0}
+.focus .q q{font-size:16px;font-weight:600;line-height:1.4;flex:1}
+.focus .q.done q{color:var(--ink3)}
+.also{display:flex;gap:6px;align-items:center;padding-top:4px}
+.also .pre{font-size:13px;color:var(--ink3);margin-right:4px}
+.ava{position:relative;width:30px;height:30px;border-radius:50%;background:var(--card2);font-size:13px;font-weight:700;color:var(--ink2);display:flex;align-items:center;justify-content:center}
+.ava:hover,.ava.on{background:var(--ink);color:#fff}
+.ava .ok{position:absolute;right:-3px;bottom:-3px;width:14px;height:14px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+.fcols{align-items:start!important}
+.fcol+.fcol{border-left:0}
+.scorein{margin-top:8px}
+.scorein .seg{display:grid;grid-template-columns:repeat(4,1fr);width:100%}
+.scorein .seg button{width:auto;height:36px;font-size:16px;font-weight:600}
+.also .sub{flex-basis:100%;margin:8px 0 0}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;border-radius:999px;padding:3px 10px 3px 3px;box-shadow:inset 0 0 0 1px var(--ctl);color:var(--ink2)}
+.pill:hover,.pill.on{background:var(--card2);color:var(--ink)}
+.pill .mini{width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--edge);display:flex;align-items:center;justify-content:center;font-size:13px}
+.pill.on .mini{background:#fff}
+.scorein textarea{min-height:110px}
+.scorein .sub{margin-bottom:8px}
+.ffoot{border-top:1px solid var(--line);padding:16px 24px;display:flex;flex-direction:column;gap:12px}
+.recw{display:flex;align-items:center;gap:16px}.recw .rec{flex:1;margin:0}
+.subw{display:flex;align-items:center;gap:16px}.subw .submit{width:auto;padding:0 28px;margin:0}
+.todo{font-size:13px;color:var(--ink3)}
+.prof{padding:0 0 8px}
+.ph{display:flex;gap:16px;align-items:center}
+.ph h3{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.ph .pr{font-size:13px;color:var(--ink3);display:flex;align-items:center;gap:4px}
+.hl{display:flex;flex-direction:column;gap:8px;margin-top:16px;font-size:16px;line-height:1.4}
+.hl div{display:flex;gap:10px;align-items:flex-start}.hl svg{flex:none;margin-top:2px;color:var(--ink3)}
+.links{display:flex;gap:8px;margin-top:16px}
+.links button{flex:0 0 auto;padding:0 16px;display:flex;align-items:center;justify-content:center;gap:6px;height:36px;border-radius:10px;background:#fff;font-size:13px;font-weight:600;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line)}
+.links button:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink3)}
+.jr{margin-top:24px}
+.steps{margin-top:4px}
+.steps{list-style:none;position:relative;display:flex;flex-direction:column;gap:2px;margin-top:8px}
+.steps::before{content:"";position:absolute;left:23px;top:16px;bottom:16px;width:2px;background:var(--edge)}
+.steps li>button,.steps li.you{display:flex;gap:12px;width:100%;text-align:left;padding:6px 8px;border-radius:12px}
+.steps li>button:hover,.steps li.on>button{background:var(--card2)}
+.steps .n{width:32px;height:32px;border-radius:50%;background:var(--card2);box-shadow:0 0 0 3px #fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink2);flex:none;position:relative;z-index:1}
+.steps .n .ok{position:absolute;right:-3px;bottom:-3px;width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+.steps li.you .n{font-size:13px;width:40px;height:40px;margin-left:-4px;background:#fff;color:var(--green);box-shadow:0 0 0 3px #fff,inset 0 0 0 2.5px var(--green)}
+.steps li.you .n{background:var(--green);color:#fff;box-shadow:none}
+.steps .b{display:flex;flex-direction:column;gap:2px;min-width:0}
+.steps .t{font-size:16px;font-weight:600}
+.steps q{font-size:16px;color:var(--ink2);line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.steps li.on q,.steps li>button:hover q{-webkit-line-clamp:unset}
+.steps .by{font-size:13px;color:var(--ink3);display:flex;align-items:center;gap:4px}
+.five{display:inline-flex;align-items:center;gap:4px}.five i{width:8px;height:8px;border-radius:50%;background:var(--edge)}.five i.me{background:var(--green);width:10px;height:10px}
+.meta{align-items:center;flex-wrap:wrap}
+.meta .first{margin:0}
+.live{margin-left:auto;flex-direction:column;align-items:stretch;gap:6px;border-radius:12px;padding:8px 14px}
+.track{height:4px;border-radius:2px;background:#cfe2d4;overflow:hidden;display:block}.track span{display:block;height:100%;background:var(--green)}
+.guide{margin-bottom:16px}.guide b{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.db p{margin-bottom:8px}
+.hdr h1{font-size:40px}
+.meta{font-size:16px}
+.cic.fin{background:var(--green);color:#fff}
+.ring{display:inline-flex;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ctl);color:transparent;align-items:center;justify-content:center;margin-left:8px;vertical-align:3px;transition:background .2s}
+.ring.ok{background:var(--green);color:#fff;box-shadow:none}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;padding:24px}
+.fgrid .cell{min-width:0}
+.fgrid .r1{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.fgrid .r1 .qcol{display:flex;flex-direction:column;gap:12px}
+.fgrid .r2{margin-top:16px}
+.fgrid .r2 .scorein{margin-top:0}
+.pe{display:inline-flex;align-items:center;font-size:13px;font-weight:700;color:var(--ink);background:#fff;box-shadow:inset 0 0 0 1.5px var(--ink);border-radius:6px;padding:1px 6px;vertical-align:3px;letter-spacing:.02em}
+.rring{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ctl);display:inline-flex;align-items:center;justify-content:center}
+.rring.ok{background:var(--green);color:#fff;box-shadow:none}
+.card2{border-radius:20px;background:var(--card);padding:24px}
+.prof{padding:24px}
+.ph h3{font-size:28px!important;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.ph .pr{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink2);background:#fff;border-radius:999px;padding:5px 10px}
+.prof .hl{margin-top:16px;gap:10px}
+.fig{display:flex;align-items:baseline;gap:10px;font-size:16px;color:var(--ink2)}
+.fig svg{align-self:center}
+.fig b{font-size:16px;color:var(--ink);font-weight:600;white-space:nowrap}
+.fig svg{color:var(--green)}
+.prof .links{margin-top:16px}
+.loop{margin-top:16px}
+.lh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.lt{font-size:16px;font-weight:700}
+.lock{color:var(--ink3);display:inline-flex;cursor:help}
+.hsteps{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.hsteps::before{content:"";position:absolute;left:10%;right:10%;top:20px;height:2px;background:var(--edge)}
+.hsteps li{position:relative;display:flex;justify-content:center}
+.hsteps button,.hsteps li.you{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;background:none;border-radius:12px;width:100%}
+.hav{position:relative;width:40px;height:40px;border-radius:50%;background:var(--card2);box-shadow:0 0 0 4px var(--card);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--ink2);transition:background .18s,color .18s}
+.hav .ok{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--card)}
+.hsteps button:hover .hav,.hsteps li.on .hav{background:var(--ink);color:#fff}
+.hav.me{background:#fff;color:var(--green);box-shadow:0 0 0 4px var(--card),inset 0 0 0 2.5px var(--green);font-size:13px}
+.hsteps button,.hsteps li.you{justify-content:flex-start}
+.meta2{margin-top:12px;font-size:13px;color:var(--ink3);line-height:1.5}
+.hn{font-size:13px;color:var(--ink3);text-align:center;line-height:1.2}
+.hsteps li.on .hn{color:var(--ink);font-weight:600}
+.said{margin-top:16px;background:#fff;border-radius:12px;padding:14px 16px;min-height:76px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.said q{font-size:16px;line-height:1.4}
+.said .by{font-size:13px;color:var(--ink3)}
+.said.empty{color:var(--ink3);font-size:13px;flex-direction:row;align-items:center;gap:8px}
+[data-tip]{position:relative}
+[data-tip]:hover::after,[data-tip]:focus-visible::after,[data-tip].tipon::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);z-index:20;width:max-content;max-width:280px;background:var(--ink);color:#fff;font-size:13px;font-weight:400;line-height:1.4;padding:8px 10px;border-radius:8px;white-space:normal;letter-spacing:0;text-transform:none;pointer-events:none;animation:fade .15s}
+.lock[data-tip]:hover::after{left:auto;right:0}
+.nm[data-tip]{text-decoration:underline dotted var(--line);text-underline-offset:6px;cursor:help;display:inline-block}
+.nm[data-tip]:hover::after,.nm[data-tip].tipon::after,.nm[data-tip]:focus-visible::after{left:0;top:auto;bottom:calc(100% + 8px);font-size:13px;font-weight:400}
+.back{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;font-size:13px;font-weight:600;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line);background:#fff}
+.back:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ctl)}
+.chips4{display:inline-flex;gap:4px}
+.chips4 button{width:32px;height:32px;border-radius:8px;font-size:15px;font-weight:600;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--ctl);background:#fff}
+.chips4 button:hover{background:var(--card)}
+.chips4 button.on{background:var(--ink);color:#fff;box-shadow:none}
+.trow{display:flex;align-items:flex-end;gap:16px;margin:8px 0 6px}
+.trow h1{margin:0!important;line-height:1}
+.trow>.start,.trow>span{margin-left:auto}
+.hdr{align-items:flex-start!important}
+.jdb{display:inline-flex;align-items:center;gap:6px;margin-left:12px;height:30px;padding:0 10px 0 12px;border-radius:8px;background:var(--greenbg);color:var(--green);font-size:14px;font-weight:700}
+.jdb:hover{background:#d6eadb}
+.who2{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 2px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line);background:#fff}
+.who2:hover,.who2.on{box-shadow:inset 0 0 0 1px var(--ink);color:var(--ink)}
+.hav.sm{width:26px;height:26px;font-size:12px;box-shadow:none}
+.hav.sm .ok{width:12px;height:12px;right:-2px;bottom:-2px;box-shadow:0 0 0 1.5px #fff}
+.also{flex-wrap:wrap}
+.hn b{font-weight:600;color:var(--ink2)}
+.cp{display:flex;align-items:center;gap:8px}
+.copy{font-size:12px;font-weight:600;color:var(--ink2);border-radius:6px;padding:2px 8px;box-shadow:inset 0 0 0 1px var(--line)}
+.copy:hover{color:var(--ink)}
+.links{flex-wrap:nowrap;gap:6px!important}
+.links button{padding:0 10px!important;flex:1 1 auto!important;gap:5px!important}
+.filecard{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;box-shadow:inset 0 0 0 1px var(--line)}
+.filecard svg{color:var(--ink2)}
+</style></head><body>
+<div id="window"></div>
+<script>
+const P={
+home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+listcheck:'<path d="m3 6 1.5 1.5L7 5"/><path d="m3 12 1.5 1.5L7 11"/><path d="m3 18 1.5 1.5L7 17"/><path d="M11 6h10M11 12h10M11 18h10"/>',
+bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+user:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.4a7 7 0 0 1 11.6 0"/>',
+x:'<path d="M18 6 6 18M6 6l12 12"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/>',
+book:'<path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/>',
+file:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
+mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+check:'<path d="M20 6 9 17l-5-5"/>',
+send:'<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>',
+chev:'<path d="m6 9 6 6 6-6"/>',
+chevr:'<path d="m9 6 6 6-6 6"/>',
+lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
+award:'<circle cx="12" cy="8" r="6"/><path d="M8.2 13 7 22l5-3 5 3-1.2-9"/>',
+hat:'<path d="M2 18h20"/><path d="M4 18v-2a8 8 0 0 1 16 0v2"/><path d="M10 9V5h4v4"/>',
+play:'<path d="M7 4v16l13-8z"/>',
+msg:'<path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/>',
+ext:'<path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>',
+layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+badge:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+chart:'<path d="M4 20V11M10 20V4M16 20v-7M2 20h20"/>',
+bulb:'<path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V16h8v-1.3A7 7 0 0 0 12 2z"/>',
+doc:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h3"/>',
+li:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/>',
+eyeoff:'<path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 6c6 0 10 6 10 6a17 17 0 0 1-3 3.6M6.6 6.6C3.8 8.4 2 12 2 12s4 6 10 6a9.7 9.7 0 0 0 4.4-1"/>',
+};
+const ic=(n,s=18,fill)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${fill?'currentColor':'none'}" stroke="${fill?'none':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+const jav=s=>`<svg width="${s}" height="${s}" viewBox="0 0 100 100" role="img" aria-label="Jordan Ellis" style="flex:none"><circle cx="50" cy="50" r="50" fill="#F2B3CC"/><path d="M50 12c-5 6-13 9-10 18-12 4-20 16-20 30 0 18 13 30 30 30s30-12 30-30c0-14-8-26-20-30 3-9-5-12-10-18z" fill="#D63A2F"/><path d="M28 51c7-7 37-7 44 0v9c-9 9-35 9-44 0z" fill="#2A1A17"/><circle cx="40" cy="55" r="7" fill="#fff"/><circle cx="60" cy="55" r="7" fill="#fff"/><circle cx="41.5" cy="56" r="3.3" fill="#1C1A17"/><circle cx="58.5" cy="56" r="3.3" fill="#1C1A17"/><path d="M43 64l7 10 7-10z" fill="#F29A2E"/><rect x="30" y="33" width="16" height="9" rx="3.5" fill="#262321"/><rect x="54" y="33" width="16" height="9" rx="3.5" fill="#262321"/><path d="M46 37h8" stroke="#262321" stroke-width="2.5"/></svg>`;
+/* ---------- the plan (Appendix B) ---------- */
+const CRIT={power:{name:'Power systems knowledge',def:'Understands distribution networks, protection and interconnection.',ic:'zap'},
+ data:{name:'Grid data and software',def:'Works with SCADA, load data and power-flow tools.'},
+ problem:{name:'Problem solving',def:'Breaks down an unfamiliar problem and reasons through trade-offs.'},
+ crews:{name:'Working with field crews',def:'Explains a plan in plain terms to the people who will carry it out.',ic:'users'},
+ pe:{name:'Holds a PE license',def:'Yes or no.'}};
+const MINE=['power','crews'];
+const PANEL=[
+ {i:'T',name:'Theo Marsh',role:'Talent Partner',iv:'Recruiter screen',covers:['pe'],coversText:'PE license, motivation',asked1:'Why climate, pay expectations, start date, a walkthrough of the substation project'},
+ {i:'R',name:'Ravi Desai',role:'Senior Grid Engineer',iv:'Technical interview',covers:['power','data','problem'],asked1:'Protecting a radial feeder; a hosting-capacity power-flow exercise'},
+ {i:'L',name:'Lena Fischer',role:'Field Operations Lead',iv:'Field crew walkthrough',covers:['crews','problem'],asked1:'Explain a planned outage to a switching crew; a crew finds the as-built drawing is wrong'},
+ {i:'N',name:'Nina Okafor',role:'Engineering Manager',iv:'Hiring manager interview',covers:['power','data','problem','crews'],coversText:'All four scored criteria',asked1:'Career goals, the battery storage pipeline, how they like to work'},
+];
+/* the team's site-visit questions; which focus each serves is the team's tag (assumed in the plan) */
+const QS=[{q:'Walk me through this substation. What would you check before we energize the new feeder?',c:'power'},
+ {q:'What do you need to hear from the crew before switching starts?',c:'crews'},
+ {q:'Something here doesn’t match the drawings. Talk me through your next ten minutes.',c:'crews'}];
+/* ---------- frames ---------- */
+const F=[
+ ['Before · 1:55: who, what for, what to ask, where you fit; details on hover',{}],
+ ['Hover a focus area: its rubric, in the team\u2019s words',{tip:'power'}],
+ ['Already covered: tap Ravi, the loop shows what he asked',{hover:'R'}],
+ ['More on Jordan: application, job description, contact, one click each',{drawer:'app'}],
+ ['First structured interview? A short how-to, only if asked',{guide:true}],
+ ['During: each focus area becomes its part of the scorecard, right under its questions',{during:true,done:[0]}],
+ ['Scored, with notes: ready to submit',{during:true,done:[0,1,2],sc:{power:3,crews:4},notes:{power:'Checked relay settings and the protection study first.',crews:'Wanted a tailboard with the switching crew, in plain steps.'},rec:'Yes'}],
+];
+const W=document.getElementById('window');
+const S=F.map(f=>JSON.parse(JSON.stringify(f[1])));
+const apps=F.map((f,i)=>{const d=document.createElement('div');d.innerHTML=`<div class="cap"><em>${i+1}</em>${f[0]}</div><div class="app"></div>`;W.appendChild(d);return d.querySelector('.app')});
+W.insertAdjacentHTML('beforeend',`<div class="why"><div><b>Five minutes to ready</b>Who (Jordan, the role), what for (your two focus areas), what to ask (the team's questions inside each), and where you fit (5 of 5) all sit on the first screen. Everything else is one click.</div><div><b>The panel, without verdicts</b>The interview loop shows what each earlier interview asked, then who. Each focus area shows the interviews that also covered it; hovering one shows what it asked. Scores and notes stay closed until you submit.</div><div><b>Expected effect on the north star</b>The scorecard opens inside the two focus areas, under the questions that test them, so every covered criterion gets a score and written evidence in the hour, not later. Assumes the team tags each question with the criterion it tests when writing the plan, and that the how-to is Canopy's standard guidance.</div></div>`);
+const nm=k=>CRIT[k].name;
+function focus(s){
+  const cols=MINE.map(k=>{const c=CRIT[k];const also=PANEL.filter(p=>p.covers.includes(k));const qs=QS.map((q,j)=>({...q,j})).filter(q=>q.c===k);
+    const fin=s.during&&s.sc&&s.sc[k]&&s.notes&&s.notes[k]&&s.notes[k].trim();
+    const head=`<div class="ft"><span class="cic ${fin?'fin':''}" data-k="${k}" data-ic="${c.ic}" data-tip="${c.def} Scored 1–4." style="cursor:help">${fin?ic('check',20):ic(c.ic,20)}</span><div style="flex:1"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div class="nm ${s.tip===k?'tipon':''}" data-tip="${c.def} Scored 1–4." tabindex="0">${c.name}</div>${s.during?`<div class="chips4" role="radiogroup" aria-label="Score ${c.name}">${[1,2,3,4].map(n=>`<button class="${s.sc&&s.sc[k]===n?'on':''}" data-a="score" data-k="${k}:${n}" aria-label="${c.name} ${n}">${n}</button>`).join('')}</div>`:''}</div>${s.during?'':`<div class="also" style="margin-top:12px"><span class="pre">Also probed by</span>${also.map(p=>`<button class="who2 ${s.hover===p.i?'on':''}" data-a="hover" data-k="${p.i}" data-tip="${p.iv}: “${p.asked1}”" aria-label="${p.name}, ${p.iv}"><span class="hav sm">${p.i}<span class="ok">${ic('check',8)}</span></span>${p.name.split(' ')[0]}</button>`).join('')}</div>`}</div></div>`;
+    const qb=qs.map(q=>`<div class="q ${s.done&&s.done.includes(q.j)?'done':''}"><q>${q.q}</q>${s.during?`<button class="tick" data-a="tick" data-k="${q.j}" aria-label="Mark asked">${ic('check',14)}</button>`:''}</div>`).join('');
+    const sc=s.during?`<div class="scorein"><textarea placeholder="What Jordan said" data-note="${k}" aria-label="Evidence for ${c.name}">${(s.notes&&s.notes[k])||''}</textarea></div>`:'';
+    return [head,`<div class="qcol">${qb}</div>`,sc];});
+  const rows=[0,1].concat(s.during?[2]:[]);
+  return `<section class="focus"><div class="fgrid">${rows.map(r=>cols.map((c,ci)=>`<div class="cell r${r} c${ci}">${c[r]}</div>`).join('')).join('')}</div>
+   ${s.during?`<div class="ffoot"><button class="rest" style="font-size:16px;font-weight:400;color:var(--ink2);border-radius:10px;padding:12px;margin:0 -12px;width:calc(100% + 24px)"><span style="display:flex;align-items:center;gap:8px">${['chart','bulb','award'].map(n=>`<span class="cic" style="width:24px;height:24px;border-radius:6px;background:var(--card2);color:var(--ink3)">${ic(n,13)}</span>`).join('')}<span style="margin-left:4px">Grid data · Problem solving · PE license</span></span>${ic('chevr',14)}</button><div class="recw"><span class="sub" style="margin:0;display:inline-flex;align-items:center;gap:6px"><span class="rring ${s.rec?'ok':''}">${s.rec?ic('check',10):''}</span>Recommendation</span><div class="rec">${['Strong no','No','Neutral','Yes','Strong yes'].map(x=>`<button class="${s.rec===x?'on':''}" data-a="rec" data-k="${x}">${x}</button>`).join('')}</div></div>
+     <div class="subw"><button class="submit" ${ready(s)?'':'disabled'} data-a="submit">${ic('send',16)} Submit scorecard</button></div></div>`:''}
+  </section>`;
+}
+function left(s){return MINE.filter(k=>!(s.sc&&s.sc[k])).length+MINE.filter(k=>!(s.notes&&s.notes[k]&&s.notes[k].trim())).length+(s.rec?0:1)}
+function ready(s){return s.sc&&s.sc.power&&s.sc.crews&&s.rec&&MINE.every(k=>s.notes&&s.notes[k]&&s.notes[k].trim())}
+function todo(s){const a=[];const sc=MINE.filter(k=>!(s.sc&&s.sc[k])).length,nt=MINE.filter(k=>!(s.notes&&s.notes[k]&&s.notes[k].trim())).length;if(sc)a.push(sc+' score'+(sc>1?'s':''));if(nt)a.push(nt+' note'+(nt>1?'s':''));if(!s.rec)a.push('recommendation');return a.length?'Still to do: '+a.join(', '):'Ready to submit'}
+function profile(s){return `<section class="card2 prof"><div class="ph">${jav(72)}<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h3>Jordan Ellis</h3><div class="pr"><span>they/them</span><span class="pe" data-tip="Holds a Colorado PE license">PE</span></div></div></div>
+  <div class="meta2">Distribution Engineer · Front Range Electric Cooperative</div>
+  <div class="hl"><div class="fig" data-tip="From the application: led a substation upgrade that added 12 MW of solar interconnection"><b>12 MW</b><span>solar interconnection · substation upgrade</span></div><div class="fig" data-tip="From the cover note">${ic('msg',18)}<span>Asked how much of the job is in the field</span></div></div>
+  <div class="links"><button data-a="drawer" data-k="app">${ic('file',15)} Application</button><button data-a="drawer" data-k="resume">${ic('doc',15)} Résumé</button><button data-a="drawer" data-k="linkedin" data-tip="Opens their LinkedIn profile">${ic('li',15)} LinkedIn ${ic('ext',12)}</button></div></section>`}
+function journey(s){const sel=PANEL.find(p=>p.i===s.hover);return `<section class="card2 loop"><div class="lh"><span class="lt">Interview loop</span><span class="lock" data-tip="Earlier scores and notes open after you submit yours">${ic('lock',14)}</span></div>
+  <ol class="hsteps">${PANEL.map((p,j)=>`<li class="${s.hover===p.i?'on':''}" id="st-${p.i}"><button data-a="hover" data-k="${p.i}" aria-label="${j+1}. ${p.iv}, ${p.name}"><span class="hav">${p.i}<span class="ok">${ic('check',9)}</span></span><span class="hn">${{T:'Recruiter',R:'Technical',L:'Field crew',N:'Manager'}[p.i]}<br><b>${p.name.split(' ')[0]}</b></span></button></li>`).join('')}
+   <li class="you"><span class="hav me" data-tip="You · Owen Park · Site visit">OP</span><span class="hn">Site visit<br><b>You</b></span></li></ol>
+  ${sel?`<div class="said"><q>${sel.asked1}</q><span class="by">${sel.name} · ${sel.iv}</span></div>`:''}</section>`}
+function drawer(s){if(!s.drawer)return '';const t={app:'Jordan Ellis · Application',jd:'Grid Modernization Engineer',contact:'Contact',resume:'Jordan Ellis · Résumé',linkedin:'Jordan Ellis · LinkedIn'}[s.drawer];
+  const body={app:`<div class="kv"><span>Name</span><span>Jordan Ellis (they/them)</span><span>Current role</span><span>Distribution Engineer</span><span>Employer</span><span>Front Range Electric Cooperative</span><span>Experience</span><span>6 years</span><span>Location</span><span>Boulder, CO</span><span>License</span><span>Colorado PE</span></div><div class="kv" style="margin-top:-16px"><span>Projects</span><span>Led a substation upgrade that added 12 MW of solar interconnection.</span><span>Cover note</span><span>Asked how much of the job is in the field.</span></div>`,
+   jd:`<div class="kv"><span>Company</span><span>Solaris Energy Co.</span><span>Location</span><span>Remote</span><span>Type</span><span>Full-time · Mid level</span><span>Pay</span><span>$105k–$130k a year</span><span>Hiring manager</span><span>Nina Okafor, Engineering Manager</span></div><div><h4>The rubric</h4>${Object.values(CRIT).map(c=>`<p><b style="color:var(--ink)">${c.name}</b><br>${c.def}</p>`).join('')}</div>`,
+   resume:`<div class="filecard">${ic('doc',22)}<div style="flex:1"><b>Jordan_Ellis_Resume.pdf</b><div style="font-size:13px;color:var(--ink3)">Uploaded with the application</div></div><button class="copy">Open ${ic('ext',11)}</button></div>
+   <div class="kv"><span>Current</span><span>Distribution Engineer, Front Range Electric Cooperative · 6 years</span><span>Highlight</span><span>Led a substation upgrade that added 12 MW of solar interconnection</span><span>License</span><span>Colorado PE</span></div><div style="font-size:13px;color:var(--ink3)">Sample file for this prototype; the preview shows only what the application states.</div>`,
+   linkedin:`<div class="filecard">${ic('li',22)}<div style="flex:1"><b>linkedin.com/in/jordan-ellis-sample</b><div style="font-size:13px;color:var(--ink3)">Opens in a new tab</div></div><button class="copy" data-a="copy" data-k="linkedin.com/in/jordan-ellis-sample">Copy</button></div><div style="font-size:13px;color:var(--ink3)">Sample link for this prototype.</div>`,
+   contact:`<div class="kv"><span>Name</span><span>Jordan Ellis (they/them)</span><span>Email</span><span class="cp">jordan.ellis@example.com <button class="copy" data-a="copy" data-k="jordan.ellis@example.com">Copy</button></span><span>Phone</span><span class="cp">(303) 555-0142 <button class="copy" data-a="copy" data-k="(303) 555-0142">Copy</button></span><span>Based in</span><span>Boulder, CO · Mountain Time</span></div><div style="font-size:13px;color:var(--ink3)">Sample contact details for this prototype.</div>`}[s.drawer];
+  return `<div class="dim" data-a="close"></div><div class="drawer" role="dialog" aria-label="${t}"><div class="dh"><h2>${t}</h2><button class="ib" data-a="close" aria-label="Close">${ic('x')}</button></div><div class="db">${body}</div></div>`}
+function app(s){
+  return `<nav class="rail"><span class="logo">C</span><button aria-label="Home">${ic('home',22)}</button><button class="on" aria-label="Interviews">${ic('listcheck',22)}</button><button aria-label="Notifications">${ic('bell',22)}</button><button aria-label="Profile">${ic('user',22)}</button></nav>
+  <div class="page"><div class="top"><button class="ib" aria-label="Close">${ic('x')}</button><span class="crumb">My interviews <span>/</span> <b>Jordan Ellis</b></span><span class="search">${ic('search',16)} Search</span></div>
+  <div class="hdr"><div style="flex:1;min-width:0">
+    <div class="who"><span>Grid Modernization Engineer · Solaris Energy Co.</span><button class="jdb" data-a="drawer" data-k="jd">${ic('briefcase',15)} Job description ${ic('chevr',13)}</button></div>
+    <div class="trow"><h1>Site visit <span style="color:var(--ink3);font-weight:600">· 5 of 5</span></h1>${s.during?`<span style="margin-left:auto;display:flex;align-items:center;gap:8px"><button class="back" data-a="unstart">${ic('chevr',14).replace('m9 6 6 6-6 6','m15 6-6 6 6 6')} Back to prep</button><span class="live" style="margin-left:0"><span style="display:flex;align-items:center;gap:8px"><i></i>14 of 60 min</span><span class="track"><span style="width:23%"></span></span></span></span>`:`<button class="start" data-a="start">${ic('play',16,1)} Start interview</button>`}</div>
+    <div class="meta"><span>${ic('clock')} Today 2:00–3:00</span><span>${ic('pin')} Brighton substation</span>${s.during?'':`<button class="first" data-a="guide" aria-expanded="${!!s.guide}">${ic('book',14)} How-to</button>`}</div></div>
+</div>
+  <div class="body"><main>
+   ${s.guide&&!s.during?`<div class="guide" style="background:var(--card);position:relative"><button class="ib" data-a="guide" aria-label="Close" style="position:absolute;right:12px;top:12px;width:32px;height:32px;box-shadow:none">${ic('x',16)}</button><b>${ic('book',16)} How-to</b><ol><li>Ask the team's questions; follow up on what Jordan says.</li><li>Write what Jordan said under each focus area.</li></ol></div>`:''}
+   ${focus(s)}
+  </main><aside>${profile(s)}${journey(s)}</aside></div>${drawer(s)}</div>`;
+}
+function render(i){apps[i].innerHTML=app(S[i])}
+function act(i,a,k){const s=S[i];
+ switch(a){
+  case 'hover': s.hover=s.hover===k?null:k; render(i); {const el=apps[i].querySelector('#st-'+k); if(el&&s.hover) el.scrollIntoView({block:'nearest',behavior:'smooth'});} return;
+  case 'drawer': s.drawer=k; break;
+  case 'close': s.drawer=null; break;
+  case 'guide': s.guide=!s.guide; break;
+  case 'start': s.during=true;s.done=s.done||[];s.hover=null; break;
+  case 'unstart': s.during=false; break;
+  case 'copy': try{navigator.clipboard.writeText(k)}catch(e){} s.copied=k; break;
+  case 'tick': {s.done=s.done||[];const j=+k;s.done=s.done.includes(j)?s.done.filter(x=>x!==j):s.done.concat(j);break}
+  case 'score': {const [c,n]=k.split(':');s.sc=Object.assign(s.sc||{},{[c]:+n});break}
+  case 'rec': s.rec=k; break;
+ }
+ render(i)}
+apps.forEach((p,i)=>{
+ p.addEventListener('input',e=>{const t=e.target.closest('textarea[data-note]');if(!t)return;const s=S[i];s.notes=Object.assign(s.notes||{},{[t.dataset.note]:t.value});const td=null;p.querySelectorAll('.cic[data-k]').forEach(r=>{const f=!!(s.sc&&s.sc[r.dataset.k]&&s.notes&&s.notes[r.dataset.k]&&s.notes[r.dataset.k].trim());r.classList.toggle('fin',f);r.innerHTML=f?ic('check',20):ic(r.dataset.ic,20)});const sb=p.querySelector('.submit');if(sb)sb.disabled=!ready(s)});
+ p.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(i,b.dataset.a,b.dataset.k)});
+ p.addEventListener('mouseover',e=>{const b=e.target.closest('.hsteps [data-k], .also [data-k]');if(b&&S[i].hover!==b.dataset.k&&!S[i].during){S[i].hover=b.dataset.k;render(i)}});
+ render(i)});
+</script><script src="../../focus.js" data-keep="#window .app" data-hide=""></script></body></html>

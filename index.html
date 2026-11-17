@@ -1,0 +1,245 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Design Judging Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky bar (product, judge seat), a dark band for the original, one card per blind option with its live prototype and score row, scorecard last */
+:root{
+  --bg:#F2F3F1;--surface:#FFFFFF;--sunk:#E7E9E5;--ink:#16181A;--ink2:#4C5157;--muted:#7A8087;--line:#DADDD8;
+  --accent:#2F5D50;--accentInk:#FFFFFF;--warn:#8A5A12;
+  --origBg:#1B1F23;--origInk:#F2F3F1;--origMuted:#A9B0B6;--origTag:#E8C26A;--origTagInk:#1B1F23;
+  --j1:#2F5D50;--j2:#7A4FA3;--j3:#B4562E;
+  --display:"Space Grotesk",Inter,system-ui,sans-serif;--body:Inter,system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121416;--surface:#1B1E21;--sunk:#24282C;--ink:#ECEEEF;--ink2:#B8BEC4;--muted:#8B9299;--line:#30353A;--accent:#7FB8A6;--accentInk:#0E1A16;--warn:#E0B36A;--origBg:#2A2416;--origInk:#F4EEDF;--origMuted:#C9BFA6;--origTag:#E8C26A;--origTagInk:#1B1F23;--j1:#7FB8A6;--j2:#B79BD8;--j3:#E39A72;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px 16px;padding-block:10px;flex-wrap:wrap}
+h1{font-family:var(--display);font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em}
+.seg{display:flex;background:var(--sunk);border-radius:999px;padding:3px;gap:2px}
+.seg a,.seg button{padding:6px 14px;border-radius:999px;color:var(--ink2);text-decoration:none;font-weight:600;border:0;background:none}
+.seg [aria-current="page"],.seg [aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.seat{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}
+.seat .lab{margin-right:2px}
+.seat .seg button{display:flex;align-items:center;gap:6px}
+.seat .seg i{width:8px;height:8px;border-radius:50%;display:block}
+.jname{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font:inherit;color:var(--ink);width:150px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tb{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:13px;color:var(--ink2)}
+.tb:hover{border-color:var(--accent);color:var(--ink)}
+.tb[aria-pressed="true"]{background:var(--accent);color:var(--accentInk);border-color:var(--accent)}
+main .wrap{padding-block:24px 64px;display:flex;flex-direction:column;gap:24px}
+.lab{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+/* original: its own dark band so it never reads as an option */
+.orig{background:var(--origBg);color:var(--origInk);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:72px}
+.orig .oh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.orig .tag{background:var(--origTag);color:var(--origTagInk);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:4px 9px}
+.orig h2{font-family:var(--display);font-size:22px;margin:0;font-weight:700}
+.orig .sub{color:var(--origMuted);font-size:13px;margin-left:auto}
+.orig figure{margin:0;border-radius:10px;overflow:hidden;background:#fff}
+.orig img{display:block;width:100%;height:auto;cursor:zoom-in}
+.opts-h{display:flex;align-items:baseline;gap:10px;scroll-margin-top:72px}
+.opts-h h2{font-family:var(--display);font-size:22px;margin:0}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;scroll-margin-top:72px}
+.ohead{display:flex;align-items:center;gap:12px;padding:14px 16px 0}
+.letter{font-family:var(--display);font-size:30px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.who{font-weight:600;color:var(--accent)}
+.tools{margin-left:auto;display:flex;gap:6px}
+.live{display:flex;flex-direction:column;gap:12px;padding:14px 16px}
+.vp{max-height:780px;overflow:auto;border-radius:10px;background:var(--sunk);overscroll-behavior:contain}
+.sizer{position:relative;width:100%;height:600px}
+.sizer iframe{position:absolute;left:0;top:0;width:1440px;height:600px;border:0;transform-origin:0 0;background:#fff}
+.score{border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px 22px;flex-wrap:wrap;align-items:center;background:var(--bg)}
+.score .as{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink2);min-width:120px}
+.score .as i{width:10px;height:10px;border-radius:50%}
+.crit{display:flex;align-items:center;gap:8px}
+.crit span{font-size:13px;font-weight:600;color:var(--ink2);min-width:52px}
+.dots{display:flex;gap:3px}
+.dots button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.dots button:hover{border-color:var(--jc,var(--accent))}
+.dots button[aria-pressed="true"]{background:var(--jc,var(--accent));border-color:var(--jc,var(--accent));color:#fff}
+.dots button:disabled{cursor:not-allowed;opacity:.5}
+.note{flex:1 1 220px;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;font:inherit;color:var(--ink)}
+.saved{font-size:12px;color:var(--muted);min-width:44px}
+.board{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:72px}
+.board h2{font-family:var(--display);font-size:20px;margin:0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+th{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+th.jh{color:var(--ink2);text-transform:none;letter-spacing:0;font-size:13px}
+th.jh i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
+td.l small{display:block;font-family:var(--body);font-size:12px;color:var(--accent);font-weight:600}
+.bar{display:flex;align-items:center;gap:8px}
+.bar i{display:block;height:8px;border-radius:4px;background:var(--accent);min-width:2px}
+.bar b{font-weight:600}
+.js{font-size:13px;color:var(--ink2)}
+.js b{font-weight:600;color:var(--ink)}
+.dim{color:var(--muted)}
+.sep{border-left:2px solid var(--line)}
+.status{font-size:13px;color:var(--warn)}
+.lb{position:fixed;inset:0;z-index:20;background:rgba(10,12,14,.88);display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 48px) max(56px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 48px) max(56px,env(safe-area-inset-left,0px))}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;background:#fff}
+.lb .x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:max(12px,env(safe-area-inset-right,0px));border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:999px;width:40px;height:40px;font-size:20px}
+.full{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.full .fbar{display:flex;align-items:center;gap:12px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface)}
+.full .fbar b{font-family:var(--display);font-size:20px}
+.full .fbar #fclose{margin-left:auto}
+.full iframe{flex:1;width:100%;border:0;background:#fff}
+@media (max-width:700px){.seat{margin-left:0;width:100%}.jname{flex:1}.crit span{min-width:0}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<header><div class="wrap">
+  <h1>Design Judging</h1>
+  <nav class="seg" aria-label="Product"><a href="#alta" data-p="alta">Alta</a><a href="#canopy" data-p="canopy">Canopy</a></nav>
+  <div class="seat">
+    <span class="lab">Scoring as</span>
+    <div class="seg" role="group" aria-label="Judge seat" id="seats"></div>
+    <input class="jname" id="jname" placeholder="Your name" aria-label="Judge name" maxlength="40">
+  </div>
+</div></header>
+<main><div class="wrap" id="root"></div></main>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Original screen">
+  <img id="lbimg" alt="">
+  <button class="x" id="lbx" aria-label="Close">✕</button>
+</div>
+
+<script>
+const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}], "kind": "desktop"}};
+const CRIT=[["fit","Brief","Fits the brief: does the job the PRD asks for"],["clarity","Clarity","Clear at a glance: you know what to do next"],["craft","Craft","Visual craft: type, spacing, hierarchy, polish"],["overall","Overall","Overall: would you ship this"]];
+const JUDGES=["j1","j2","j3"];
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
+let judge=JUDGES.includes(store.get("judge"))?store.get("judge"):"j1";
+let db=null,canWrite=true,all={},key=null,showKey=false,local={};
+let saveTimer=null,saving=Promise.resolve();
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const jcol=j=>`var(--${j})`;
+const jlabel=j=>(local[j]&&local[j].name)||(all[j]&&all[j].name)||("Judge "+j.slice(1));
+const sheet=j=>local[j]||(local[j]=JSON.parse(JSON.stringify(all[j]||{})));
+
+function renderSeats(){
+  $("#seats").innerHTML=JUDGES.map(j=>`<button data-seat="${j}" aria-pressed="${j===judge}"><i style="background:${jcol(j)}"></i>${esc(jlabel(j))}</button>`).join("");
+  const n=$("#jname");if(document.activeElement!==n)n.value=(sheet(judge).name)||"";
+}
+function render(){
+  document.querySelectorAll(".seg a").forEach(a=>a.setAttribute("aria-current",a.dataset.p===prod?"page":"false"));
+  renderSeats();
+  const P=DATA[prod];const k=showKey&&key?key[prod]||{}:{};const my=(sheet(judge)[prod]||{});
+  let h=`<section class="orig" id="orig"><div class="oh"><span class="tag">Original</span><h2>${prod==="alta"?"Alta":"Canopy"} today</h2><span class="sub">The screen being redesigned</span></div>${P.original.map(o=>`<figure><img src="${o.src}" width="${o.wh[0]}" height="${o.wh[1]}" alt="Original ${prod==="alta"?"Alta":"Canopy"} screens" data-lb="${o.src}"></figure>`).join("")}</section>`;
+  h+=`<div class="opts-h" id="opts"><h2>Redesigns</h2><span class="lab">${P.options.length} options, blind</span></div>`;
+  P.options.forEach(o=>{
+    const s=my[o.id]||{};
+    h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span>${k[o.id]?`<span class="who">${esc(k[o.id])}</span>`:""}<span class="tools"><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
+    <div class="live">${o.live.map((src,i)=>`<div class="vp"><div class="sizer"><iframe src="${src}" loading="lazy" title="Option ${o.id} prototype${o.live.length>1?" "+(i+1):""}"></iframe></div></div>`).join("")}</div>
+    <div class="score" data-o="${o.id}" style="--jc:${jcol(judge)}"><span class="as"><i style="background:${jcol(judge)}"></i>${esc(jlabel(judge))}</span>${CRIT.map(([c,lab,tip])=>`<div class="crit" title="${tip}"><span>${lab}</span><div class="dots" role="group" aria-label="${lab} score for option ${o.id}">${[1,2,3,4,5].map(n=>`<button data-c="${c}" data-n="${n}" aria-pressed="${s[c]===n}" ${canWrite?"":"disabled"}>${n}</button>`).join("")}</div></div>`).join("")}
+    <input class="note" id="note-${o.id}" data-o="${o.id}" placeholder="Note (optional)" value="${esc(s.note||"")}" ${canWrite?"":"disabled"}><span class="saved" id="sv-${o.id}"></span></div></section>`;
+  });
+  h+=board();
+  $("#root").innerHTML=h;
+}
+function updateRows(){
+  const my=sheet(judge)[prod]||{};
+  document.querySelectorAll(".score").forEach(row=>{const o=row.dataset.o,s=my[o]||{};row.style.setProperty("--jc",jcol(judge));
+    const as=row.querySelector(".as");as.firstElementChild.style.background=jcol(judge);as.lastChild.textContent=jlabel(judge);
+    row.querySelectorAll(".dots button").forEach(b=>{b.setAttribute("aria-pressed",String(s[b.dataset.c]===+b.dataset.n));b.disabled=!canWrite});
+    const n=row.querySelector(".note");if(document.activeElement!==n)n.value=s.note||"";n.disabled=!canWrite;
+    row.querySelector(".saved").textContent=""});
+}
+function scoresOf(j){return ((local[j]||all[j])||{})[prod]||{}}
+function board(){
+  const P=DATA[prod];const k=showKey&&key?key[prod]||{}:{};
+  const rows=P.options.map(o=>{
+    const avg={};CRIT.forEach(([c])=>{const v=JUDGES.map(j=>(scoresOf(j)[o.id]||{})[c]).filter(x=>typeof x==="number");avg[c]=v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
+    const per=JUDGES.map(j=>scoresOf(j)[o.id]||{});
+    return {o,avg,per};
+  }).sort((a,b)=>(b.avg.overall??-1)-(a.avg.overall??-1)||a.o.id.localeCompare(b.o.id));
+  const cell=v=>v==null?`<td class="dim">–</td>`:`<td><div class="bar"><i style="width:${(v/5*56).toFixed(0)}px"></i><b>${v.toFixed(1)}</b></div></td>`;
+  const jcell=(s,i)=>{const any=CRIT.some(([c])=>typeof s[c]==="number");return `<td class="js ${i===0?"sep":""}" title="${esc(s.note||"")}">${any?CRIT.map(([c])=>c==="overall"?`<b>${s[c]??"·"}</b>`:(s[c]??"·")).join(" "):`<span class="dim">–</span>`}</td>`};
+  return `<section class="board" id="board"><h2>Scorecard</h2><div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l} avg</th>`).join("")}${JUDGES.map((j,i)=>`<th class="jh ${i===0?"sep":""}"><i style="background:${jcol(j)}"></i>${esc(jlabel(j))}</th>`).join("")}</tr></thead><tbody>
+  ${rows.map(r=>`<tr><td class="l"><a href="#" data-goto="${r.o.id}">${r.o.id}</a>${k[r.o.id]?`<small>${esc(k[r.o.id])}</small>`:""}</td>${CRIT.map(([c])=>cell(r.avg[c])).join("")}${r.per.map(jcell).join("")}</tr>`).join("")}
+  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Judge columns read Brief · Clarity · Craft · <b>Overall</b>. Hover a judge's cell for their note.</div><div class="status" id="status"></div></section>`;
+}
+function refreshBoard(){const b=$("#board");if(b){const n=document.createElement("div");n.innerHTML=board();b.replaceWith(n.firstElementChild)}}
+function setStatus(t){const s=$("#status");if(s)s.textContent=t||""}
+
+/* scoring */
+document.addEventListener("click",e=>{
+  const st=e.target.closest("[data-seat]");if(st){judge=st.dataset.seat;store.set("judge",judge);renderSeats();updateRows();refreshBoard();return}
+  const b=e.target.closest(".dots button");
+  if(b){const o=b.closest(".score").dataset.o,c=b.dataset.c,n=+b.dataset.n;
+    const sh=sheet(judge);sh[prod]=sh[prod]||{};const s=sh[prod][o]=Object.assign({},sh[prod][o]);
+    if(s[c]===n)delete s[c];else s[c]=n;
+    b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(+x.dataset.n===s[c])));
+    refreshBoard();queueSave(o);return}
+  const lb=e.target.closest("[data-lb]");if(lb){$("#lbimg").src=lb.dataset.lb;$("#lb").hidden=false;$("#lbx").focus();return}
+  const g=e.target.closest("[data-goto]");if(g){e.preventDefault();document.getElementById("opt-"+g.dataset.goto).scrollIntoView({behavior:"smooth"});return}
+  const r=e.target.closest("[data-reload]");if(r){document.querySelectorAll(`#opt-${r.dataset.reload} iframe`).forEach(fr=>{fr.src=fr.src});return}
+  const f=e.target.closest("[data-full]");if(f){openFull(f.dataset.full,0)}
+});
+document.addEventListener("input",e=>{
+  if(e.target.classList.contains("note")){const o=e.target.dataset.o;const sh=sheet(judge);sh[prod]=sh[prod]||{};sh[prod][o]=Object.assign({},sh[prod][o],{note:e.target.value.slice(0,500)});queueSave(o,900)}
+  if(e.target.id==="jname"){sheet(judge).name=e.target.value.slice(0,40);document.querySelectorAll(`[data-seat="${judge}"]`).forEach(b=>b.lastChild.textContent=jlabel(judge));document.querySelectorAll(".score .as").forEach(a=>a.lastChild.textContent=jlabel(judge));queueSave(null,900)}
+});
+document.addEventListener("change",e=>{if(e.target.id==="jname")refreshBoard()});
+function queueSave(o,ms=500){
+  if(!db){setStatus("Open this page signed in to claude.ai to save scores.");return}
+  const sv=o&&document.getElementById("sv-"+o);if(sv)sv.textContent="Saving…";
+  const j=judge;clearTimeout(saveTimer);saveTimer=setTimeout(()=>{saving=saving.then(async()=>{
+    const sh=sheet(j);
+    try{await db.doc("scores/"+j).set({name:sh.name||"",alta:sh.alta||{},canopy:sh.canopy||{},at:new Date().toISOString()});
+      document.querySelectorAll(".saved").forEach(x=>{if(x.textContent==="Saving…")x.textContent="Saved"});setStatus("");
+    }catch(err){if(err&&err.code==="invalid_argument"){canWrite=false;setStatus("You can view scores but not add them. Ask the owner for Contributor access.")}else setStatus("Couldn’t save. Try again in a moment.")}
+  })},ms);
+}
+
+/* original lightbox */
+$("#lbx").onclick=()=>$("#lb").hidden=true;
+$("#lb").addEventListener("click",e=>{if(e.target.id==="lb")$("#lb").hidden=true});
+
+/* live prototypes: each embed reports its prototype area; draw at 1440px wide, scaled to fit */
+const VW=1440;
+function fit(fr){const w=+fr.dataset.w||VW,h=+fr.dataset.h||900;const vp=fr.closest(".vp");if(!vp)return;
+  const s=Math.min(1,vp.clientWidth/VW),W=Math.max(VW,w);
+  fr.style.width=W+"px";fr.style.height=h+"px";fr.style.transform=`scale(${s})`;
+  const z=fr.parentElement;z.style.width=(W*s)+"px";z.style.height=(h*s)+"px"}
+addEventListener("message",e=>{const d=e.data;if(!d||d.type!=="focus-size")return;
+  document.querySelectorAll(".sizer iframe").forEach(fr=>{if(fr.contentWindow===e.source){fr.dataset.w=d.w;fr.dataset.h=d.h;fit(fr)}})});
+addEventListener("resize",()=>document.querySelectorAll(".sizer iframe").forEach(fit));
+function openFull(id,i){const o=DATA[prod].options.find(x=>x.id===id);closeFull();
+  const el=document.createElement("div");el.className="full";el.id="full";el.setAttribute("role","dialog");el.setAttribute("aria-label","Option "+id+" full screen");
+  el.innerHTML=`<div class="fbar"><b>${id}</b>${o.live.length>1?o.live.map((_,j)=>`<button class="tb" data-fp="${j}" aria-pressed="${j===i}">Screen ${j+1}</button>`).join(""):""}<button class="tb" id="fclose">Close</button></div><iframe src="${o.live[i]}" title="Option ${id} prototype, full screen"></iframe>`;
+  document.body.append(el);document.body.style.overflow="hidden";
+  el.querySelector("#fclose").onclick=closeFull;el.querySelectorAll("[data-fp]").forEach(b=>b.onclick=()=>openFull(id,+b.dataset.fp));el.querySelector("#fclose").focus()}
+function closeFull(){const el=$("#full");if(el){el.remove();document.body.style.overflow=""}}
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;closeFull();$("#lb").hidden=true});
+
+addEventListener("hashchange",()=>{const p=location.hash.slice(1);if(p==="alta"||p==="canopy"){prod=p;render();scrollTo(0,0)}});
+
+render();
+(async()=>{
+  if(!window.claude)return;
+  db=await claude.use("db");
+  if(!db){canWrite=false;updateRows();setStatus("Open this page signed in to claude.ai to score.");return}
+  const t=setTimeout(()=>setStatus("Scores can’t be reached yet."),10000);
+  db.collection("scores").onSnapshot(snap=>{
+    if(!snap.metadata.fromCache){clearTimeout(t);setStatus("")}
+    const next={};snap.docs.forEach(x=>{if(x.exists)next[x.id]=x.data()});all=next;
+    JUDGES.forEach(j=>{if(j!==judge)delete local[j]});
+    if(!local[judge]||!Object.keys(local[judge]).length)delete local[judge];
+    renderSeats();updateRows();refreshBoard();
+  },()=>{clearTimeout(t);setStatus("Scores couldn’t load.")});
+})();
+</script>
+
+</body></html>

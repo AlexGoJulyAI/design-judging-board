@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<!--
+Alta mix final3 (Nov 16): a missing piece draws on her as a dashed outline (same as its thumbnail), with the + chip joined to it; the unused bell is gone; the ALTA logo goes Home; tapping a day in the week stays on Home and switches to that day (past: what she wore, wear again; future: that day's occasion and sets, Plan for that day); the month calendar opens from the header icon or the tab.
+final2 (Nov 13): v16 (Ruolan 8/10, signs off) + her polish: one mark for the gap; default caption left blank so exceptions stand out; filtered days fade their count too; legend swatch drawn like a mini; Add pinned to the foot; wider try-on crop. Inside a sheet, the occasion is inline chips (a sheet on a sheet would be worse).
+v16: v15 + Ruolan's v15 critique (8/10): the calendar filter fades only outfits (dates stay readable) and is a dropdown title, not chips; row captions say wear history only, a missing piece shows dashed in the thumbnail; order said once; legend sits under the grid; 'Wear today instead' when today is set; one mark for the gap.
+v15: v14 + Ruolan's v14 critique (8/10): the occasion drives Home (her set and the row come from that occasion's sets, twice-worn ones left out); today's calendar look is its own set; one rule for an uncertain field (Alta's guess preselected, ringed, button states the outcome); even try-on captions; dashed feet mark a missing piece; Planned shown in the legend only when a day is planned.
+v14: v13 + Ruolan's v13 critique (8/10): occasion chips filter the calendar so she finds a look by its job; 'Not worn yet' is the only word for never worn; payment shows ✓ Ordered · Fri 26 with View order; bulk review preselects Alta's guess; frames on one hairline grey; ink weather glyph; price once in the try-on.
+v13: v12 + Ruolan's v12 critique (8/10): one worn record drives the week strip, the calendar and every 'Worn …' caption; cream pieces keep an edge in minis; one day-label style; one hairline grey; 'Plan a day' opens the plan sheet with the set chosen.
+v12: v11 + Ruolan's v11 critique (8/10): the calendar's main case (worn once -> Wear again / Plan) before the twice-worn rule; bulk review shows only the doubtful field open; Arriving said once; the button says when dress code is skipped; one edge grey; three weights; calendar minis as two-piece silhouettes.
+v11: v10 + Ruolan's v10 critique (8/10): try-on zooms knee-to-floor (full look a tap away); plan renders the set on her; price once per role; one name per piece; one chip grey; 44px sizes; open field marked by an ink ring; roomier calendar; even tab icons.
+v10: v9 + Ruolan's v9 critique (8/10): trying a shop pair happens in the shop sheet on her own small figure, so Home never shows what Wear won't give; status + Undo stack in the corner clear of her; price beside the name; hairline on every worn slot; dashes only for missing and planned; legend under the grid; one caption style; 20px margin everywhere.
+v9: v8 + Ruolan's v8 critique (7/10): Calendar is a real tab (active state, no back chevron); dashed = missing only (empty days have no box, planned shows its set, try-on is the pill alone); no pager dots; 'Saved'; worn count under the day's look; doubtful field left open; no decorative shadows; three type sizes; one surface grey; occasion changes the plan candidates; header holds brand + bell.
+v8: evolved from the line of thinking, not stitched.
+
+What all four t25 runs agreed on (kept as the spine):
+- Today's look leads; one "Wear this" that turns into "✓ Wearing today" with Undo in place.
+- Fix the look on the piece, from her own closet; the rest of the set stays.
+- A missing piece: "I have these" first (one photo, Alta fills the fields), shop last, marked Ad.
+- Bulk add asks only about the doubtful field.
+
+What each lens added that worked, and how it is carried:
+- Ruolan: it feels alive (sheets slide, the look settles, the week slot pops when worn), the week strip on Home,
+  and tapping the look to change a piece. -> Tap her: every piece shows its name and a change mark.
+- Generic: a row of sets to compare, and planning a future day from the week. -> The set row; + on Thu in the calendar.
+- Elisha: the on-body look with each piece named; a month calendar to find and reuse looks. -> Labels on her; Calendar.
+- Usman: Wear this still works with a gap; the camera opens set to the missing slot. -> "Wear with black loafers"; camera "Shoes".
+- The person: she compares a few options, swaps by item or set, and never wears the exact set more than twice.
+  -> The row shows wear counts; a set worn twice isn't offered on Home, and in the calendar it asks for one change first.
+- The person: illustration over photos; the figure is the try-on, including a shop pair before Buy.
+-->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alta: Today, evolved</title>
+<style>
+:root{--f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;--ink:#111;--g1:#66615b;--g2:#DCD8D1;--edge:#DCD8D1;--soft:#EFEDE9;--card:#EFEDE9;--m:20px;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:#E9E8E5;color:var(--ink);font-size:15px;-webkit-font-smoothing:antialiased}
+button{font-family:var(--f);cursor:pointer;color:inherit;border:0;background:none;font-size:inherit;transition:transform .12s var(--ease),background-color .18s,box-shadow .18s,color .18s,opacity .18s}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:2px solid #2b6cdf;outline-offset:2px}
+#window{display:flex;flex-wrap:wrap;gap:32px;padding:24px 32px;align-items:flex-start}
+.frame{width:390px;flex:0 0 390px}
+.cap{font-size:15px;font-weight:600;margin-bottom:12px;min-height:40px;line-height:20px}
+.cap em{font-style:normal;color:var(--g1);margin-right:8px}
+.phone{width:390px;height:844px;border-radius:44px;overflow:hidden;position:relative;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column}
+.scr.in{animation:scrin .3s var(--ease)}
+@keyframes scrin{from{opacity:0;transform:translateX(16px)}}
+.sb{height:47px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 32px 8px;font-size:17px;font-weight:600}
+.sbi{display:flex;gap:4px;align-items:center}
+.hd{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.ib{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ib:hover{background:var(--soft)}
+.logo{font-size:17px;font-weight:700;letter-spacing:.18em}
+/* week strip */
+.week{display:flex;justify-content:space-between;padding:0 15px;height:74px;flex:none}
+.day{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:13px;color:var(--g1);border-radius:12px;padding-top:2px}
+.day:hover{background:var(--soft)}
+.day b{font-size:13px;font-weight:500;color:var(--ink)}
+.day.today b{background:var(--ink);color:#fff;border-radius:999px;padding:0 7px}
+.slot{width:30px;height:34px;border-radius:6px;background:var(--soft);position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px var(--g2)}
+.slot.empty,.slot.none{background:none;box-shadow:none}
+.slot.plan{background:none;border:1.5px dashed var(--g1)}
+.slot>svg{position:absolute}
+.slot.pop{animation:pop .5s var(--ease)}
+@keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+/* occasion */
+.occrow{display:flex;align-items:center;justify-content:space-between;padding:4px var(--m) 0;flex:none}
+.occ{display:flex;align-items:center;gap:4px;font-size:28px;font-weight:700;letter-spacing:-.01em;border-radius:10px;margin-left:-6px;padding:0 6px}
+.occ:hover{background:var(--soft)}
+.wx{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--g1)}
+/* stage */
+.stage{position:relative;margin:8px var(--m) 0;height:344px;border-radius:24px;background:var(--card);overflow:hidden;flex:none;cursor:pointer;touch-action:pan-y;user-select:none}
+.stage:hover .hintring{opacity:1}
+.stage svg.fig{position:absolute;left:0;right:0;top:10px;width:100%;height:330px;transition:filter .2s}
+.stage.sl svg.fig{animation:sl .38s var(--ease)}.stage.sr svg.fig{animation:sr .38s var(--ease)}.stage.re svg.fig{animation:re .35s var(--ease)}
+@keyframes sl{from{opacity:0;transform:translateX(48px)}}@keyframes sr{from{opacity:0;transform:translateX(-48px)}}@keyframes re{from{opacity:.25;transform:scale(.98)}}
+.stage.settle{animation:settle .55s var(--ease)}
+@keyframes settle{0%{transform:scale(1)}35%{transform:scale(.975)}100%{transform:scale(1)}}
+.tag{position:absolute;left:12px;top:12px;max-width:120px;font-size:13px;line-height:16px;color:var(--g1);display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:2}
+.pill{font-size:13px;font-weight:500;color:var(--ink);background:#fff;border-radius:999px;padding:4px 10px;line-height:18px}
+.pill:hover{background:var(--ink);color:#fff}
+.dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;z-index:2}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.18);transition:width .25s,background .25s}
+.dots i.on{width:16px;border-radius:3px;background:var(--ink)}
+.nav{position:absolute;top:50%;margin-top:-18px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;opacity:0;z-index:3}
+.stage:hover .nav{opacity:1}
+.nav:hover{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.nav.l{left:8px}.nav.r{right:8px}
+/* labels on her */
+.lines{position:absolute;inset:0;pointer-events:none;z-index:1}
+.lines line{stroke:var(--ink);stroke-width:1;stroke-dasharray:2 3;animation:fadein .3s both}
+.lb{position:absolute;z-index:2;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;background:#fff;border-radius:999px;padding:5px 10px;line-height:16px;white-space:nowrap;box-shadow:inset 0 0 0 1px var(--g2);animation:lbin .32s var(--ease) both}
+.lb:hover{background:var(--ink);color:#fff}
+.lb svg{flex:none}
+.lb.miss{border:1.5px dashed var(--g1);box-shadow:none;background:rgba(255,255,255,.85)}
+.missln{position:absolute;z-index:1;width:28px;border-top:1.5px dashed var(--g1)}
+.tab button.act svg [fill='none']{}
+.lb.try{border:1.5px solid var(--ink)}
+@keyframes lbin{from{opacity:0;transform:scale(.8)}}
+@keyframes fadein{from{opacity:0}}
+.brk{position:absolute;left:50%;transform:translateX(-50%);top:300px;width:100px;height:32px;border:1.5px dashed var(--ink);border-radius:10px;pointer-events:none;z-index:1;animation:fadein .3s}
+/* CTA */
+.cta{margin:8px var(--m) 0;height:52px;border-radius:999px;background:var(--ink);color:#fff;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;flex:none}
+.cta:hover{background:#34343a;transform:translateY(-1px)}
+.cta:active{transform:scale(.98)}
+.cta.done{background:var(--soft);color:var(--ink);justify-content:space-between;padding:0 8px 0 20px;box-shadow:none;animation:donein .45s var(--ease)}
+.cta.done:hover{transform:none}
+@keyframes donein{0%{background:var(--ink);color:#fff}100%{}}
+/* set row */
+.opts{display:flex;gap:8px;padding:16px var(--m) 0;flex:none}
+.optw{flex:1;min-width:0;text-align:left}
+.opt{display:block;width:100%;height:80px;border-radius:14px;background:var(--card);position:relative;overflow:hidden;transition:box-shadow .18s,transform .18s}
+.optw:hover .opt{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.1)}
+.optw.on .opt{box-shadow:inset 0 0 0 2px var(--ink)}
+.opt>svg{position:absolute}
+.oc{display:block;font-size:13px;color:var(--g1);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab{margin-top:auto;height:83px;flex:none;border-top:1px solid var(--g2);display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;background:#fff}
+.tab button{width:52px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px}
+.tab button:hover{background:var(--soft)}
+.tab .p{width:26px;height:26px;border-radius:50%;border:1.6px solid var(--ink);display:flex;align-items:center;justify-content:center}
+/* sheets */
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.32);z-index:8;animation:fadein .25s}
+.dim.out{animation:fadeout .22s forwards}@keyframes fadeout{to{opacity:0}}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:8px 0 34px;z-index:9;animation:up .32s var(--ease)}
+.sheet.out{animation:down .22s cubic-bezier(.4,0,1,1) forwards}
+@keyframes up{from{transform:translateY(100%)}}@keyframes down{to{transform:translateY(100%)}}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--g2);margin:0 auto 12px}
+.sh{display:flex;align-items:center;gap:12px;padding:0 var(--m) 12px}
+.sh .t{flex:1;font-size:17px;font-weight:700}
+.li .n,.sp .n,.adbar .t,.pill,.lb,.cap{font-weight:500}
+.sh .t span{display:block;font-size:13px;font-weight:400;color:var(--g1);margin-top:2px}
+.x{width:32px;height:32px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--g1);font-size:13px;flex:none}
+.x:hover{background:var(--g2);color:var(--ink)}
+.li{display:flex;align-items:center;gap:12px;padding:8px var(--m);width:100%;text-align:left}
+.li:hover{background:var(--soft)}
+.th{width:56px;height:56px;border-radius:12px;background:var(--card);display:flex;align-items:center;justify-content:center;flex:none;position:relative;overflow:hidden}
+.li .n{flex:1;font-size:15px;font-weight:500}
+.li .n span{display:block;font-size:13px;color:var(--g1);font-weight:400;margin-top:2px}
+.ck{width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+.li.cur{background:var(--soft)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:999px;font-size:17px;font-weight:600;margin:0 var(--m);width:calc(100% - 40px)}
+.btn.p{background:var(--ink);color:#fff}
+.btn.p:hover{background:#2a2a2c;transform:translateY(-1px)}
+.btn.s{box-shadow:inset 0 0 0 1.5px var(--ink);margin-top:8px}
+.btn.s:hover{background:var(--soft)}
+.adh{display:flex;gap:8px;align-items:center;padding:16px var(--m) 8px;margin-top:16px;border-top:1px solid var(--g2);font-size:13px;font-weight:500;color:var(--g1)}
+.adm{border:1px solid var(--g1);border-radius:4px;padding:0 4px;line-height:16px;font-size:13px;color:var(--g1)}
+.shop{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 var(--m);align-items:start}
+.sp{text-align:left;border-radius:12px}
+.sp .th{width:100%;height:92px;transition:box-shadow .18s}
+.sp:hover .th{box-shadow:inset 0 0 0 2px var(--ink)}
+.sp .b{font-size:13px;color:var(--g1);margin-top:8px}
+.sp .n{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp .pr{font-size:13px;color:var(--g1)}
+.adbar{margin:10px var(--m) 0;height:36px;flex:none;display:flex;align-items:center;gap:12px}
+.adbar .t{flex:1;font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px}
+.adbar .buy{font-size:15px;font-weight:500;border:1px solid var(--g2);border-radius:999px;height:32px;padding:0 14px}
+.adbar .buy:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fl{display:flex;justify-content:space-between;align-items:center;height:48px;border-bottom:1px solid var(--g2);font-size:15px;padding:0 var(--m)}
+.fl .k{color:var(--g1)}
+.fl .v{font-weight:500;display:flex;align-items:center;gap:4px}
+.sz{display:flex;gap:8px}
+.sz button{font-size:15px;font-weight:500;width:56px;height:44px;border-radius:10px;border:1px solid var(--g2)}
+.flc{display:block;height:auto;padding:12px var(--m)}
+.flc .k{display:block;margin-bottom:8px}
+.sz button:hover{background:var(--soft)}
+.sz button.on{border:1.5px solid var(--ink);background:var(--ink);color:#fff}
+.note{font-size:13px;color:var(--g1);padding:12px var(--m) 16px}
+/* camera, review */
+.cam{background:#0b0b0c;color:#fff}
+.vf{margin:8px 16px 0;height:560px;border-radius:24px;background:radial-gradient(circle at 50% 45%,#3a3633,#1d1b1a);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vf i{position:absolute;width:28px;height:28px;border-color:#fff;border-style:solid;opacity:.85}
+.vf.flash::after{content:"";position:absolute;inset:0;background:#fff;animation:flash .3s forwards}
+@keyframes flash{from{opacity:.85}to{opacity:0}}
+.slotchip{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:500;background:rgba(255,255,255,.16);border-radius:999px;padding:4px 12px}
+.shut{width:76px;height:76px;border-radius:50%;border:4px solid #fff;margin:28px auto 0;padding:4px;display:block}
+.shut span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;transition:transform .1s}
+.shut:hover span{transform:scale(.94)}
+.rvimg{margin:8px var(--m) 0;height:340px;border-radius:24px;background:var(--card);display:flex;align-items:center;justify-content:center;position:relative;flex:none}
+.retake{position:absolute;right:12px;bottom:12px}
+.fields{padding:12px 0 0}
+.fields h2{font-size:28px;font-weight:700;margin:0 var(--m) 8px;display:flex;align-items:center;gap:8px}
+.seg{display:flex;gap:4px;background:var(--soft);border-radius:999px;padding:3px}
+.seg button{font-size:13px;font-weight:500;border-radius:999px;padding:4px 12px;color:var(--g1)}
+.seg button.on{background:#fff;color:var(--ink)}
+.seg button:hover{color:var(--ink)}
+.foot{margin-top:auto;padding:0 0 34px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px var(--m) 0}
+.grid>button{aspect-ratio:1;background:var(--card);position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px}
+.grid>button:hover{box-shadow:inset 0 0 0 2px var(--g1)}
+.grid .sel{box-shadow:inset 0 0 0 2px var(--ink)!important}
+.grid .sel::after{content:"✓";position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;animation:pop .3s}
+.grid .camt{box-shadow:inset 0 0 0 1px var(--g2);background:#fff;flex-direction:column;gap:4px;font-size:13px;font-weight:600}
+.grid .dup svg{opacity:.4}
+.grid .dup span{position:absolute;left:6px;bottom:6px;font-size:13px;background:#fff;border-radius:999px;padding:0 6px}
+.rowh{padding:4px var(--m) 8px;font-size:13px;color:var(--g1)}
+/* calendar */
+.calh{display:flex;align-items:center;justify-content:space-between;padding:4px var(--m) 8px}
+.calh h2{font-size:28px;font-weight:700}
+.calh .nv{display:flex;gap:4px}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);padding:0 var(--m);font-size:13px;color:var(--g1);text-align:center}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:6px var(--m) 0}
+.cd{height:74px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:4px;font-size:13px;position:relative}
+.cd:hover{background:var(--soft)}
+.cd.blank{visibility:hidden}
+.cd .num{font-weight:500;line-height:18px}
+.cd.today .num{background:var(--ink);color:#fff;border-radius:999px;padding:0 6px}
+.cd.past .num{color:var(--g1)}
+.mini{width:42px;height:54px;border-radius:8px;background:var(--card);position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px var(--g2)}
+.mini>svg{position:absolute}
+.mini.plan{background:none;box-shadow:none;border:1.5px dashed var(--g1)}
+.cd .x2{font-size:13px;color:var(--g1);line-height:14px}
+.cd{height:auto;min-height:44px;padding-bottom:6px}
+.cd{transition:opacity .2s}
+.calkey{display:flex;gap:16px;padding:16px var(--m) 0;font-size:13px;color:var(--g1)}
+.calkey span{display:flex;align-items:center;gap:6px}
+.calkey i{width:16px;height:20px;border-radius:5px;background:var(--card);display:inline-block;box-shadow:inset 0 0 0 1px var(--g2)}
+.calkey i.d{background:none;border:1.5px dashed var(--g1)}
+.bigfig{margin:0 var(--m);height:230px;border-radius:20px;background:var(--card);position:relative;overflow:hidden}
+.bigfig svg.fig{position:absolute;inset:6px 0;width:100%;height:218px}
+.occchips{display:flex;gap:8px;padding:0 var(--m) 12px;flex-wrap:wrap}
+.occchips button{font-size:13px;font-weight:500;border-radius:999px;padding:6px 12px;box-shadow:inset 0 0 0 1px var(--g2)}
+.occchips button:hover{box-shadow:inset 0 0 0 1px var(--g1)}
+.occchips button.on{background:var(--ink);color:#fff;box-shadow:none}
+.why{margin:8px 32px 48px;max-width:1110px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-size:15px;line-height:22px}
+.why b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--g1);margin-bottom:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.logo{background:none;border:0;cursor:pointer;border-radius:8px;padding:2px 8px}
+.logo:hover{background:var(--soft)}
+.day.sel:not(.today) b{box-shadow:inset 0 0 0 1.5px var(--ink);border-radius:999px;padding:0 6px}
+.day.sel{background:var(--soft)}
+.emptyday{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--g1);font-size:13px}
+</style></head><body>
+<div id="window"></div>
+<div class="why">
+ <div><b>One tap to a planned day</b>Open → today's set already on her → Wear this. Each Wear this is a planned outfit, the action the weekly-retained-planners metric counts. The week strip fills as she goes, so next week starts from what worked.</div>
+ <div><b>Week 2 still feels fresh</b>Sets come from her closet and show how often she's worn them. A set worn twice isn't offered on Home; in the calendar it asks for one change before she wears it again. Swap a piece or a whole set in one tap, seen on her first.</div>
+ <div><b>Shopping that helps today</b>Shopping only shows for a piece a set is missing, after "I have these", marked Ad, and tried on her first. Wear this keeps the one filled button, so a purchase never stands between her and a planned day.</div>
+</div>
+<script>
+/* ---------- her closet ---------- */
+const P={
+ camelB:{kind:'outer',shape:'jacket',name:'Camel blazer',color:'#c4a27a',worn:'Worn Mon 15'},
+ navyB:{kind:'outer',shape:'jacket',name:'Navy blazer',color:'#2b3550',worn:'Worn Thu 11'},
+ blackB:{kind:'outer',shape:'jacket',name:'Black blazer',color:'#1f1f21',worn:'Worn Tue 2'},
+ cardi:{kind:'outer',shape:'jacket',name:'Cream cardigan',color:'#e8dfcf',worn:'Not worn yet'},
+ shirt:{kind:'top',shape:'shirt',name:'White shirt',color:'#f7f6f3',worn:'Worn Tue 16'},
+ knit:{kind:'top',shape:'tee',name:'Cream knit tee',color:'#ece4d4',worn:'Worn Sat 20'},
+ greyT:{kind:'top',shape:'tee',name:'Grey tee',color:'#a3a19e',worn:'Not worn yet'},
+ blackT:{kind:'top',shape:'tee',name:'Black tee',color:'#1f1f21',worn:'Worn Mon 22'},
+ blackTr:{kind:'bottom',shape:'trousers',name:'Black trousers',color:'#1f1f21',worn:'Worn Tue 16'},
+ greyTr:{kind:'bottom',shape:'trousers',name:'Grey wool trousers',color:'#8d8b88',worn:'Worn Mon 22'},
+ linen:{kind:'bottom',shape:'trousers',name:'Cream linen trousers',color:'#e3d8c5',worn:'Worn Sat 20'},
+ loaf:{kind:'shoes',shape:'shoes',name:'Black loafers',color:'#1f1f21',worn:'Worn Mon 22'},
+ sneak:{kind:'shoes',shape:'shoes',name:'White sneakers',color:'#f2f1ee',worn:'Worn Sat 20'},
+ tanL:{kind:'shoes',shape:'shoes',name:'Tan loafers',color:'#b0825a'},
+ tote:{kind:'bag',shape:'bag',name:'Black tote',color:'#1f1f21',worn:'Worn Mon 15'},
+ camelT:{kind:'bag',shape:'bag',name:'Camel tote',color:'#b98a5e',worn:'Worn Thu 11'},
+};
+const SLOT={outer:['Outer layer',['camelB','navyB','blackB','cardi']],top:['Top',['shirt','knit','greyT','blackT']],bottom:['Trousers',['blackTr','greyTr','linen']],shoes:['Shoes',['loaf','sneak']],bag:['Bag',['tote','camelT']]};
+const SHOP=[{name:'Suede loafer',brand:'Marlo',price:'$128',color:'#a8784f'},{name:'Leather loafer',brand:'Ferro',price:'$165',color:'#9a6a43'},{name:'Penny loafer',brand:'Sato',price:'$98',color:'#b88d62'}];
+/* sets: worn = dates this month (Jun 2026). Home offers only sets worn fewer than twice. */
+const LOOKS={
+ A:{pieces:['camelB','shirt','blackTr','loaf','tote'],worn:[],occ:'Client meeting'},
+ B:{pieces:['navyB','knit','greyTr','loaf'],worn:[11],occ:'Client meeting'},
+ C:{pieces:['blackB','knit','blackTr','loaf'],worn:[],saved:'Sun 14',occ:'Client meeting'},
+ D:{pieces:['blackB','shirt','greyTr','tanL'],worn:[],gap:'tanL',occ:'Client meeting'},
+ M:{pieces:['cardi','shirt','greyTr','loaf'],worn:[],occ:'Office'},
+ N:{pieces:['navyB','blackT','blackTr','loaf'],worn:[],occ:'Office'},
+ O:{pieces:['cardi','greyT','linen','sneak'],worn:[],occ:'Weekend'},
+ Q:{pieces:['blackB','blackT','blackTr','loaf'],worn:[],occ:'Dinner'},
+ R2:{pieces:['knit','blackTr','sneak','camelT'],worn:[],occ:'Weekend'},
+ E:{pieces:['blackT','greyTr','loaf'],worn:[8,22],occ:'Office'},
+ F:{pieces:['knit','linen','sneak'],worn:[6,20],occ:'Weekend'},
+ G:{pieces:['blackB','shirt','blackTr','loaf'],worn:[2,16],occ:'Client meeting'},
+ H:{pieces:['camelB','blackT','greyTr','loaf','camelT'],worn:[15],occ:'Office'},
+ J:{pieces:['blackT','blackTr','loaf','camelT'],worn:[],occ:'Dinner'},
+ K:{pieces:['blackB','shirt','linen','loaf','tote'],worn:[],occ:'Dinner'},
+ L:{pieces:['greyT','linen','sneak'],worn:[],occ:'Weekend'},
+};
+const HOMEBY={'Client meeting':['A','B','C','D'],'Office':['H','M','N'],'Dinner':['J','K','Q'],'Weekend':['L','O','R2']};
+const homeList=s=>(HOMEBY[s.occ||'Client meeting']||[]).filter(k=>LOOKS[k].worn.length<2);
+let HOME=HOMEBY['Client meeting'];
+const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const WEEK=[21,22,23,24,25,26,27].map(d=>[d,null]);
+const WORNDAY={2:'G',6:'F',8:'E',11:'B',15:'H',16:'G',20:'F',22:'E'};
+const OCC=['Client meeting','Office','Dinner','Weekend'];
+WEEK.forEach(w=>{w[1]=WORNDAY[w[0]]||null});
+const DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+/* every piece's 'Worn …' caption comes from the same worn record */
+Object.keys(P).forEach(k=>{const days=Object.keys(WORNDAY).map(Number).filter(d=>LOOKS[WORNDAY[d]].pieces.includes(k)).sort((a,b)=>b-a);P[k].worn=days.length?`Worn ${DN[days[0]%7]} ${days[0]}`:'Not worn yet'});
+const PLAN={'Client meeting':['A','B','C'],'Office':['H','B','A'],'Dinner':['J','K','C'],'Weekend':['L','F','D']};
+/* ---------- drawing ---------- */
+const SKIN='#d9b79e',HAIR='#2b231e';
+const dark=c=>{const n=parseInt(c.slice(1),16);return (0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))<80};
+const edge=c=>dark(c)?'stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linejoin="round"':'stroke="rgba(0,0,0,.42)" stroke-width="1.3" stroke-linejoin="round"';
+function fig(ps,vb){
+  const by=k=>ps.find(p=>p.kind===k);const o=by('outer'),t=by('top'),b=by('bottom'),s=by('shoes'),bg=by('bag');
+  const fill=p=>p.missing?'fill="rgba(255,255,255,.6)" stroke="#6f6a64" stroke-width="2" stroke-dasharray="5 4"':`fill="${p.color}" ${edge(p.color)}`;
+  let g=`<svg class="fig" viewBox="${vb||'0 0 200 420'}" preserveAspectRatio="xMidYMid meet">`;
+  g+=`<ellipse cx="100" cy="398" rx="62" ry="7" fill="rgba(0,0,0,.08)"/>`;
+  g+=`<path d="M78 60 Q74 22 100 22 Q126 22 122 60 L124 96 Q112 100 106 92 L94 92 Q88 100 76 96 Z" fill="${HAIR}"/>`;
+  g+=`<path d="M73 96 L58 196 L67 198 L81 118 Z M127 96 L142 196 L133 198 L119 118 Z" fill="${SKIN}"/>`;
+  g+=`<rect x="93" y="66" width="14" height="28" fill="${SKIN}"/>`;
+  if(b) g+=`<path d="M70 198 L130 198 L142 372 L105 374 L100 252 L95 374 L58 372 Z" ${fill(b)}/>`;
+  if(s) g+=`<path d="M55 370 L96 370 L96 381 Q76 388 55 381 Z M104 370 L145 370 L145 381 Q124 388 104 381 Z" ${fill(s)}/>`;
+  if(t){
+    g+=`<path d="M74 92 Q100 86 126 92 L130 202 L70 202 Z" ${fill(t)}/>`;
+    if(t.shape==='tee') g+=`<path d="M74 94 L64 134 L75 137 L82 114 Z M126 94 L136 134 L125 137 L118 114 Z" ${fill(t)}/>`;
+    if(t.shape==='shirt'){g+=`<path d="M74 94 L57 196 L68 199 L82 120 Z M126 94 L143 196 L132 199 L118 120 Z" ${fill(t)}/>`;
+      g+=`<path d="M88 90 L100 104 L112 90 M100 104 L100 200" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1.4"/>`;}
+  }
+  if(o){
+    g+=`<path d="M74 92 L56 196 L68 199 L82 118 Z M126 92 L144 196 L132 199 L118 118 Z" fill="${o.color}" ${edge(o.color)}/>`;
+    g+=`<path d="M72 90 L95 91 L99 150 L94 216 L64 214 Z M128 90 L105 91 L101 150 L106 216 L136 214 Z" fill="${o.color}" ${edge(o.color)}/>`;
+    g+=`<path d="M95 91 L88 128 L99 150 M105 91 L112 128 L101 150" fill="none" stroke="${dark(o.color)?'rgba(255,255,255,.45)':'rgba(128,128,128,.4)'}" stroke-width="1.2"/>`;
+  }
+  if(bg) g+=`<path d="M140 168 Q146 150 152 168" fill="none" stroke="${bg.color}" stroke-width="2.4"/><path d="M134 170 L160 170 L164 214 L130 214 Z" fill="${bg.color}" ${edge(bg.color)}/>`;
+  g+=`<circle cx="62" cy="203" r="6" fill="${SKIN}"/><circle cx="138" cy="203" r="6" fill="${SKIN}"/>`;
+  g+=`<ellipse cx="100" cy="50" rx="16" ry="20" fill="${SKIN}"/>`;
+  g+=`<path d="M84 44 Q88 26 104 28 Q118 32 117 46 Q108 36 96 38 Q88 40 84 44 Z" fill="${HAIR}"/>`;
+  return g+'</svg>';
+}
+const ITEM={
+ jacket:['M34 14 L44 12 L50 34 L56 12 L66 14 L82 24 L86 84 L72 86 L70 44 L68 88 L32 88 L30 44 L28 86 L14 84 L18 24 Z','M44 12 L50 34 L56 12'],
+ tee:['M36 14 Q50 24 64 14 L84 26 L76 42 L68 38 L68 88 L32 88 L32 38 L24 42 L16 26 Z',''],
+ shirt:['M36 12 L44 12 L50 22 L56 12 L64 12 L84 24 L82 86 L72 86 L70 44 L70 88 L30 88 L30 44 L28 86 L18 86 L16 24 Z','M44 12 L50 22 L56 12 M50 22 L50 88'],
+ trousers:['M30 10 H70 L78 90 H56 L50 34 L44 90 H22 Z',''],
+ shoes:['M10 64 Q12 50 28 50 L50 54 Q76 58 88 66 Q90 74 82 76 H16 Q8 74 10 64 Z',''],
+ bag:['M24 34 L76 34 L82 88 L18 88 Z','M36 34 Q36 12 50 12 Q64 12 64 34'],
+};
+function item(shape,color,size,dash){
+  const [d,x]=ITEM[shape];
+  const st=dash?`fill="rgba(255,255,255,.6)" stroke="#6f6a64" stroke-width="2.4" stroke-dasharray="5 4"`:`fill="${color}" stroke="rgba(0,0,0,.28)" stroke-width="1.6"`;
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}"><path d="${d}" ${st} stroke-linejoin="round"/>${x?`<path d="${x}" fill="none" stroke="${dash?'#6f6a64':'rgba(128,128,128,.6)'}" stroke-width="2"/>`:''}</svg>`;
+}
+function flat(ps){
+  const hb=ps.some(p=>p.kind==='bag'),ho=ps.some(p=>p.kind==='outer');
+  const at={outer:[4,2,44],top:ho?[52,2,44]:[4,2,46],bottom:ho?[4,50,44]:[52,6,44],shoes:hb?[44,60,34]:(ho?[52,54,44]:[8,58,46]),bag:[74,52,24]};
+  return ps.map(p=>{let [x,y,z]=at[p.kind];return `<svg style="left:${x}%;top:${y}%;width:${z}%;height:${z}%" viewBox="0 0 100 100">${item(p.shape,p.color,100,p.missing).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg>`}).join('');
+}
+function sil(ps){const up=ps.find(p=>p.kind==='outer')||ps.find(p=>p.kind==='top');const lo=ps.find(p=>p.kind==='bottom');
+  return [[up,8,4,84],[lo,14,46,72]].filter(x=>x[0]).map(([p,x,y,z])=>`<svg style="left:${x}%;top:${y}%;width:${z}%;height:${z*0.62}%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">${item(p.shape,p.color,100).replace(/^<svg[^>]*>|<\/svg>$/g,'').replace('stroke-width="1.6"','stroke-width="5"').replace('rgba(0,0,0,.28)','rgba(0,0,0,.32)')}</svg>`).join('')}
+function pieces(look,s){
+  const L=LOOKS[look];
+  return L.pieces.map(k=>{
+    let p=Object.assign({key:k},P[k]);const sw=s&&s.swaps&&s.swaps[look];
+    if(sw&&sw[p.kind]) p=Object.assign({key:sw[p.kind]},P[sw[p.kind]],{swapped:true});
+    if(L.gap===p.key&&s&&s.shopTry) return Object.assign(p,{color:SHOP[s.shopTry-1].color,name:SHOP[s.shopTry-1].brand+' '+SHOP[s.shopTry-1].name,trying:true});
+    if(L.gap===p.key&&!(s&&s.added)&&s&&s.rowview) return Object.assign(p,{missing:true});
+    if(L.gap===p.key&&!(s&&s.added)) return Object.assign({key:'loaf'},P.loaf,{stand:true});
+    return p;
+  });
+}
+const wornCap=(k,s)=>{const L=LOOKS[k];if(s.worn&&k===s.look)return 'Today';return L.worn.length?`Worn ${L.worn.length}×`:'&nbsp;'};
+const I={
+ sig:`<svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg>`,
+ bat:`<svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".4" fill="none"/><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor"/></svg>`,
+ cal:`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10 H20 M8.5 3.5 V7 M15.5 3.5 V7" stroke-linecap="round"/></svg>`,
+ bell:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L19.5 18 H4.5 Z"/><path d="M10 20.5 A2 2 0 0 0 14 20.5"/></svg>`,
+ sun:`<svg width="14" height="14" viewBox="0 0 18 18"><circle cx="9" cy="9" r="3.8" fill="#6f6a64"/><g stroke="#6f6a64" stroke-width="1.6" stroke-linecap="round"><path d="M9 1.2 V3 M9 15 V16.8 M1.2 9 H3 M15 9 H16.8 M3.5 3.5 L4.7 4.7 M13.3 13.3 L14.5 14.5 M3.5 14.5 L4.7 13.3 M13.3 4.7 L14.5 3.5"/></g></svg>`,
+ chev:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6f6a64" stroke-width="2.2" stroke-linecap="round"><path d="M6 9 L12 15 L18 9"/></svg>`,
+ swap:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 8 H18 L14 4 M20 16 H6 L10 20"/></svg>`,
+ l:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><path d="M15 5 L8 12 L15 19"/></svg>`,
+ r:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><path d="M9 5 L16 12 L9 19"/></svg>`,
+ home:`<svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 11 L12 4 L20 11 V20 H14.5 V14.5 H9.5 V20 H4 Z" fill="#111"/></svg>`,
+ closet:`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linejoin="round"><path d="M8.5 4 L4 6.5 L5.8 10.5 L8 9.6 V20 H16 V9.6 L18.2 10.5 L20 6.5 L15.5 4 Q12 6.5 8.5 4 Z"/></svg>`,
+ plus:`<svg width="14" height="14" viewBox="0 0 22 22" stroke="#111" stroke-width="2.4" stroke-linecap="round"><path d="M11 3 V19 M3 11 H19"/></svg>`,
+ search:`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 L20 20"/></svg>`,
+ box:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6f6a64" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7 L12 3 L21 7 V17 L12 21 L3 17 Z M3 7 L12 11 L21 7 M12 11 V21"/></svg>`,
+ calf:`<svg width="26" height="26" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2" fill="#111"/><path d="M4 10 H20" stroke="#fff" stroke-width="1.6"/><path d="M8.5 3.5 V7 M15.5 3.5 V7" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+ pen:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6f6a64" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20 L5 15 L16 4 L20 8 L9 19 Z M14 6 L18 10"/></svg>`,
+ cam:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8 H7.5 L9 5.5 H15 L16.5 8 H20 V19 H4 Z" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.4"/></svg>`,
+};
+/* ---------- frames ---------- */
+const F=[
+ ['1 · Choose the occasion',{look:'A',sheet:'occ'}],
+ ['1 · Weekend instead: her set and the row change with it',{look:'L',occ:'Weekend',anim:'sl'}],
+ ['2 · Today\u2019s pick on her, ready to wear',{look:'A'}],
+ ['2 · Tap her: every piece named, each one changeable',{look:'A',labels:true}],
+ ['2 · Wear this: the button settles, today\u2019s slot fills',{look:'A',worn:true,pop:true}],
+ ['3 · Tap a piece: her own, as a list',{look:'A',labels:true,sheet:'outer'}],
+ ['3 · Tap one: it renders on her; Undo on the tag',{look:'A',swaps:{A:{outer:'navyB'}},undo:'Navy blazer on',anim:'re'}],
+ ['4 · A piece she hasn\u2019t added: Wear still works',{look:'D',anim:'sl'}],
+ ['4 · I have these first; shop below, marked Ad',{look:'D',sheet:'gap'}],
+ ['4 · Add it: the camera opens on Shoes',{screen:'cam'}],
+ ['4 · Alta fills it in; its one guess is ringed to check',{screen:'rv'}],
+ ['4 · Back on her: the set is whole',{look:'D',added:true,undo:'Tan loafers added',anim:'re'}],
+ ['4 · Or buy: try the pair on her first, in the sheet',{look:'D',shopTry:1,sheet:'tryon'}],
+ ['4 · Buy: size and delivery, then Pay',{look:'D',shopTry:1,sheet:'pay'}],
+ ['4 · Paid: arriving Fri; today she wears her black loafers',{look:'D',ordered:true,order:true}],
+ ['4 · Add several at once from +',{screen:'bulk'}],
+ ['4 · One review: only the doubtful field is open',{screen:'bulkrv'}],
+ ['5 · Alternatives below: tap or swipe, one on her at a time',{look:'B',anim:'sl'}],
+ ['6 · Tap Thursday in the week: plan it right here',{look:'A',worn:true,sel:25,anim:'sl'}],
+ ['6 · Planned: Thursday\u2019s slot fills in the week',{look:'A',worn:true,sel:25,planned:{25:'J'}}],
+ ['6 · Tap a past day: what she wore, wear it again',{look:'A',worn:true,sel:22,anim:'sl'}],
+ ['6 · Month view from the calendar icon or tab',{screen:'cal',worn:true,look:'A'}],
+ ['6 · Find a look by its occasion',{screen:'cal',worn:true,look:'A',cfilt:'Client meeting'}],
+ ['6 · Reuse: a look worn once, wear it again or plan it',{screen:'cal',worn:true,look:'A',sheet:'day',day:11}],
+ ['6 · Worn twice: change one piece to wear it again',{screen:'cal',worn:true,look:'A',sheet:'day',day:22}],
+ ['6 · Plan Thursday: occasion, then a set',{screen:'cal',worn:true,look:'A',sheet:'plan',day:25,pocc:'Dinner',ppick:'J'}],
+];
+const W=document.getElementById('window');
+const S=F.map(f=>JSON.parse(JSON.stringify(Object.assign({screen:'home'},f[1]))));
+const phones=F.map((f,i)=>{const d=document.createElement('div');d.className='frame';d.innerHTML=`<div class="cap"><em>${i+1}</em>${f[0]}</div><div class="phone"></div>`;W.appendChild(d);return d.querySelector('.phone')});
+const sb=dk=>`<div class="sb" ${dk?'style="color:#fff"':''}><span>9:41</span><span class="sbi">${I.sig}${I.bat}</span></div>`;
+const tabbar=`<div class="tab"><button data-a="home" aria-label="Home">${I.home}</button><button aria-label="Closet">${I.closet}</button><button data-a="plus" aria-label="Add items"><span class="p">${I.plus}</span></button><button data-a="cal" aria-label="Calendar">${I.cal}</button><button aria-label="Search">${I.search}</button></div>`;
+/* label anchors: stage 350x350, figure 330 tall from y=10 -> scale .786, x0 = 96 */
+const SC=330/420,X0=(350-200*SC)/2,Y0=10;
+const AN={outer:[62,150],top:[112,112],bottom:[122,300],shoes:[78,378],bag:[150,196]};
+const LBPOS={outer:{side:'l',y:132},shoes:{side:'l',y:300},top:{side:'r',y:84},bag:{side:'r',y:170},bottom:{side:'r',y:254}};
+function labels(ps,s){
+  let lines='',lbs='';
+  ps.forEach((p,i)=>{
+    const [ax,ay]=AN[p.kind];const x=X0+ax*SC,y=Y0+ay*SC;const L=LBPOS[p.kind];const ly=L.y+13;
+    const lx=L.side==='l'?96:254;
+    lines+=`<line x1="${lx}" y1="${ly}" x2="${x}" y2="${y}" style="animation-delay:${i*40}ms"/><circle cx="${x}" cy="${y}" r="2.5" fill="#111" style="animation:fadein .3s ${i*40}ms both"/>`;
+    const st=`${L.side==='l'?'left:12px':'right:12px'};top:${L.y}px;animation-delay:${i*40}ms;max-width:150px`;
+    const nm=p.stand?'Black loafers (stand-in)':p.name;
+    if(p.stand&&!s.labels) return;
+    lbs+=p.missing?`<button class="lb miss" style="${st}" data-a="gap">+ ${nm}</button>`:`<button class="lb" style="${st}" data-a="piece" data-k="${p.kind}">${nm}${I.swap}</button>`;
+  });
+  return `<svg class="lines" viewBox="0 0 350 350">${lines}</svg>${lbs}`;
+}
+const DEFOCC={24:'Office',25:'Dinner',26:'Office',27:'Weekend'};
+function weekHtml(s){return WEEK.map(([d,lk],i)=>{
+    const today=d===23,look=today&&s.worn?s.look:lk;const sw=today&&s.worn?s:null;
+    const pl=d>23&&s.planned&&s.planned[d];
+    const cls=look?'slot':(pl?'slot':'slot none');
+    const inner=look?flat(pieces(look,sw||{})):(pl?flat(pieces(pl,{})):'');
+    return `<button class="day ${today?'today':''} ${(s.sel||23)===d?'sel':''}" data-a="selday" data-k="${d}"><span>${DOW[i]}</span><b>${d}</b><span class="${cls} ${pl&&s.popd===d?'pop':''}">${inner}</span></button>`}).join('')}
+function dayView(s){
+  const d=s.sel,past=d<23;const lab=DN[d%7]+' '+d;
+  const occ=past?(WORNDAY[d]?LOOKS[WORNDAY[d]].occ:null):((s.docc&&s.docc[d])||DEFOCC[d]);
+  const list=past?[]:(HOMEBY[occ]||[]).filter(k=>LOOKS[k].worn.length<2);
+  const pl=s.planned&&s.planned[d];
+  const lk=past?WORNDAY[d]:(pl||(s.dpick&&s.dpick[d])||list[0]);
+  const L=lk?LOOKS[lk]:null;const twice=L&&L.worn.length>=2;
+  let stage=lk?fig(pieces(lk,{})):`<div class="emptyday">${I.cal}<span>Nothing logged</span></div>`;
+  let tag=past&&L?`<span class="tag">Worn ${lab}${twice?' · 2×':''}</span>`:(pl?`<span class="tag">Planned</span>`:'');
+  let cta=past?(lk?(twice?`<button class="cta" data-a="vary" data-k="${lk}">${I.swap} Change a piece, then wear</button>`:`<button class="cta" data-a="again" data-k="${lk}">Wear again today</button>`):`<button class="cta" data-a="selday" data-k="23">Back to today</button>`)
+     :(pl?`<div class="cta done"><span>✓ Planned for ${lab}</span><button class="pill" data-a="unplan">Undo</button></div>`:`<button class="cta" data-a="planday" data-k="${lk}">Plan for ${lab}</button>`);
+  let h=`<div class="scr ${s.enter?'in':''}">${sb()}<div class="hd"><span style="width:40px"></span><button class="logo" data-a="gohome" aria-label="Home">ALTA</button><button class="ib" data-a="cal" aria-label="Month calendar" data-tip="Month">${I.cal}</button></div>
+  <div class="week">${weekHtml(s)}</div>
+  <div class="occrow">${past?`<span class="occ" style="cursor:default">${occ||lab}</span>`:`<button class="occ" data-a="occ">${occ} ${I.chev}</button>`}<span class="wx">${lab}</span></div>
+  <div class="stage ${s.anim||''} ${s.settle?'settle':''}">${stage}${tag}
+   ${!past&&!pl&&list.length>1?`<button class="nav l" data-a="dprev" aria-label="Previous set">${I.l}</button><button class="nav r" data-a="dnext" aria-label="Next set">${I.r}</button>`:''}</div>
+  ${cta}
+  ${!past&&!pl?`<div class="opts">${list.map(k=>`<button class="optw ${k===lk?'on':''}" data-a="dset" data-k="${k}"><span class="opt">${flat(pieces(k,{rowview:true}))}</span><span class="oc">${wornCap(k,{})}</span></button>`).join('')}</div>`:''}${tabbar}`;
+  h+=sheets(s,lk?pieces(lk,{}):[],L||LOOKS.A,null);
+  return h+'</div>';
+}
+function home(s){
+  if(s.sel&&s.sel!==23) return dayView(s);
+  HOME=homeList(s);if(!HOME.includes(s.look)&&s.look!=='V')s.look=HOME[0];
+  const L=LOOKS[s.look];const gap=L.gap&&!s.added&&!s.ordered;
+  const ps=pieces(s.look,Object.assign({},s,{shopTry:0,rowview:gap&&!s.worn}));
+  const sh=null;const shp=s.shopTry?SHOP[s.shopTry-1]:null;
+  const idx=HOME.indexOf(s.look);
+  let tag=s.order&&!sh?`<span class="tag"><span style="color:var(--ink)">✓ Ordered · Fri 26</span><button class="pill">View order</button></span>`:s.undo?`<span class="tag">${s.undo}<button class="pill" data-a="undo">Undo</button></span>`:'';
+  const week=WEEK.map(([d,lk],i)=>{
+    const today=d===23,look=today&&s.worn?s.look:lk;const sw=today&&s.worn?s:null;
+    const cls=look?'slot':(d>23&&s.planned&&s.planned[d]?'slot':'slot none');
+    const inner=look?flat(pieces(look,sw||{})):(s.planned&&s.planned[d]?flat(pieces(s.planned[d],{})):'');
+    return `<button class="day ${today?'today':''} ${(s.sel||23)===d?'sel':''}" data-a="selday" data-k="${d}"><span>${DOW[i]}</span><b>${d}</b><span class="${cls} ${today&&s.pop?'pop':''}">${inner}</span></button>`}).join('');
+  let h=`<div class="scr ${s.enter?'in':''}">${sb()}<div class="hd"><span style="width:40px"></span><button class="logo" data-a="gohome" aria-label="Home">ALTA</button><button class="ib" data-a="cal" aria-label="Month calendar" data-tip="Month">${I.cal}</button></div>
+  <div class="week">${week}</div>
+  <div class="occrow"><button class="occ" data-a="occ">${s.occ||'Client meeting'} ${I.chev}</button><span class="wx">${I.sun} 18°C</span></div>
+  <div class="stage ${s.anim||''} ${s.settle?'settle':''}" data-a="${sh?'':'toggle'}">${fig(ps)}${tag}
+   ${!sh&&!s.worn?`<button class="nav l" data-a="prev" aria-label="Previous set">${I.l}</button><button class="nav r" data-a="next" aria-label="Next set">${I.r}</button>`:''}
+   ${s.labels&&!sh?labels(ps,s):''}
+   ${gap&&!s.labels?`<span class="missln" style="right:calc(50% + 38px);top:302px"></span><button class="lb miss" style="right:calc(50% + 66px);top:290px" data-a="gap" data-tip="Not in your closet">+ Tan loafers</button>`:''}
+   ${sh?`<button class="lb try" style="left:12px;top:300px" data-a="shopback">Trying on ✕</button>`:''}
+  </div>
+  ${s.worn?`<div class="cta done"><span>✓ Wearing today</span><button class="pill" data-a="unwear">Undo</button></div>`:`<button class="cta" data-a="${sh?'wearback':'wear'}">${gap||sh||(s.ordered&&L.gap&&!s.added)?'Wear with black loafers':'Wear this'}</button>`}
+  ${sh?`<div class="adbar"><div class="t">${sh.brand} ${sh.name} <span class="adm">Ad</span></div><button class="buy" data-a="buy">Buy</button></div>
+   <div class="opts" style="padding-top:6px">${SHOP.map((x,j)=>`<button class="optw ${s.shopTry===j+1?'on':''}" data-a="try" data-k="${j+1}"><span class="opt" style="display:flex;align-items:center;justify-content:center">${item('shoes',x.color,60)}</span></button>`).join('')}</div>`
+  :`<div class="opts">${HOME.map(k=>`<button class="optw ${k===s.look?'on':''}" data-a="set" data-k="${k}"><span class="opt">${flat(pieces(k,Object.assign({},s,{rowview:true})))}</span><span class="oc">${wornCap(k,s)}</span></button>`).join('')}</div>`}${tabbar}`;
+  h+=sheets(s,ps,L,shp);
+  return h+'</div>';
+}
+function sheets(s,ps,L,sh){
+  let h='';const out=s.closing?' out':'';
+  const open=c=>`<div class="dim${out}" data-a="close"></div><div class="sheet${out}"><div class="grab"></div>${c}</div>`;
+  if(SLOT[s.sheet]){
+    const [title,keys]=SLOT[s.sheet];const cur=(ps.find(p=>p.kind===s.sheet)||{}).key;
+    h+=open(`<div class="sh"><div class="t">${title}<span>From your closet</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     ${keys.map(k=>`<button class="li ${k===cur?'cur':''}" data-a="pick" data-k="${k}"><span class="th">${item(P[k].shape,P[k].color,44)}</span><span class="n">${P[k].name}<span>${P[k].worn}</span></span>${k===cur?'<span class="ck">✓</span>':''}</button>`).join('')}`);
+  }
+  if(s.sheet==='occ'){
+    const cur=s.occ||'Client meeting';
+    h+=open(`<div class="sh"><div class="t">What's today?<span>Tue 23</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     ${OCC.map(o=>`<button class="li ${o===cur?'cur':''}" data-a="setocc" data-k="${o}" style="height:52px"><span class="n">${o}</span>${o===cur?'<span class="ck">✓</span>':''}</button>`).join('')}`);
+  }
+  if(s.sheet==='gap'){
+    const g=P[L.gap];
+    h+=open(`<div class="sh"><span class="th">${item('shoes',g.color,44)}</span><div class="t">${g.name}<span>Not in your closet yet</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     <button class="btn p" data-a="have">${I.cam} I have these</button>
+     <div class="adh">Or shop a pair<span class="adm">Ad</span></div>
+     <div class="shop">${SHOP.map((x,j)=>`<button class="sp" data-a="tryon" data-k="${j+1}"><span class="th">${item('shoes',x.color,64)}</span><div class="b">${x.brand}</div><div class="n">${x.name}</div><div class="pr">${x.price}</div></button>`).join('')}</div>`);
+  }
+  if(s.sheet==='tryon'&&sh){
+    h+=open(`<div class="sh"><div class="t">${sh.brand} ${sh.name} <span class="adm" style="display:inline">Ad</span><span>On you, with this set</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     <div class="bigfig" style="height:250px">${fig(pieces(s.look,s),s.full?null:'15 255 170 140')}<button class="pill" style="position:absolute;right:12px;top:12px;box-shadow:inset 0 0 0 1px var(--g2)" data-a="full">${s.full?'Zoom to shoes':'See the full look'}</button></div>
+     <div class="opts" style="padding-top:12px">${SHOP.map((x,j)=>`<button class="optw ${s.shopTry===j+1?'on':''}" data-a="tryswap" data-k="${j+1}"><span class="opt" style="display:flex;align-items:center;justify-content:center;height:64px">${item('shoes',x.color,52)}</span><span class="oc">${x.brand} · ${x.price}</span></button>`).join('')}</div>
+     <div style="height:16px"></div>
+     <button class="btn p" data-a="buy">Buy</button>`);
+  }
+  if(s.sheet==='pay'&&sh){
+    h+=open(`<div class="sh"><span class="th">${item('shoes',sh.color,44)}</span><div class="t">${sh.brand} ${sh.name}<span>Ad · sold by ${sh.brand}</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     <div class="fl flc"><span class="k">Size (EU) · yours is 38</span><span class="sz">${[37,38,39,40].map(z=>`<button class="${(s.size||38)===z?'on':''}" data-a="size" data-k="${z}">${z}</button>`).join('')}</span></div>
+     <div class="fl"><span class="k">Delivery</span><span class="v">Fri 26 · free</span></div>
+     <div class="fl"><span class="k">Pay with</span><span class="v">Card on file ${I.chev}</span></div>
+     <div class="note">Returns free for 30 days.</div>
+     <button class="btn p" data-a="pay">Pay ${sh.price}</button>`);
+  }
+  return h;
+}
+function calendar(s){
+  let cells='<span class="cd blank"></span>';
+  for(let d=1;d<=30;d++){
+    let look=WORNDAY[d],cls=d<23?'past':d===23?'today':'';let inner='';
+    if(d===23&&s.worn){look=s.look}
+    if(look){const sw=d===23?s:{};inner=`<span class="mini">${sil(pieces(look,sw))}</span>`;}
+    else if(s.planned&&s.planned[d]) inner=`<span class="mini plan">${flat(pieces(s.planned[d],{}))}</span>`;
+    const off0=s.cfilt&&look&&LOOKS[look].occ!==s.cfilt;const twice=look&&d!==23&&LOOKS[look].worn.length>=2&&LOOKS[look].worn[1]===d?`<span class="x2"${off0?' style="opacity:.2"':''}>2×</span>`:'';
+    const off=s.cfilt&&inner&&!(look&&LOOKS[look].occ===s.cfilt);if(off) inner=inner.replace('class="mini"','class="mini" style="opacity:.2"');
+    cells+=`<button class="cd ${cls}" data-a="day" data-k="${d}"><span class="num">${d}</span>${inner}${twice}</button>`;
+  }
+  let h=`<div class="scr ${s.enter?'in':''}">${sb()}<div class="hd"><span style="width:40px"></span><button class="logo" data-a="gohome" aria-label="Home">ALTA</button><span style="width:40px"></span></div>
+   <div class="calh"><h2>June</h2><span class="nv"><button class="ib" aria-label="Previous month">${I.l}</button><button class="ib" aria-label="Next month">${I.r}</button></span></div>
+   <div style="padding:0 var(--m) 8px"><button class="occ" style="font-size:17px" data-a="cfsheet">${s.cfilt||'All occasions'} ${I.chev}</button></div>
+   <div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div>
+   <div class="cal">${cells}</div>
+   <div class="calkey"><span><i></i>Worn</span>${s.planned&&Object.keys(s.planned).length?'<span><i class="d"></i>Planned</span>':''}<span><b style="color:var(--ink);font-weight:500">2×</b>Worn twice this month</span></div>
+   ${tabbar.replace('fill="#111"/></svg></button>','fill="none" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></button>').replace('<button data-a="cal" aria-label="Calendar">'+I.cal,'<button data-a="cal" aria-label="Calendar">'+I.calf)}`;
+  if(s.sheet==='day'){
+    const lk=WORNDAY[s.day]||(s.day===23&&s.worn?s.look:null);const L=LOOKS[lk];const twice=L.worn.length>=2;
+    const out=s.closing?' out':'';
+    h+=`<div class="dim${out}" data-a="close"></div><div class="sheet${out}"><div class="grab"></div>
+     <div class="sh"><div class="t">${DOW[(s.day)%7]==='SUN'?'Sun':['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][s.day%7]} ${s.day}<span>${L.worn.filter(d=>d!==s.day).length?'Also worn '+L.worn.filter(d=>d!==s.day).map(d=>['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d%7]+' '+d).join(', '):'Worn once'}</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     <div class="bigfig">${fig(pieces(lk,{}))}</div>
+     <div style="height:12px"></div>
+     ${twice?`<button class="btn p" data-a="vary" data-k="${lk}">${I.swap} Change a piece, then wear</button>`:`<button class="btn p" data-a="again" data-k="${lk}">${s.worn?'Wear today instead':'Wear again today'}</button><button class="btn s" data-a="planthis" data-k="${lk}">Plan a day</button>`}
+    </div>`;
+  }
+  if(s.sheet==='cf'){const out=s.closing?' out':'';const cur=s.cfilt||'All occasions';
+    h+=`<div class="dim${out}" data-a="close"></div><div class="sheet${out}"><div class="grab"></div><div class="sh"><div class="t">Show looks for</div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     ${['All occasions'].concat(OCC).map(o=>`<button class="li ${o===cur?'cur':''}" data-a="cfilt" data-k="${o}" style="height:52px"><span class="n">${o}</span>${o===cur?'<span class="ck">✓</span>':''}</button>`).join('')}</div>`;}
+  if(s.sheet==='plan'){
+    const out=s.closing?' out':'';const po=s.pocc||'Dinner';
+    const cands=(PLAN._extra&&!(PLAN[po]||[]).includes(PLAN._extra)?[PLAN._extra]:[]).concat(PLAN[po]||['C','B','A']).slice(0,3);
+    h+=`<div class="dim${out}" data-a="close"></div><div class="sheet${out}"><div class="grab"></div>
+     <div class="sh"><div class="t">Thu ${s.day}<span>Plan a set</span></div><button class="x" data-a="close" aria-label="Close">✕</button></div>
+     <div class="occchips">${OCC.map(o=>`<button class="${o===po?'on':''}" data-a="pocc" data-k="${o}">${o}</button>`).join('')}</div>
+     <div class="bigfig" style="height:200px;margin-bottom:12px">${s.ppick?fig(pieces(s.ppick,{})):''}</div>
+     <div class="opts" style="padding-top:0">${cands.map(k=>`<button class="optw ${s.ppick===k?'on':''}" data-a="ppick" data-k="${k}"><span class="opt" style="height:72px">${flat(pieces(k,{}))}</span><span class="oc">${wornCap(k,{})}</span></button>`).join('')}</div>
+     <div style="height:16px"></div>
+     <button class="btn p" data-a="plan" ${s.ppick?'':'disabled style="opacity:.3"'}>Plan for Thu ${s.day}</button>
+    </div>`;
+  }
+  return h+'</div>';
+}
+function cam(s){return `<div class="scr cam in">${sb(1)}<div class="hd" style="color:#fff;padding:0 16px"><button class="x" style="background:rgba(255,255,255,.14);color:#fff" data-a="camx" aria-label="Close">✕</button><b style="font-size:17px">Tan loafers</b><span style="width:32px"></span></div>
+ <div class="vf ${s.flash?'flash':''}"><span class="slotchip">Shoes</span><i style="left:24px;top:24px;border-width:3px 0 0 3px"></i><i style="right:24px;top:24px;border-width:3px 3px 0 0"></i><i style="left:24px;bottom:24px;border-width:0 0 3px 3px"></i><i style="right:24px;bottom:24px;border-width:0 3px 3px 0"></i>${item('shoes','#b0825a',180)}</div>
+ <button class="shut" data-a="snap" aria-label="Take photo"><span></span></button></div>`}
+function rv(s){return `<div class="scr in">${sb()}<div class="hd" style="padding:0 16px"><button class="x" data-a="camx" aria-label="Close">✕</button><b style="font-size:17px">Add to closet</b><span style="width:32px"></span></div>
+ <div class="rvimg">${item('shoes','#b0825a',200)}<button class="pill retake" data-a="camback">Retake</button></div>
+ <div class="fields"><h2>Tan loafers ${I.pen}</h2>
+  <div class="fl"><span class="k">Category</span><span class="v">Shoes ${I.chev}</span></div>
+  <div class="fl"><span class="k">Colour</span><span class="v">Tan ${I.chev}</span></div>
+  <div class="fl"><span class="k">Dress code</span><span class="seg" style="${s.code?'':'box-shadow:inset 0 0 0 1.5px var(--ink)'}">${['Smart','Casual','Both'].map(x=>`<button class="${(s.code||'Smart')===x?'on':''}" data-a="code" data-k="${x}">${x}</button>`).join('')}</span></div></div>
+ <div class="foot"><button class="btn p" data-a="addit">Add and complete the set</button></div></div>`}
+const BULK=[['jacket','#6b6b47','Olive trench','Outer layer · Smart'],['bag','#c9a66b','Straw bag','Bag · Casual'],['tee','#a9b49a','Sage knit','Top? · Smart'],['jacket','#2b3550','','','dup'],['trousers','#4a4038'],['shoes','#7a2e2e'],['tee','#d7c3d6'],['trousers','#c9c2b0']];
+function bulk(s){const sel=s.sel||[0,1,2];return `<div class="scr in">${sb()}<div class="hd" style="padding:0 16px"><button class="x" data-a="home" aria-label="Close">✕</button><b style="font-size:17px">Add items</b><span style="width:32px"></span></div>
+ <div class="rowh" style="padding-top:8px">Recent photos</div>
+ <div class="grid"><button class="camt">${I.cam}Camera</button>${BULK.map((b,j)=>`<button class="${sel.includes(j)?'sel':''} ${b[4]||''}" data-a="${b[4]?'':'tog'}" data-k="${j}">${item(b[0],b[1],72)}${b[4]?'<span>In closet</span>':''}</button>`).join('')}</div>
+ <div class="foot"><button class="btn p" data-a="review">Review ${sel.length}</button></div></div>`}
+function bulkrv(s){const c=s.bcat;return `<div class="scr in">${sb()}<div class="hd" style="padding:0 16px"><button class="x" data-a="plus" aria-label="Back" style="font-size:17px">‹</button><b style="font-size:17px">Review 3</b><span style="width:32px"></span></div>
+ ${BULK.slice(0,3).map((b,j)=>`<div class="li" style="align-items:flex-start"><span class="th">${item(b[0],b[1],44)}</span><span class="n">${b[2]}<span>${j===2?'Smart':b[3]}</span>${j===2?`<span style="display:flex;align-items:center;gap:8px;margin-top:8px"><span style="font-size:13px;color:var(--g1)">Category</span><span class="seg" style="${c?'':'box-shadow:inset 0 0 0 1.5px var(--ink)'}"><button class="${(c||'Top')==='Top'?'on':''}" data-a="bcat" data-k="Top">Top</button><button class="${c==='Outer'?'on':''}" data-a="bcat" data-k="Outer">Outer layer</button></span></span>`:''}</span><button class="ib" aria-label="Edit ${b[2]}"><span style="transform:rotate(-90deg);display:flex">${I.chev}</span></button></div>`).join('')}
+ <div class="foot"><button class="btn p" data-a="home">Add 3 items</button></div></div>`}
+function render(i){const s=S[i];phones[i].innerHTML=s.screen==='cam'?cam(s):s.screen==='rv'?rv(s):s.screen==='bulk'?bulk(s):s.screen==='bulkrv'?bulkrv(s):s.screen==='cal'?calendar(s):home(s);s.anim='';s.settle=false;s.pop=false;s.popd=null;s.enter=false;s.flash=false}
+function closeSheet(i,then){const s=S[i];s.closing=true;render(i);setTimeout(()=>{s.closing=false;s.sheet=null;if(then)then();render(i)},200)}
+function go(i,screen){S[i].screen=screen;S[i].enter=true}
+function act(i,a,k,e){const s=S[i];
+ const keepUndo=['code','size','toggle'];if(!keepUndo.includes(a))s.undo=null;
+ switch(a){
+  case 'toggle': if(!s.worn&&!s.shopTry){s.labels=!s.labels} break;
+  case 'piece': s.sheet=k; break;
+  case 'pick': {const kind=P[k].kind;return closeSheet(i,()=>{s.swaps=s.swaps||{};s.swaps[s.look]=Object.assign(s.swaps[s.look]||{},{[kind]:k});s.labels=false;s.anim='re';s.undo=P[k].name+' on'})}
+  case 'close': return closeSheet(i,()=>{s.shopTry=0});
+  case 'set': {HOME=homeList(s);const d=HOME.indexOf(k)>HOME.indexOf(s.look)?'sl':'sr';s.look=k;s.labels=false;s.anim=d;s.worn=false;s.shopTry=0;break}
+  case 'next': case 'prev': {HOME=homeList(s);const n=HOME.length,j=(HOME.indexOf(s.look)+(a==='next'?1:n-1))%n;s.look=HOME[j];s.labels=false;s.anim=a==='next'?'sl':'sr';s.shopTry=0;break}
+  case 'occ': s.sheet='occ'; break;
+  case 'setocc': return closeSheet(i,()=>{if(s.sel&&s.sel>23){s.docc=Object.assign(s.docc||{},{[s.sel]:k});if(s.dpick)delete s.dpick[s.sel];s.anim='sl';return}s.occ=k;s.look=homeList(s)[0];s.swaps=null;s.anim='sl'});
+  case 'gap': s.sheet='gap'; break;
+  case 'have': return closeSheet(i,()=>go(i,'cam'));
+  case 'camx': s.screen='home'; break;
+  case 'camback': go(i,'cam'); break;
+  case 'snap': s.flash=true;render(i);return setTimeout(()=>{go(i,'rv');render(i)},280);
+  case 'code': s.code=k; break;
+  case 'addit': go(i,'home');s.look='D';s.added=true;s.undo='Tan loafers added';s.anim='re'; break;
+  case 'try': if(s.sheet) return closeSheet(i,()=>{s.shopTry=+k;s.anim='re'}); s.shopTry=+k;s.anim='re'; break;
+  case 'shopback': s.shopTry=0;s.sheet='gap';s.anim='re'; break;
+  case 'buy': s.sheet='pay'; break;
+  case 'tryon': s.shopTry=+k;s.sheet='tryon'; break;
+  case 'tryswap': s.shopTry=+k; break;
+  case 'full': s.full=!s.full; break;
+  case 'size': s.size=+k; break;
+  case 'pay': return closeSheet(i,()=>{s.shopTry=0;s.ordered=true;s.order=true;s.anim='re'});
+  case 'closeshop': break;
+  case 'wear': s.worn=true;s.settle=true;s.pop=true;s.labels=false; break;
+  case 'wearback': s.shopTry=0;s.worn=true;s.settle=true;s.pop=true; break;
+  case 'unwear': s.worn=false; break;
+  case 'undo': s.swaps=null;s.added=false;s.ordered=false;s.order=false;s.anim='re'; break;
+  case 'cal': go(i,'cal');s.sheet=null; break;
+  case 'gohome': go(i,'home');s.sheet=null;s.sel=23;s.labels=false; break;
+  case 'selday': {const d=+k;s.sel=d;s.labels=false;s.sheet=null;s.anim='sl';s.shopTry=0;break}
+  case 'dset': s.dpick=Object.assign(s.dpick||{},{[s.sel]:k});s.anim='sl'; break;
+  case 'dnext': case 'dprev': {const occ=(s.docc&&s.docc[s.sel])||DEFOCC[s.sel];const list=(HOMEBY[occ]||[]).filter(x=>LOOKS[x].worn.length<2);const cur=(s.dpick&&s.dpick[s.sel])||list[0];const n=list.length,j=(list.indexOf(cur)+(a==='dnext'?1:n-1))%n;s.dpick=Object.assign(s.dpick||{},{[s.sel]:list[j]});s.anim=a==='dnext'?'sl':'sr';break}
+  case 'planday': s.planned=Object.assign(s.planned||{},{[s.sel]:k});s.popd=s.sel;s.settle=true; break;
+  case 'unplan': if(s.planned)delete s.planned[s.sel]; break;
+  case 'home': go(i,'home');s.sheet=null; break;
+  case 'day': {const d=+k;if(WORNDAY[d]||(d===23&&s.worn)){s.day=d;s.sheet='day'}else if(d>23){s.day=d;s.sheet='plan';s.pocc=s.pocc||'Dinner';s.ppick=null}break}
+  case 'vary': s.sel=23; return closeSheet(i,()=>{LOOKS.V={pieces:LOOKS[k].pieces.slice(),worn:[]};go(i,'home');s.look='V';s.labels=true;s.worn=false;s.undo=null;s.anim='re'});
+  case 'again': s.sel=23; return closeSheet(i,()=>{go(i,'home');s.occ=LOOKS[k].occ;s.look=k;s.worn=true;s.undo=null;s.anim='re'});
+  case 'planthis': s.day=25;s.sheet='plan';s.pocc=s.pocc||'Client meeting';s.ppick=k;PLAN._extra=k; break;
+  case 'cfilt': return closeSheet(i,()=>{s.cfilt=k==='All occasions'?null:k});
+  case 'cfsheet': s.sheet='cf'; break;
+  case 'pocc': s.pocc=k;s.ppick=(PLAN[k]||[])[0]; break;
+  case 'ppick': s.ppick=k; break;
+  case 'plan': if(!s.ppick)return; return closeSheet(i,()=>{s.planned=Object.assign(s.planned||{},{[s.day]:s.ppick})});
+  case 'plus': go(i,'bulk'); break;
+  case 'tog': {s.sel=s.sel||[0,1,2];const j=+k;s.sel=s.sel.includes(j)?s.sel.filter(x=>x!==j):s.sel.concat(j);break}
+  case 'review': go(i,'bulkrv'); break;
+  case 'bcat': s.bcat=k; break;
+ }
+ render(i)}
+/* the varied set (from a twice-worn day) is shown on Home as its own option */
+const _home=home;
+phones.forEach((p,i)=>{
+  p.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||!b.dataset.a)return;e.stopPropagation();act(i,b.dataset.a,b.dataset.k,e)});
+  let x0=null;p.addEventListener('pointerdown',e=>{if(e.target.closest('.stage'))x0=e.clientX});
+  p.addEventListener('pointerup',e=>{if(x0!==null&&Math.abs(e.clientX-x0)>40&&S[i].screen==='home'&&!S[i].shopTry){act(i,e.clientX<x0?'next':'prev')}x0=null});
+  render(i)});
+</script><script src="../../focus.js" data-keep=".phone" data-hide=""></script></body></html>
