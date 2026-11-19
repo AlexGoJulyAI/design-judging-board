@@ -240,17 +240,22 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 </div>
 
 <script>
-const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}], "kind": "desktop"}};
+const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}, {"id": "F", "live": ["p/alta_F/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}, {"id": "F", "live": ["p/canopy_F/index.html"]}], "kind": "desktop"}};
 const CRIT=[["fit","Brief","Fits the brief","Does the job the PRD asks for."],["clarity","Clarity","Clarity","Clear at a glance: you know what to do next."],["craft","Craft","Visual craft","Type, spacing, hierarchy and polish."],["overall","Overall","Overall","Would you ship this?"]];
 const NAMES={alta:"Alta",canopy:"Canopy"};
 /* Each judge sees the options in their own shuffled order, fixed by their email and the product,
    so it's random across judges but the same every time one judge comes back, on any device.
+   A–E are shuffled as they always were; options added later (F, …) are slotted in at a position
+   seeded the same way, so adding one never reorders what a judge has already seen.
    Don't change this function once judging starts: it would reshuffle everyone. */
+const BASE_OPTIONS=5;
+function seeded(str){let h=2166136261;for(const ch of str){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
+  let t=h>>>0;return()=>{t=(t+0x6D2B79F5)>>>0;let r=Math.imul(t^(t>>>15),1|t);r=(r+Math.imul(r^(r>>>7),61|r))^r;return((r^(r>>>14))>>>0)/4294967296}}
 function orderedOptions(product){
-  const opts=DATA[product].options.slice();if(!me||!me.email)return opts;
-  let h=2166136261;for(const ch of me.email.toLowerCase()+"|"+product){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
-  let t=h>>>0;const rnd=()=>{t=(t+0x6D2B79F5)>>>0;let r=Math.imul(t^(t>>>15),1|t);r=(r+Math.imul(r^(r>>>7),61|r))^r;return((r^(r>>>14))>>>0)/4294967296};
+  const all=DATA[product].options;if(!me||!me.email)return all.slice();
+  const key=me.email.toLowerCase()+"|"+product,opts=all.slice(0,BASE_OPTIONS),rnd=seeded(key);
   for(let i=opts.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]]}
+  for(const o of all.slice(BASE_OPTIONS))opts.splice(Math.floor(seeded(key+"|"+o.id)()*(opts.length+1)),0,o);
   return opts;
 }
 const ADMIN_DOMAIN="gojuly.ai";
@@ -500,7 +505,12 @@ function fit(fr){
   const vp=fr.closest(".vp"),live=fr.closest(".live");if(!vp||!live)return;
   // frame size: 1440 wide, at least 900 tall; grow only when the design truly overflows it
   const l=+fr.dataset.x||0,t=+fr.dataset.y||0,r=+fr.dataset.w||VW,b=+fr.dataset.h||900;
-  const FW=Math.max(VW,r),FH=Math.max(900,b);
+  // Grow the frame to fit the design. focus.js measures content, not the frame, so growth normally settles at once;
+  // as a safety net, more than 40 growths in 3 seconds (a runaway loop) pauses growth, then retries once things settle.
+  const pw=+fr.dataset.fw||VW,ph=+fr.dataset.fh||900,now=Date.now(),recent=(fr._grows||[]).filter(t=>now-t<3000);
+  let FW=pw,FH=ph;
+  if(r>pw||b>ph){if(recent.length<40){FW=Math.max(pw,r);FH=Math.max(ph,b);recent.push(now)}else{clearTimeout(fr._retry);fr._retry=setTimeout(()=>fit(fr),3100)}}
+  fr._grows=recent;fr.dataset.fw=FW;fr.dataset.fh=FH;
   // the design's box plus a small margin, kept inside the frame
   const x=Math.max(0,l-16),y=Math.max(0,t-16),cw=Math.max(1,Math.min(FW,r+16)-x),ch=Math.max(1,Math.min(FH,b+16)-y);
   const cs=getComputedStyle(live),W=live.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),H=live.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);

@@ -32,6 +32,7 @@ http.createServer((req, res) => {
   fs.readFile(file, (err, data) => {
     if (err) { res.statusCode = 404; return res.end("Not found"); }
     res.setHeader("Content-Type", TYPES[path.extname(file).toLowerCase()] || "application/octet-stream");
+    res.setHeader("Cache-Control", "no-cache"); // always check for a newer copy, so edits show on a normal reload
     res.end(data);
   });
 }).listen(PORT, () => console.log(`Design Judging Board → http://localhost:${PORT}`));

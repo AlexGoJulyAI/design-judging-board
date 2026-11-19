@@ -644,4 +644,4 @@ phones.forEach((p,i)=>{
   let x0=null;p.addEventListener('pointerdown',e=>{if(e.target.closest('.stage'))x0=e.clientX});
   p.addEventListener('pointerup',e=>{if(x0!==null&&Math.abs(e.clientX-x0)>40&&S[i].screen==='home'&&!S[i].shopTry){act(i,e.clientX<x0?'next':'prev')}x0=null});
   render(i)});
-</script><script src="../../focus.js" data-keep=".phone" data-hide=""></script></body></html>
+</script><script src="../../focus.js?v=5" data-keep=".phone" data-hide=""></script></body></html>
