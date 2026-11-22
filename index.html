@@ -76,7 +76,39 @@ code{font-size:12.5px;background:var(--sunk);border-radius:4px;padding:1px 5px}
 .ohead{flex:none;display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line)}
 .letter{font-family:var(--display);font-size:26px;font-weight:700;line-height:1;letter-spacing:-.02em}
 .tools{margin-left:auto;display:flex;gap:6px}
-.obody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 352px}
+/* --rw / --ww: rate and rationale widths, set by dragging their left edges; clamped so the design keeps room */
+:root{--rwc:clamp(280px,var(--rw,352px),40%);--wwc:clamp(260px,var(--ww,34%),45%)}
+.obody{position:relative;flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) var(--rwc)}
+/* rationale: optional reading column between the design and the rating panel */
+.obody.wy{grid-template-columns:minmax(0,1fr) var(--wwc) var(--rwc)}
+/* .nr: scoring rubric hidden for this option */
+.obody.nr{grid-template-columns:minmax(0,1fr)}
+.obody.wy.nr{grid-template-columns:minmax(0,1fr) var(--wwc)}
+.obody.nr .rcol,.obody.nr .rs[data-rs="rate"]{display:none}
+.obody.nr .rs[data-rs="why"]{right:var(--wwc)}
+.rs{position:absolute;top:0;bottom:0;z-index:3;width:12px;margin-right:-6px;cursor:col-resize;touch-action:none;outline:none}
+.rs[data-rs="rate"]{right:var(--rwc)}
+.rs[data-rs="why"]{right:calc(var(--rwc) + var(--wwc));display:none}
+.obody.wy .rs[data-rs="why"]{display:block}
+.rs::after{content:"";position:absolute;left:5px;top:0;bottom:0;width:2px;background:transparent;transition:background-color .15s}
+.rs:hover::after,.rs:focus-visible::after,.rs.on::after{background:var(--accent)}
+.rs::before{content:"";position:absolute;left:3px;top:50%;width:6px;height:32px;margin-top:-16px;border-radius:3px;background:var(--line);opacity:0;transition:opacity .15s}
+.rs:hover::before,.rs:focus-visible::before,.rs.on::before{opacity:1;background:var(--accent)}
+body.rsz{cursor:col-resize;user-select:none}body.rsz iframe{pointer-events:none}
+.why{display:none;min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;border-left:1px solid var(--line);background:var(--surface)}
+.obody.wy .why{display:block}
+.wh{position:sticky;top:0;z-index:1;padding:14px 24px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
+.wb{padding:4px 24px 28px;font-size:13.5px;line-height:1.55;color:var(--ink2);overflow-wrap:anywhere}
+.wb h2,.wb h3,.wb h4{color:var(--ink);line-height:1.3;margin:22px 0 8px}
+.wb h2{font-family:var(--display);font-size:19px}.wb h3{font-size:15px}.wb h4{font-size:14px}
+.wb p{margin:0 0 10px}.wb ul,.wb ol{margin:0 0 12px;padding-left:20px}.wb li{margin:3px 0}
+.wb li.task{list-style:none;margin-left:-20px}.wb li.task input{margin:0 6px 0 0;vertical-align:-2px}
+.wb strong{color:var(--ink);font-weight:600}.wb a{color:inherit;text-decoration:underline;text-decoration-color:var(--muted);text-underline-offset:2px}
+.wb .tw{overflow-x:auto;margin:4px 0 14px;border:1px solid var(--line);border-radius:8px}
+.wb table{border-collapse:collapse;font-size:12px;line-height:1.45;min-width:100%}
+.wb th,.wb td{text-align:left;vertical-align:top;white-space:normal;min-width:110px;padding:6px 9px;border-bottom:1px solid var(--line)}
+.wb th{background:var(--bg);color:var(--ink);font-weight:600}.wb tr:last-child td{border-bottom:0}
+.wb .none{color:var(--muted);margin-top:16px}
 /* stage: designs scaled as large as the space allows, centered; tall ones scroll inside */
 .live{min-width:0;min-height:0;overflow:auto;overscroll-behavior-y:auto;display:flex;flex-direction:column;gap:24px;padding:24px;background:var(--stage)}
 .vp{flex:none;margin:auto;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.06),0 12px 32px -8px rgba(16,24,40,.12)}
@@ -197,7 +229,7 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 .full .fbar b{font-family:var(--display);font-size:20px}
 .full .fbar #fclose{margin-left:auto}
 .full iframe{flex:1;width:100%;border:0;background:#fff}
-@media (max-width:960px){.opt{height:auto;min-height:0}.obody{grid-template-columns:1fr}.live{height:min(72dvh,720px)}.rcol{overflow:visible;border-left:0;border-top:1px solid var(--line)}.rate{padding:16px 20px 8px}}
+@media (max-width:960px){.opt{height:auto;min-height:0}.obody,.obody.wy{grid-template-columns:1fr}.rs,.obody.wy .rs[data-rs="why"]{display:none}.why{max-height:60dvh;border-left:0;border-top:1px solid var(--line)}.live{height:min(72dvh,720px)}.rcol{overflow:visible;border-left:0;border-top:1px solid var(--line)}.rate{padding:16px 20px 8px}}
 @media (max-width:700px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.seat{margin-left:0;width:100%}.card{padding:22px}.live{padding:12px}}
 @media (prefers-reduced-motion:reduce){html{scroll-snap-type:none}.scale,.scale button,.cnote,.odone,.saved,.crit h3,.cv{transition:none}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
@@ -241,8 +273,11 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 
 <script>
 const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}, {"id": "F", "live": ["p/alta_F/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}, {"id": "F", "live": ["p/canopy_F/index.html"]}], "kind": "desktop"}};
-const CRIT=[["fit","Brief","Fits the brief","Does the job the PRD asks for."],["clarity","Clarity","Clarity","Clear at a glance: you know what to do next."],["craft","Craft","Visual craft","Type, spacing, hierarchy and polish."],["overall","Overall","Overall","Would you ship this?"]];
+const CRIT=[["draft","First draft","Is this a good first draft design?",""],["goal","Product","Does the design meet the product objective?",""],["brief","Brief","Does the design meet the brief objective?",""]];
 const NAMES={alta:"Alta",canopy:"Canopy"};
+/* each option's rationale, kept word for word as Markdown next to its design; options without one say so */
+const WHY={alta:{A:"p/alta_A/rationale.md",B:"p/alta_B/rationale.md",C:"p/alta_C/rationale.md",F:"p/alta_F/rationale.md"},canopy:{A:"p/canopy_A/rationale.md",C:"p/canopy_C/rationale.md",D:"p/canopy_D/rationale.md",F:"p/canopy_F/rationale.md"}};
+const whyOpen=new Set(),whyCache={},rateHidden=new Set();
 /* Each judge sees the options in their own shuffled order, fixed by their email and the product,
    so it's random across judges but the same every time one judge comes back, on any device.
    A–E are shuffled as they always were; options added later (F, …) are slotted in at a position
@@ -264,7 +299,7 @@ let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
 let me=null;                            // {email,name,admin,canAdmin}
 let viewAll=false;                      // organizer toggle: show every judge's scores
 let unlocking=false;                    // showing the passcode prompt for that toggle
-let mine={};                            // {product:{option:{fit,clarity,craft,overall,notes:{fit,clarity,craft,overall}}}}
+let mine={};                            // {product:{option:{draft,goal,brief,notes:{draft,goal,brief}}}}
 let adm={judges:[],scores:[]};          // organizer view: every judge and score
 let pollTimer=null,chain=Promise.resolve();
 const timers={};
@@ -326,8 +361,9 @@ function render(){
   if(viewAll)h+=allBoard();
   h+=`<div class="opts-h" id="opts"><h2>Redesigns</h2><span class="lab">${P.options.length} options, blind</span></div>`;
   orderedOptions(prod).forEach(o=>{const s=my[o.id]||{},nt=notesOf(s),d=s.done===true,all=allRated(s);
-    h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span><span class="tools"><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
-    <div class="obody"><div class="live">${o.live.map((src,i)=>`<div class="vp"><div class="sizer"><iframe src="${src}" loading="lazy" title="Option ${o.id} prototype${o.live.length>1?" "+(i+1):""}"></iframe></div></div>`).join("")}</div>
+    h+=`<section class="opt" id="opt-${o.id}"><div class="ohead"><span class="letter">${o.id}</span><span class="tools"><button class="tb" data-why="${o.id}" aria-pressed="${whyOpen.has(prod+":"+o.id)}" aria-controls="why-${o.id}">Rationale</button><button class="tb" data-rubric="${o.id}" aria-pressed="${!rateHidden.has(prod+":"+o.id)}">Scoring Rubric</button><button class="tb" data-reload="${o.id}">Reset</button><button class="tb" data-full="${o.id}">Full screen</button></span></div>
+    <div class="obody${whyOpen.has(prod+":"+o.id)?" wy":""}${rateHidden.has(prod+":"+o.id)?" nr":""}"><span class="rs" data-rs="why" role="separator" aria-orientation="vertical" tabindex="0" aria-label="Resize rationale panel"></span><span class="rs" data-rs="rate" role="separator" aria-orientation="vertical" tabindex="0" aria-label="Resize rating panel"></span><div class="live">${o.live.map((src,i)=>`<div class="vp"><div class="sizer"><iframe src="${src}" loading="lazy" title="Option ${o.id} prototype${o.live.length>1?" "+(i+1):""}"></iframe></div></div>`).join("")}</div>
+    <section class="why" id="why-${o.id}" aria-label="Rationale for option ${o.id}"><div class="wh"><span class="rt">Rationale</span></div><div class="wb">${whyOpen.has(prod+":"+o.id)?whyBody(o.id):""}</div></section>
     ${viewAll?`<div class="rcol" id="ap-${o.id}">${adminPanel(o.id)}</div></div>`:`<div class="rcol"><aside class="rate${d?" done":""}" data-o="${o.id}" aria-label="Rate option ${o.id}"><div class="rh"><span class="rt">Rate option ${o.id}</span><span class="saved" id="sv-${o.id}" role="status"></span></div>
     ${CRIT.map(([c,,lab,desc])=>{const has=typeof s[c]==="number";return `<div class="crit" data-c="${c}"><div class="ct"><h3 id="cl-${o.id}-${c}">${lab}</h3><span class="cv">${cv(s[c])}</span></div><p class="cd">${desc}</p><div class="scale" role="group" aria-labelledby="cl-${o.id}-${c}">${[1,2,3,4,5].map(n=>`<button data-c="${c}" data-n="${n}" aria-pressed="${s[c]===n}" aria-label="${n} out of 5"${d?" disabled":""}>${n}</button>`).join("")}</div><textarea class="cnote" rows="1" data-c="${c}" maxlength="500" placeholder="Note (optional)" aria-label="${lab} note for option ${o.id}"${d?" disabled":""}>${esc(nt[c]||"")}</textarea></div>`}).join("")}
     </aside><div class="rfoot${d?" done":""}" data-o="${o.id}"><span class="hint">${footHint(d,all)}</span><button class="odone" data-odone="${o.id}"${!d&&!all?" disabled":""}>${d?"Edit":"Done"}</button></div></div></div>`}</section>`;
@@ -336,18 +372,72 @@ function render(){
   $("#root").innerHTML=h;
   document.querySelectorAll(".cnote").forEach(grow);setHeaderVar();
 }
+/* minimal Markdown: headings, paragraphs, lists, task lists, tables, bold, italic, links */
+function md(src){
+  const inl=t=>esc(t).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*\w])\*(?!\s)(.+?)\*(?!\w)/g,"$1<em>$2</em>");
+  const cells=l=>l.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+  const L=src.replace(/\r/g,"").split("\n"),out=[];let i=0;
+  while(i<L.length){const l=L[i];
+    if(!l.trim()){i++;continue}
+    let m=l.match(/^(#{1,3})\s+(.*)/);if(m){const n=m[1].length+1;out.push(`<h${n}>${inl(m[2])}</h${n}>`);i++;continue}
+    if(/^\s*\|/.test(l)&&/^\s*\|?\s*:?-{3,}/.test(L[i+1]||"")){const head=cells(l);i+=2;const rows=[];while(i<L.length&&/^\s*\|/.test(L[i]))rows.push(cells(L[i++]));
+      out.push(`<div class="tw"><table><thead><tr>${head.map(c=>`<th>${inl(c)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${inl(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);continue}
+    if(/^\s*([-*]|\d+\.)\s+/.test(l)){const ol=/^\s*\d+\./.test(l),items=[];
+      while(i<L.length&&/^\s*([-*]|\d+\.)\s+/.test(L[i])){let t=L[i++].replace(/^\s*([-*]|\d+\.)\s+/,"");const tk=t.match(/^\[( |x)\]\s+(.*)/i);
+        items.push(tk?`<li class="task"><input type="checkbox" disabled${tk[1].trim()?" checked":""} aria-label="${tk[1].trim()?"Done":"Not done"}">${inl(tk[2])}</li>`:`<li>${inl(t)}</li>`)}
+      out.push(`<${ol?"ol":"ul"}>${items.join("")}</${ol?"ol":"ul"}>`);continue}
+    const para=[];while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|\s*\||\s*([-*]|\d+\.)\s+)/.test(L[i]))para.push(L[i++].trim());
+    out.push(`<p>${para.map(inl).join("<br>")}</p>`)}
+  return out.join("")}
+function whyBody(id){const k=prod+":"+id,u=(WHY[prod]||{})[id];
+  if(!u)return `<p class="none">No rationale has been added for this option yet.</p>`;
+  if(whyCache[u])return whyCache[u];
+  fetch(u).then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{whyCache[u]=md(t)}).catch(()=>{whyCache[u]=`<p class="none">The rationale didn’t load. Reload the page to try again.</p>`})
+    .then(()=>{const el=document.querySelector(`#opt-${id} .wb`);if(el&&k===prod+":"+id)el.innerHTML=whyCache[u]});
+  return `<p class="none">Loading…</p>`}
+/* drag (or arrow keys on) a panel's left edge to resize it; double-click resets. One size for every option, remembered per browser. */
+const RS={rate:{v:"--rw",sel:".rcol",min:280},why:{v:"--ww",sel:".why",min:260}};
+const rootStyle=document.documentElement.style;
+try{const z=JSON.parse(localStorage.getItem("djb:panels")||"{}");for(const k in RS)if(z[k])rootStyle.setProperty(RS[k].v,z[k]+"px")}catch{}
+function savePanels(){try{const z={};for(const k in RS){const v=parseFloat(rootStyle.getPropertyValue(RS[k].v));if(v)z[k]=v}localStorage.setItem("djb:panels",JSON.stringify(z))}catch{}}
+function setPanel(h,w){const k=h.dataset.rs,body=h.parentElement,other=k==="rate"?body.querySelector(".why"):body.querySelector(".rcol");
+  const otherW=other&&other.offsetParent?other.getBoundingClientRect().width:0,max=body.clientWidth-otherW-320;
+  w=Math.round(Math.max(RS[k].min,Math.min(w,max)));rootStyle.setProperty(RS[k].v,w+"px");h.setAttribute("aria-valuenow",w);return w}
+function refitAll(){document.querySelectorAll(".sizer iframe").forEach(fit)}
+let rsRaf=0;const refitSoon=body=>{if(rsRaf)return;rsRaf=requestAnimationFrame(()=>{rsRaf=0;body.querySelectorAll(".sizer iframe").forEach(fit)})};
+document.addEventListener("pointerdown",e=>{const h=e.target.closest(".rs");if(!h||e.button!==0)return;e.preventDefault();
+  const body=h.parentElement,w0=body.querySelector(RS[h.dataset.rs].sel).getBoundingClientRect().width,x0=e.clientX;
+  h.setPointerCapture(e.pointerId);h.classList.add("on");document.body.classList.add("rsz");
+  const mv=ev=>{setPanel(h,w0+(x0-ev.clientX));refitSoon(body)};
+  const up=()=>{h.removeEventListener("pointermove",mv);h.removeEventListener("pointerup",up);h.removeEventListener("pointercancel",up);h.classList.remove("on");document.body.classList.remove("rsz");savePanels();refitAll()};
+  h.addEventListener("pointermove",mv);h.addEventListener("pointerup",up);h.addEventListener("pointercancel",up)});
+document.addEventListener("dblclick",e=>{const h=e.target.closest(".rs");if(!h)return;rootStyle.removeProperty(RS[h.dataset.rs].v);savePanels();refitAll()});
+document.addEventListener("keydown",e=>{const h=e.target.closest&&e.target.closest(".rs");if(!h||!["ArrowLeft","ArrowRight","Home"].includes(e.key))return;e.preventDefault();
+  if(e.key==="Home")rootStyle.removeProperty(RS[h.dataset.rs].v);
+  else{const w=h.parentElement.querySelector(RS[h.dataset.rs].sel).getBoundingClientRect().width;setPanel(h,w+(e.key==="ArrowLeft"?24:-24))}
+  savePanels();refitAll()});
+function toggleRubric(id){const k=prod+":"+id,show=rateHidden.has(k);show?rateHidden.delete(k):rateHidden.add(k);
+  const sec=document.getElementById("opt-"+id);if(!sec)return;
+  sec.querySelector(".obody").classList.toggle("nr",!show);sec.querySelector("[data-rubric]").setAttribute("aria-pressed",show);
+  requestAnimationFrame(()=>sec.querySelectorAll(".sizer iframe").forEach(fit))}
+function toggleWhy(id){const k=prod+":"+id,on=!whyOpen.has(k);on?whyOpen.add(k):whyOpen.delete(k);
+  const sec=document.getElementById("opt-"+id);if(!sec)return;
+  sec.querySelector(".obody").classList.toggle("wy",on);sec.querySelector("[data-why]").setAttribute("aria-pressed",on);
+  if(on)sec.querySelector(".wb").innerHTML=whyBody(id);
+  requestAnimationFrame(()=>sec.querySelectorAll(".sizer iframe").forEach(fit))}
 /* note boxes grow with their text up to 4 lines, then scroll */
 function grow(t){t.style.height="auto";const h=t.scrollHeight+2,max=parseFloat(getComputedStyle(t).maxHeight)||Infinity;t.style.height=Math.min(h,max)+"px";t.style.overflowY=h>max?"auto":"hidden"}
 let lastHH=0;
 function setHeaderVar(){const hd=document.querySelector("header");if(!hd)return;const h=hd.offsetHeight;document.documentElement.style.setProperty("--hh",h+"px");if(lastHH&&h!==lastHH)document.querySelectorAll(".sizer iframe").forEach(fit);lastHH=h}
 addEventListener("resize",setHeaderVar);
-/* notes are per criterion; older rows had one "note", shown as the Overall note */
+/* notes are per criterion */
 const allRated=s=>CRIT.every(([c])=>typeof s[c]==="number");
-const footHint=(d,all)=>d?"Marked done":all?"All four rated":"Rate all four to finish";
+const footHint=(d,all)=>d?"Marked done":all?"All questions rated":"Rate all questions to finish";
 const cv=v=>typeof v==="number"?`${v}<small>/5</small>`:"";
-const notesOf=s=>s.notes||(s.note?{overall:s.note}:{});
+const notesOf=s=>s.notes||{};
 const notesHtml=s=>{const n=notesOf(s);return CRIT.filter(([c])=>n[c]).map(([c,l])=>`<span class="nl"><b>${l}</b>${esc(n[c])}</span>`).join("")};
 const fmtNotes=s=>{const n=notesOf(s);return CRIT.filter(([c])=>n[c]).map(([c,l])=>`${l}: ${n[c]}`).join(" · ")};
+const mean=avg=>{const v=CRIT.map(([c])=>avg[c]).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:-1};
 const fmt=s=>CRIT.map(([c,l])=>`${l} ${s[c]??"·"}`).join(" · ");
 
 /* the signed-in judge's own scores */
@@ -388,11 +478,11 @@ function allBoard(){
     const rs=rows.filter(r=>r.option===o.id),avg={};
     CRIT.forEach(([c])=>{const v=rs.map(r=>r[c]).filter(x=>typeof x==="number");avg[c]=v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
     return {o,avg,n:new Set(rs.filter(r=>CRIT.some(([c])=>typeof r[c]==="number")).map(r=>r.email)).size};
-  }).sort((a,b)=>(b.avg.overall??-1)-(a.avg.overall??-1)||a.o.id.localeCompare(b.o.id));
+  }).sort((a,b)=>mean(b.avg)-mean(a.avg)||a.o.id.localeCompare(b.o.id));
   const cell=v=>v==null?`<td class="dim">–</td>`:`<td><div class="bar"><i style="width:${(v/5*56).toFixed(0)}px"></i><b>${v.toFixed(1)}</b></div></td>`;
   return `<section class="board" id="allboard"><div class="bh"><h2>All judges</h2><span class="lab">${scored} of ${sel} selected judge${sel===1?"":"s"} scored ${NAMES[prod]}</span></div>${scored?`<div class="tbl"><table><thead><tr><th>Option</th>${CRIT.map(([,l])=>`<th>${l} avg</th>`).join("")}<th>Judges</th></tr></thead><tbody>
   ${list.map(r=>`<tr><td class="l"><a href="#" data-goto="${r.o.id}">${r.o.id}</a></td>${CRIT.map(([c])=>cell(r.avg[c])).join("")}<td>${r.n||'<span class="dim">–</span>'}</td></tr>`).join("")}
-  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Sorted by Overall average. Pick a judge in an option’s side panel to see their ratings and notes. Updates every 20 seconds.</div>`:`<p class="dim" style="margin:0">${sel?`No scores for ${NAMES[prod]} from the selected judges.`:"No judges selected. Tick at least one name above."}</p>`}<div class="status"></div></section>`;
+  </tbody></table></div><div class="lab" style="text-transform:none;letter-spacing:0">Sorted by average across all questions. Pick a judge in an option’s side panel to see their ratings and notes. Updates every 20 seconds.</div>`:`<p class="dim" style="margin:0">${sel?`No scores for ${NAMES[prod]} from the selected judges.`:"No judges selected. Tick at least one name above."}</p>`}<div class="status"></div></section>`;
 }
 /* organizer panel: pick a judge (or the average) and see their ratings for this option, read-only */
 const pick={};                                  // "<product>:<option>" → judge email or "avg"
@@ -424,8 +514,8 @@ async function refreshAll(){
 function exportCsv(){
   const by=Object.fromEntries(adm.judges.map(j=>[j.email,j]));
   const safe=v=>{v=v==null?"":String(v);if(/^[=+\-@]/.test(v))v="'"+v;return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
-  const lines=[["judge","email","product","option","brief","clarity","craft","overall","brief_note","clarity_note","craft_note","overall_note","updated_at"],
-    ...adm.scores.map(s=>{const n=notesOf(s);return [(by[s.email]||{}).name||"",s.email,s.product,s.option,s.fit,s.clarity,s.craft,s.overall,n.fit,n.clarity,n.craft,n.overall,s.updated_at]})].map(r=>r.map(safe).join(","));
+  const lines=[["judge","email","product","option",...CRIT.map(([c])=>c),...CRIT.map(([c])=>c+"_note"),"updated_at"],
+    ...adm.scores.map(s=>{const n=notesOf(s);return [(by[s.email]||{}).name||"",s.email,s.product,s.option,...CRIT.map(([c])=>s[c]),...CRIT.map(([c])=>n[c]),s.updated_at]})].map(r=>r.map(safe).join(","));
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/csv"}));
   a.download=`judging-scores-${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
@@ -440,7 +530,7 @@ function save(p,o){
   delete timers[p+":"+o];
   chain=chain.then(async()=>{
     const s=(mine[p]||{})[o]||{};let error=null;
-    try{await api("/api/scores",{method:"PUT",body:{product:p,option:o,fit:s.fit??null,clarity:s.clarity??null,craft:s.craft??null,overall:s.overall??null,notes:notesOf(s),done:s.done===true}})}catch(err){error=err}
+    try{await api("/api/scores",{method:"PUT",body:{product:p,option:o,...Object.fromEntries(CRIT.map(([c])=>[c,s[c]??null])),notes:notesOf(s),done:s.done===true}})}catch(err){error=err}
     if(prod===p){const sv=document.getElementById("sv-"+o);if(sv&&!timers[p+":"+o])sv.textContent=error?"Not saved":"Saved"}
     if(error&&error.status===401)return showGate("Your session ended. Sign in again with the same email; your saved scores are still there.");
     setStatus(error?"Couldn’t save your last change. Check your connection, then change the score again.":"");
@@ -478,6 +568,8 @@ document.addEventListener("click",e=>{
   if(pk){const o=pk.dataset.o;pick[prod+":"+o]=pk.dataset.pick;document.getElementById("ap-"+o).innerHTML=adminPanel(o);return}
   const lb=e.target.closest("[data-lb]");if(lb){$("#lbimg").src=lb.dataset.lb;$("#lb").hidden=false;$("#lbx").focus();return}
   const g=e.target.closest("[data-goto]");if(g){e.preventDefault();document.getElementById("opt-"+g.dataset.goto).scrollIntoView({behavior:"smooth"});return}
+  const w=e.target.closest("[data-why]");if(w){toggleWhy(w.dataset.why);return}
+  const rb=e.target.closest("[data-rubric]");if(rb){toggleRubric(rb.dataset.rubric);return}
   const r=e.target.closest("[data-reload]");if(r){document.querySelectorAll(`#opt-${r.dataset.reload} iframe`).forEach(fr=>{fr.src=fr.src});return}
   const f=e.target.closest("[data-full]");if(f){openFull(f.dataset.full,0)}
 });

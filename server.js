@@ -19,7 +19,7 @@ try {
 
 const { handle } = await import("./lib/api.js");
 const PORT = Number(process.env.PORT) || 8000;
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".gif": "image/gif", ".woff2": "font/woff2" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".gif": "image/gif", ".woff2": "font/woff2", ".md": "text/markdown; charset=utf-8" };
 const PUBLIC = /^\/(index\.html|focus\.js|img\/[^]+|p\/[^]+)$/; // never .env, lib/, server.js
 
 http.createServer((req, res) => {
