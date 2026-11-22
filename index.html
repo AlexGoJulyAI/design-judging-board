@@ -272,7 +272,7 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 </div>
 
 <script>
-const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"], "hidden": true}, {"id": "F", "live": ["p/alta_F/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"], "hidden": true}, {"id": "F", "live": ["p/canopy_F/index.html"]}], "kind": "desktop"}};
+const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"]}, {"id": "F", "live": ["p/alta_F/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"]}, {"id": "F", "live": ["p/canopy_F/index.html"]}], "kind": "desktop"}};
 const CRIT=[["draft","First draft","Is this a good first draft design?",""],["goal","Product","Does the design meet the product objective?",""]];
 const NAMES={alta:"Alta",canopy:"Canopy"};
 /* Option ids (A–F) are the stored keys and never change: scores stay under "alta:F" etc.
@@ -281,8 +281,8 @@ for(const p in DATA){let n=0;for(const o of DATA[p].options)o.label=o.hidden?"":
 const shown=p=>DATA[p].options.filter(o=>!o.hidden);
 const isShown=(p,id)=>shown(p).some(o=>o.id===id);
 const L=id=>(DATA[prod].options.find(o=>o.id===id)||{}).label||id;
-/* each option's rationale, kept word for word as Markdown next to its design; options without one say so */
-const WHY={alta:{A:"p/alta_A/rationale.md",B:"p/alta_B/rationale.md",C:"p/alta_C/rationale.md",D:"p/alta_D/rationale.md",F:"p/alta_F/rationale.md"},canopy:{A:"p/canopy_A/rationale.md",B:"p/canopy_B/rationale.md",C:"p/canopy_C/rationale.md",D:"p/canopy_D/rationale.md",F:"p/canopy_F/rationale.md"}};
+/* each option's rationale, as Markdown next to its design (word for word, except Alta E and Canopy E: condensed from their design process docs); options without one say so */
+const WHY={alta:{A:"p/alta_A/rationale.md",B:"p/alta_B/rationale.md",C:"p/alta_C/rationale.md",D:"p/alta_D/rationale.md",E:"p/alta_E/rationale.md",F:"p/alta_F/rationale.md"},canopy:{A:"p/canopy_A/rationale.md",B:"p/canopy_B/rationale.md",C:"p/canopy_C/rationale.md",D:"p/canopy_D/rationale.md",E:"p/canopy_E/rationale.md",F:"p/canopy_F/rationale.md"}};
 const whyOpen=new Set(),whyCache={},rateHidden=new Set();
 /* Each judge sees the options in their own shuffled order, fixed by their email and the product,
    so it's random across judges but the same every time one judge comes back, on any device.

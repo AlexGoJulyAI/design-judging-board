@@ -46,7 +46,7 @@ In the Upstash console → Data Browser. Every key starts with `djb:`:
 | `djb:judge:<email>` | Hash | `email`, `name`, `created_at`, `last_seen` |
 | `djb:scores:<email>` | Hash | One field per option, such as `alta:B`, holding `{draft, goal, notes, done, updated_at}`, with one note per criterion and a done flag for the option |
 
-Option ids are the stored keys and never change. Option E is hidden for both products (`"hidden": true` in `DATA` in `index.html`, and left out of `OPTIONS` in `lib/api.js`), so judges see the rest relabelled A–E: stored F is shown as E. Old E scores stay in Redis but appear nowhere, including the CSV, which has an `option` column (the shown letter) and an `option_id` column (the stored id).
+Option ids are the stored keys and never change. To hide an option, mark it `"hidden": true` in `DATA` in `index.html` and drop it from `OPTIONS` in `lib/api.js`. The page then relabels the rest A, B, C… in order, while scores stay under their stored ids. The CSV has an `option` column (the shown letter) and an `option_id` column (the stored id).
 
 Averages and the cross-judge view are calculated from these keys when an organizer opens them, so there's no separate summary to keep in sync.
 
