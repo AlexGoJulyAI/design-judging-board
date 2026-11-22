@@ -1,9 +1,15 @@
-User's first ten minutes decide whether their hour produces evidence. Today the page leads with contact details and a blank scorecard. The redesign leads with purpose: which interview this is, and the two criteria that are theirs to score.
+## Intent
+The interviewer’s first ten minutes decide whether the hour produces evidence. Today the page leads with contact details and a blank scorecard. The redesign leads with purpose: which interview this is, and the two criteria that are Owen’s to score.
 
-The page follows the order they need things. Before: what it covers, what to ask, what the panel covered. During: one question at a time, with notes they tag to a criterion. After: the scorecard opens when they finish, their notes beside each unchanged field.
+• The page follows the order of the hour: before, during, after.
+• The team’s questions sit beside what the panel already asked. Owen sees Lena already ran an outage and a wrong-drawing scenario, so the third question goes further on site instead of repeating it.
+• A coverage map shows who was planned to cover what and who has submitted. Ratings, recommendations and notes stay hidden: Owen gets the panel’s map without its verdicts.
+• Everything on the page comes from the team’s plan or Jordan’s application. Guidance for newer interviewers is one card Owen can hide, and Canopy remembers.
 
-The core move puts the team's questions beside what the panel already asked. User sees Lena already ran an outage and a wrong-drawing scenario, so they take their third question further on site instead of repeating it. The coverage map shows who was planned to cover what and who has submitted. Ratings, recommendations and notes stay hidden. They get the panel's map without its verdicts.
+Expected effect on the north star: fewer unscored criteria, because Owen knows his two going in and a tracker flags any criterion with no evidence before 3:00; and faster submission with written evidence, because tagged notes leave the scorecard half-written when the hour ends.
 
-Everything they read comes from the team's plan or Jordan's application. Guidance for newer interviewers is one card they can hide; Canopy remembers.
-
-Expected effect on the north star: the share should rise mainly through two levers. Fewer unscored criteria, because User knows their two before they walk in and a live tracker flags one with no evidence before 3:00. Faster submission with written evidence, because tagged notes leave the scorecard half-written when the hour ends. Watch: workspace opens before start, notes per criterion, end-to-submit time, and the post-submit repeat question.
+## Golden workflow
+1. Before: what this interview covers, what to ask, and what the panel already covered.
+2. During: one question at a time, with notes tagged to a criterion. The tracker flags a criterion with no evidence yet.
+3. After: the scorecard opens when Owen finishes, with his notes beside each field. The fields themselves are unchanged.
+4. Submit scorecard.

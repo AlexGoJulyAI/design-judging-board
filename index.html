@@ -281,7 +281,7 @@ for(const p in DATA){let n=0;for(const o of DATA[p].options)o.label=o.hidden?"":
 const shown=p=>DATA[p].options.filter(o=>!o.hidden);
 const isShown=(p,id)=>shown(p).some(o=>o.id===id);
 const L=id=>(DATA[prod].options.find(o=>o.id===id)||{}).label||id;
-/* each option's rationale, as Markdown next to its design (word for word, except Alta E and Canopy E: condensed from their design process docs); options without one say so */
+/* each option's rationale, as Markdown next to its design, each condensed to an Intent and a Golden workflow; options without one say so */
 const WHY={alta:{A:"p/alta_A/rationale.md",B:"p/alta_B/rationale.md",C:"p/alta_C/rationale.md",D:"p/alta_D/rationale.md",E:"p/alta_E/rationale.md",F:"p/alta_F/rationale.md"},canopy:{A:"p/canopy_A/rationale.md",B:"p/canopy_B/rationale.md",C:"p/canopy_C/rationale.md",D:"p/canopy_D/rationale.md",E:"p/canopy_E/rationale.md",F:"p/canopy_F/rationale.md"}};
 const whyOpen=new Set(),whyCache={},rateHidden=new Set();
 /* Each judge sees the options in their own shuffled order, fixed by their email and the product,
@@ -382,7 +382,7 @@ function render(){
 function md(src){
   const inl=t=>esc(t).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*\w])\*(?!\s)(.+?)\*(?!\w)/g,"$1<em>$2</em>");
   const cells=l=>l.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
-  const L=src.replace(/\r/g,"").split("\n"),out=[];let i=0;
+  const L=src.replace(/\r/g,"").replace(/^(\s*)•\s*/gm,"$1- ").split("\n"),out=[];let i=0;
   while(i<L.length){const l=L[i];
     if(!l.trim()){i++;continue}
     let m=l.match(/^(#{1,3})\s+(.*)/);if(m){const n=m[1].length+1;out.push(`<h${n}>${inl(m[2])}</h${n}>`);i++;continue}
