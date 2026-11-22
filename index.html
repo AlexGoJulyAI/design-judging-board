@@ -273,7 +273,7 @@ td.l a{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink
 
 <script>
 const DATA={"alta": {"original": [{"src": "img/alta_original.webp", "wh": [2000, 1534]}], "options": [{"id": "A", "live": ["p/alta_A/index.html"]}, {"id": "B", "live": ["p/alta_B/index.html"]}, {"id": "C", "live": ["p/alta_C/index.html"]}, {"id": "D", "live": ["p/alta_D/index.html"]}, {"id": "E", "live": ["p/alta_E/index.html"], "hidden": true}, {"id": "F", "live": ["p/alta_F/index.html"]}], "kind": "phone"}, "canopy": {"original": [{"src": "img/canopy_original.webp", "wh": [1800, 1125]}], "options": [{"id": "A", "live": ["p/canopy_A/index.html"]}, {"id": "B", "live": ["p/canopy_B/Main.dc.html", "p/canopy_B/During.dc.html"]}, {"id": "C", "live": ["p/canopy_C/index.html"]}, {"id": "D", "live": ["p/canopy_D/index.html"]}, {"id": "E", "live": ["p/canopy_E/index.html"], "hidden": true}, {"id": "F", "live": ["p/canopy_F/index.html"]}], "kind": "desktop"}};
-const CRIT=[["draft","First draft","Is this a good first draft design?",""],["goal","Product","Does the design meet the product objective?",""],["brief","Brief","Does the design meet the brief objective?",""]];
+const CRIT=[["draft","First draft","Is this a good first draft design?",""],["goal","Product","Does the design meet the product objective?",""]];
 const NAMES={alta:"Alta",canopy:"Canopy"};
 /* Option ids (A–F) are the stored keys and never change: scores stay under "alta:F" etc.
    Hidden options are left out of the page; the rest are shown as A, B, C… in id order, so stored F appears as E. */
@@ -305,7 +305,7 @@ let prod=(location.hash.slice(1)==="canopy")?"canopy":"alta";
 let me=null;                            // {email,name,admin,canAdmin}
 let viewAll=false;                      // organizer toggle: show every judge's scores
 let unlocking=false;                    // showing the passcode prompt for that toggle
-let mine={};                            // {product:{option:{draft,goal,brief,notes:{draft,goal,brief}}}}
+let mine={};                            // {product:{option:{draft,goal,notes:{draft,goal}}}}
 let adm={judges:[],scores:[]};          // organizer view: every judge and score
 let pollTimer=null,chain=Promise.resolve();
 const timers={};
